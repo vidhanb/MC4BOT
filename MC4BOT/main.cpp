@@ -4,6 +4,9 @@
 #include <FEHMotor.h>
 #include <FEHServo.h>
 
+#define MOTOR_PERCENT 50
+#define SERVO_PERCENT 50
+
 int main(void)
 {
 
