@@ -1,11 +1,12 @@
+// Required proteus firmware libraries
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
 #include <FEHMotor.h>
 #include <FEHServo.h>
 
-#define MOTOR_PERCENT 50
-#define SERVO_PERCENT 50
+// Required personal libraries
+#include "include/constants.h"
 
 //yuhhh
 
@@ -21,7 +22,8 @@ int main(void)
     {
         if( LCD.Touch(&x,&y) )
         {
-            LCD.WriteLine( "Hello World!" );
+            LCD.WriteLine(MOTOR_FR);
+            LCD.WriteLine(MOTOR_TEST);
             Sleep( 100 );
         }
     }
