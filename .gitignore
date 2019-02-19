@@ -61,4 +61,4 @@ size\.txt
 
 .vscode/
 
-*.files
+#*.files
