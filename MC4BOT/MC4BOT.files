@@ -1,2 +1,7 @@
 main.cpp
 pt01.cpp
+globals.cpp
+functions.cpp
+include/constants.h
+include/globals.h
+include/functions.h
