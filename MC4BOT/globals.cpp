@@ -7,13 +7,16 @@
 #include "include/constants.h"
 #include "include/globals.h"
 
-// Motor and servo definitions
+// Motor definitions
 FEHMotor motorLeft(MOTOR_PORT_FL, MOTOR_VOLTS);
-// Left motor - negative moves forward
 FEHMotor motorRight(MOTOR_PORT_FR, MOTOR_VOLTS);
+
+// Servo definitions
 FEHServo servoLever(SERVO_PORT_LEVER);
+FEHServo servoCoin(SERVO_PORT_COIN);
+FEHServo servoClaw(SERVO_PORT_CLAW);
 
 // Sensor definitions
 AnalogInputPin cdsCell(CDS_CELL_PORT);
-DigitalEncoder leftEncoder(ENCODER_LEFT_PORT);
-DigitalEncoder rightEncoder(ENCODER_RIGHT_PORT);
+DigitalEncoder encoderLeft(ENCODER_LEFT_PORT);
+DigitalEncoder encoderRight(ENCODER_RIGHT_PORT);

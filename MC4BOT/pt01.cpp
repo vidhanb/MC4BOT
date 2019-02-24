@@ -1,8 +1,9 @@
 // Required proteus firmware libraries
 #include <FEHMotor.h>
 #include <FEHServo.h>
-#include <FEHLCD.h>
+//#include <FEHLCD.h>
 #include <FEHIO.h>
+#include <FEHUtility.h>
 
 // Required personal libraries
 #include "include/constants.h"
@@ -13,100 +14,38 @@ void pt01() {
     initRobot();
     printInit();
 
-    //Detect color change and move robot for 5 seconds
-    //if (cdsCell.Value() == START_COLOR_VALUE) {
-    //Move robot up slightly
-    motorRight.SetPercent(-MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(MOTOR_PERCENT_WEAK);
-    Sleep(1.5);
+    // Wait until start light turns on to move
+    while (cdsCell.Value() > CDS_CELL_START_THRESH);
 
-    //Angle the robot around to face the ramp
-    motorRight.SetPercent(MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(MOTOR_PERCENT_WEAK);
-    Sleep(1.5);
-
-    //Stop robot
-    motorRight.Stop();
-    motorLeft.Stop();
-
-    //Move robot towards the ramp
-    motorRight.SetPercent(-MOTOR_PERCENT_MEDIUM);
-    motorLeft.SetPercent(MOTOR_PERCENT_MEDIUM);
-    Sleep(3.5);
-
-    motorRight.Stop();
-    motorLeft.Stop();
-
-    //Angle robot towards ramp
-    motorRight.SetPercent(-MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(-MOTOR_PERCENT_WEAK);
-    Sleep(4.2); //Sometimes 4.3 based on position of robot
-    //------------------------------------------------------------------------------------------------------------------------------------------------//
-    //CODE: Moves robot up the ramp, turns left to face the lever, goes to the lever, flips the lever, and then retraces its path
-    //      back to the starting box
-    //TODO: Set the Sleep times to make sure the robot is moving the appropriate distance and correct angles
-
-
-    //Move robot up the ramp
-    motorRight.SetPercent(-MOTOR_PERCENT_STRONG);
-    motorLeft.SetPercent(MOTOR_PERCENT_STRONG);
-    Sleep(5.);
-
-    //Stop robot
-    motorRight.Stop();
-    motorLeft.Stop();
-
-    //Turn robot to the left to face the lever
-    motorRight.SetPercent(-MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(-MOTOR_PERCENT_WEAK);
-    Sleep(4.2);
-
-    //Move robot to the lever
-    motorRight.SetPercent(-MOTOR_PERCENT_MEDIUM);
-    motorLeft.SetPercent(MOTOR_PERCENT_MEDIUM);
-    Sleep(3.);
-
-    //Flip lever
-    servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
-    Sleep(1.);
-    servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
-
-    //Move robot back
-    motorRight.SetPercent(MOTOR_PERCENT_STRONG);
-    motorLeft.SetPercent(-MOTOR_PERCENT_STRONG);
-    Sleep(3.);
-
-    //Angle robot towards ramp
-    motorRight.SetPercent(MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(MOTOR_PERCENT_WEAK);
-    Sleep(4.2);
-
-    //Move robot down the ramp
-    motorRight.SetPercent(MOTOR_PERCENT_STRONG);
-    motorLeft.SetPercent(-MOTOR_PERCENT_STRONG);
-    Sleep(5.);
-
-    //Angle robot away ramp
-    motorRight.SetPercent(MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(MOTOR_PERCENT_WEAK);
-    Sleep(4.2); //Sometimes 4.3 based on position of robot
-
-    //Move robot back towards starting box
-    motorRight.SetPercent(MOTOR_PERCENT_MEDIUM);
-    motorLeft.SetPercent(-MOTOR_PERCENT_MEDIUM);
-    Sleep(3.5);
-
-    //Angle robot towards starting box
-    motorRight.SetPercent(-MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(-MOTOR_PERCENT_WEAK);
-    Sleep(1.5);
-
-    //Move robot into starting box
-    motorRight.SetPercent(MOTOR_PERCENT_WEAK);
-    motorLeft.SetPercent(-MOTOR_PERCENT_WEAK);
-    Sleep(1.5);
-
-    //Stop robot
-    motorRight.Stop();
-    motorLeft.Stop();
+    // Adjust robot position to face ramp
+    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
+    // Wait for momentum to stop
+    Sleep(1.0);
+    turnForAngle(90, MotorPercentWeak, DirectionCounterClockwise);
+    Sleep(1.0);
+    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
+    Sleep(1.0);
+    turnForAngle(45, MotorPercentWeak, DirectionClockwise);
+    Sleep(1.0);
+    //////////////////////////// adjust all distances below this line after measuring course ///////////////////////////////
+    // Drive up the ramp and across the top platform
+    driveForDistance(12.0, MotorPercentStrong, DirectionForward);
+    driveForDistance(8.0, MotorPercentMedium, DirectionForward);
+    Sleep(1.0);
+    // Turn and advance the robot to face the lever
+    turnForAngle(30, MotorPercentWeak, DirectionClockwise);
+    Sleep(1.0);
+    driveForDistance(2.0, MotorPercentWeak, DirectionForward);
+    Sleep(1.0);
+    flipLever();
+    Sleep(1.0);
+    // Retreat and turn robot
+    driveForDistance(2.0, MotorPercentWeak, DirectionBackward);
+    Sleep(1.0);
+    turnForAngle(30, MotorPercentWeak, DirectionCounterClockwise);
+    Sleep(1.0);
+    // Retreat across the top platform and down the ramp
+    driveForDistance(8.0, MotorPercentMedium, DirectionBackward);
+    driveForDistance(12.0, MotorPercentWeak, DirectionBackward);
+    return;
 }
