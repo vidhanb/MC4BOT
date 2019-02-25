@@ -46,6 +46,9 @@ enum TurnDirection : bool {
 #define SERVO_CLAW_MIN 500
 #define SERVO_CLAW_MAX 2500
 
+#define SERVO_LEVER_ITER_PAUSE 0.02
+#define SERVO_LEVER_RESET_PAUSE 5.5
+
 /////////////////////////////////////////////////////////////////////////
 
 // Sensor settings

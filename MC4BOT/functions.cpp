@@ -17,6 +17,7 @@ void initRobot() {
     servoLever.SetMin(SERVO_LEVER_MIN);
     servoLever.SetMax(SERVO_LEVER_MAX);
     servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
+    return;
 }
 
 void printInit() {
@@ -120,6 +121,30 @@ void sensorsTest() {
 
 void flipLever() {
     servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
+    return;
+}
+
+void flipLeverReset() {
+    servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
+    return;
+}
+
+void rpsResetPress() {
+    int currAngle = SERVO_LEVER_POS_NEUTRAL;
+    // Slow down the servo motor's movement so that it has more torque
+    // 90degrees difference * 0.02seconds per degree = 1.8 secons 
+    while(currAngle > SERVO_LEVER_POS_ACTIVE) {
+        servoLever.SetDegree(currAngle);
+        currAngle--;
+        Sleep(SERVO_LEVER_ITER_PAUSE);
+    }
+    Sleep(SERVO_LEVER_RESET_PAUSE);
+    while(currAngle < SERVO_LEVER_POS_NEUTRAL) {
+        servoLever.SetDegree(currAngle);
+        currAngle++;
+        Sleep(SERVO_LEVER_ITER_PAUSE);
+    }
+    return;
 }
 
 ////////////////////////////////////////////////////////////
