@@ -8,7 +8,6 @@ void sensorsTest();
 void flipLever();
 void flipLeverReset();
 
-// TODO: figure out where to put function descriptions
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction);
 void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction);
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction);
