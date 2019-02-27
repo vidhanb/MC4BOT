@@ -6,10 +6,12 @@
 /////////////////////////////////////////////////////////////////////////
 
 // Drive motor settings
-// TODO: determine which motor requires negative to move forwards
+
 #define MOTOR_PORT_FL FEHMotor::Motor3
 #define MOTOR_PORT_FR FEHMotor::Motor2
 #define MOTOR_VOLTS 7.2
+// Note: As motors are oriented differently, right motor should be set negative
+//       in order to move forward
 #define MOTOR_SIDE_DIR_CORRECTOR -1
 // #define MOTOR_SIDE_STR_CORRECTOR (if one motor is weaker than the other)
 
