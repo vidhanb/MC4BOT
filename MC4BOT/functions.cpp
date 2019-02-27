@@ -16,7 +16,7 @@ void initRobot() {
     LCD.SetFontColor( FEHLCD::White );
     servoLever.SetMin(SERVO_LEVER_MIN);
     servoLever.SetMax(SERVO_LEVER_MAX);
-    servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
+    flipLeverReset();
     return;
 }
 
