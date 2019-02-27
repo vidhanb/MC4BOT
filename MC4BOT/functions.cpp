@@ -152,7 +152,6 @@ void rpsResetPress() {
 
 // TODO: possibly make these actually return something so we can do fault tolerance/error detection?
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction) {
-    // TODO: determine which motor requires negative to move forwards
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
     double expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
@@ -171,7 +170,6 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
 }
 
 void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction) {
-    // TODO: determine which motor requires negative to move forwards
     if(direction == DirectionForward) {
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
@@ -186,7 +184,6 @@ void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direct
 }
 
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction) {
-    // TODO: determine which motor requires negative to move forwards
     if(direction == DirectionClockwise) {
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent);
@@ -205,7 +202,6 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
     encoderRight.ResetCounts();
     double arcLength = (targetAngle / 360) * ROBOT_TURN_CIRC;
     double expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
-    // TODO: determine which motor requires negative to move forwards
     if(direction == DirectionClockwise) {
         motorLeft.SetPercent(50);
         motorRight.SetPercent(50);
