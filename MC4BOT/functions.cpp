@@ -150,7 +150,6 @@ void rpsResetPress() {
 ////////////////////////////////////////////////////////////
 // Drive functions /////////////////////////////////////////
 
-// TODO: possibly make these actually return something so we can do fault tolerance/error detection?
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
@@ -162,7 +161,6 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent);
     }
-    // TODO: make sure this int to double comparison works properly
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
     motorRight.Stop();
@@ -209,7 +207,6 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
     }
-    // TODO: make sure this int to double comparison works properly
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
     motorRight.Stop();

@@ -42,7 +42,6 @@ enum TurnDirection : bool {
 #define SERVO_LEVER_MAX 2495
 #define SERVO_LEVER_POS_NEUTRAL 180
 #define SERVO_LEVER_POS_ACTIVE 90
-//TODO: Calibrate servos and adjust these values
 #define SERVO_COIN_MIN 500
 #define SERVO_COIN_MAX 2500
 #define SERVO_CLAW_MIN 500
