@@ -15,7 +15,7 @@
 
 int main(void)
 {
-    pt01();
+    pt02();
 
     return 0;
 }
