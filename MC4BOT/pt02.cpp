@@ -10,7 +10,7 @@
 #include "include/globals.h"
 #include "include/functions.h"
 
-void pt01() {
+void pt02() {
     initRobot();
     printInit();
 

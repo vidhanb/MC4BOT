@@ -16,6 +16,6 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent);
 void turnToCourseAngle(int targetAngle);
 
-void pt01();
+void pt02();
 
 #endif // FUNCTIONS_H
