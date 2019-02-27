@@ -19,12 +19,12 @@ enum MotorPower {
     MotorPercentWeak = 30
 };
 
-enum DriveDirection : bool {
+enum DriveDirection {
     DirectionForward,
     DirectionBackward
 };
 
-enum TurnDirection : bool {
+enum TurnDirection {
     DirectionClockwise,
     DirectionCounterClockwise
 };

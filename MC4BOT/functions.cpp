@@ -207,11 +207,11 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
     double expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
     // TODO: determine which motor requires negative to move forwards
     if(direction == DirectionClockwise) {
-        motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent);
-    } else {
-        motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        motorLeft.SetPercent(50);
+        motorRight.SetPercent(50);
+    } else if(direction == DirectionCounterClockwise) {
+        motorLeft.SetPercent(-50);
+        motorRight.SetPercent(-50);
     }
     // TODO: make sure this int to double comparison works properly
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);

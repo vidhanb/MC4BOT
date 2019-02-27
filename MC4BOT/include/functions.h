@@ -6,6 +6,7 @@ void printInit();
 void testDrive();
 void sensorsTest();
 void flipLever();
+void flipLeverReset();
 
 // TODO: figure out where to put function descriptions
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction);

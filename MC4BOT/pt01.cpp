@@ -14,38 +14,59 @@ void pt01() {
     initRobot();
     printInit();
 
-    // Wait until start light turns on to move
-    while (cdsCell.Value() > CDS_CELL_START_THRESH);
+    /*
+    | Measured movements:
+    |
+    | counterclockwise 70-80 degrees
+    | move forward ~7 inches
+    | clockwise 35 degrees
+    | 6 inches to get to ramp
+    | 10 inches up ramp
+    | 23 inches across top
+    | move right tread only for 4 inches
+    | flip lever
+    | redo backwards
+    |
+    */
 
-    // Adjust robot position to face ramp
-    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
-    // Wait for momentum to stop
-    Sleep(1.0);
-    turnForAngle(90, MotorPercentWeak, DirectionCounterClockwise);
-    Sleep(1.0);
-    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
-    Sleep(1.0);
-    turnForAngle(45, MotorPercentWeak, DirectionClockwise);
-    Sleep(1.0);
-    //////////////////////////// adjust all distances below this line after measuring course ///////////////////////////////
-    // Drive up the ramp and across the top platform
-    driveForDistance(12.0, MotorPercentStrong, DirectionForward);
-    driveForDistance(8.0, MotorPercentMedium, DirectionForward);
-    Sleep(1.0);
-    // Turn and advance the robot to face the lever
-    turnForAngle(30, MotorPercentWeak, DirectionClockwise);
-    Sleep(1.0);
-    driveForDistance(2.0, MotorPercentWeak, DirectionForward);
-    Sleep(1.0);
+    // Wait until start light turns on to move
+    //while (cdsCell.Value() > CDS_CELL_START_THRESH);
+    flipLeverReset();
+    turnForAngle(20, MotorPercentWeak, DirectionClockwise);
+
+    //Turn to face the direction to take
+    motorRight.SetPercent(-MotorPercentWeak);
+    motorLeft.SetPercent(-MotorPercentWeak);
+    Sleep(3.0);
+    motorRight.Stop();
+    motorLeft.Stop();
+
+    //Drive towards ramp
+    driveForDistance(7.0, MotorPercentMedium, DirectionForward);
+    
+    //Turn to face ramp
+    motorRight.SetPercent(MotorPercentWeak);
+    motorLeft.SetPercent(MotorPercentWeak);
+    Sleep(2.0);
+    motorRight.Stop();
+    motorLeft.Stop();
+    
+    //Drive up ramp
+    driveForDistance(16, MotorPercentStrong, DirectionBackward);
+    
+    //Drive to lever
+    driveForDistance(23, MotorPercentMedium, DirectionForward);
+
+    //Move right tread
+    motorRight.SetPercent(-MotorPercentMedium);
+    Sleep(3.0);
+    motorRight.Stop();
+
+    //FLip the lever
     flipLever();
     Sleep(1.0);
-    // Retreat and turn robot
-    driveForDistance(2.0, MotorPercentWeak, DirectionBackward);
-    Sleep(1.0);
-    turnForAngle(30, MotorPercentWeak, DirectionCounterClockwise);
-    Sleep(1.0);
-    // Retreat across the top platform and down the ramp
-    driveForDistance(8.0, MotorPercentMedium, DirectionBackward);
-    driveForDistance(12.0, MotorPercentWeak, DirectionBackward);
+
+    turnForAngle(45, MotorPercentMedium, DirectionClockwise);
+    //yuhhhh
     return;
 }
