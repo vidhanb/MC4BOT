@@ -66,7 +66,7 @@ enum TurnDirection {
 #define ROBOT_TURN_CIRC ROBOT_TURN_DIAM * PI
 
 #define ENCODER_CTS_PER_ROT 24 // for mechanical rotary encoder
-#define ENCODER_CTS_PER_INCH ENCODER_CTS_PER_ROT / WHEEL_CIRC
+#define ENCODER_CTS_PER_INCH ENCODER_CTS_PER_ROT / WHEEL_CIRC * 2.25
 
 /////////////////////////////////////////////////////////////////////////
 
