@@ -26,15 +26,14 @@ void pt02() {
     | Move across top level and touch foosball lever
     */
 
-   /*
    //Move up 4 inches
    driveForDistance(4., MotorPercentMedium, DirectionForward);
 
    //Turn 45 degrees clockwise
-   turnForTime(2., MotorPercentWeak, DirectionClockwise);
+   turnForTime(2.9, MotorPercentWeak, DirectionClockwise);
 
    //Move 13 inches to the first light spot on the DDR track
-   driveForDistance(13., MotorPercentMedium, DirectionForward);
+   driveForDistance(14., MotorPercentMedium, DirectionForward);
 
    //Turn 90 degrees to face the DDR machine
    turnForTime(4., MotorPercentWeak, DirectionClockwise);
@@ -68,5 +67,5 @@ void pt02() {
     } else {
         driveForDistance(63., MotorPercentMedium, DirectionBackward);
     }
-    */
+    
 }
