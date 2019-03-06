@@ -3,8 +3,15 @@
 
 void initRobot();
 void printInit();
+
 void testDrive();
-void sensorsTest();
+void testSensors();
+void testDistance();
+void testDirections();
+void testFunctions();
+void testTreadTurns();
+void testServos();
+
 void flipLever();
 void flipLeverReset();
 

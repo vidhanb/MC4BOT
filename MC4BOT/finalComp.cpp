@@ -17,36 +17,7 @@ void finalComp() {
     // Wait until start light turns on to move
     while (cdsCell.Value() > CDS_CELL_START_THRESH);
 
-    // function fixing
-    LCD.WriteLine(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
-    LCD.WriteLine("turn right");
-    turnForAngle(30, MotorPercentMedium, DirectionClockwise);
-    Sleep(2.0);
-    LCD.WriteLine("turn left");
-    turnForAngle(30, MotorPercentMedium, DirectionCounterClockwise);
-    Sleep(2.0);
-    LCD.WriteLine("forwards");
-    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
-    Sleep(2.0);
-    LCD.WriteLine("backwards");
-    driveForDistance(2.0, MotorPercentMedium, DirectionBackward);
-    Sleep(4.0);
-
-    LCD.WriteLine("servo time");
-    servoLever.SetDegree(180);
-    LCD.WriteLine(180);
-    Sleep(2.0);
-    servoLever.SetDegree(135);
-    LCD.WriteLine(135);
-    Sleep(2.0);
-    servoLever.SetDegree(90);
-    LCD.WriteLine(90);
-    Sleep(2.0);
-    servoLever.SetDegree(45);
-    LCD.WriteLine(45);
-    Sleep(2.0);
-    servoLever.SetDegree(0);
-    LCD.WriteLine(0);
+    
 
     /*
     | PSEUDOCODE

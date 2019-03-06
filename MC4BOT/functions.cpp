@@ -102,7 +102,7 @@ void testDrive() {
     return;
 }
 
-void sensorsTest() {
+void testSensors() {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
     while(true) {
@@ -114,6 +114,65 @@ void sensorsTest() {
         LCD.WriteLine(encoderRight.Counts());
         Sleep(0.3);
     }
+}
+
+void testDistance() {
+    driveForDistance(50.0, MotorPercentMedium, DirectionForward);
+    LCD.Write("left: ");
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("right: ");
+    LCD.WriteLine(encoderRight.Counts());
+}
+
+void testDirections() {
+    LCD.WriteLine(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
+    LCD.WriteLine("turn right");
+    turnForAngle(30, MotorPercentMedium, DirectionClockwise);
+    Sleep(2.0);
+    LCD.WriteLine("turn left");
+    turnForAngle(30, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(2.0);
+    LCD.WriteLine("forwards");
+    driveForDistance(2.0, MotorPercentMedium, DirectionForward);
+    Sleep(2.0);
+    LCD.WriteLine("backwards");
+    driveForDistance(2.0, MotorPercentMedium, DirectionBackward);
+    Sleep(4.0);
+}
+
+void testFunctions() {
+    driveForDistance(4.0, MotorPercentMedium, DirectionForward);
+    driveForTime(4.0, MotorPercentMedium, DirectionBackward);
+    turnForAngle(90, MotorPercentMedium, DirectionClockwise);
+    turnForTime(2.0, MotorPercentMedium, DirectionCounterClockwise);
+    turnToCourseAngle(90, 180, MotorPercentMedium);
+    turnToCourseAngle(90, 0, MotorPercentMedium);
+    LCD.WriteLine("Done");
+}
+
+void testTreadTurns() {
+   while(true) {
+       turnForAngle(180, MotorPercentMedium, DirectionClockwise);
+       Sleep(1.0);
+       turnForAngle(180, MotorPercentMedium, DirectionCounterClockwise);
+       Sleep(1.0);
+   }
+}
+
+void testServos() {
+    LCD.WriteLine("servo time");
+    servoLever.SetDegree(180);
+    LCD.WriteLine(180);
+    Sleep(2.0);
+    servoLever.SetDegree(135);
+    LCD.WriteLine(135);
+    Sleep(2.0);
+    servoLever.SetDegree(90);
+    LCD.WriteLine(90);
+    Sleep(2.0);
+    servoLever.SetDegree(45);
+    LCD.WriteLine(45);
+    Sleep(2.0);
 }
 
 ////////////////////////////////////////////////////////////
@@ -154,76 +213,106 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
     double expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionForward) {
+        LCD.WriteLine("Going FW");
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
     } else {
+        LCD.WriteLine("Going BW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
     motorRight.Stop();
+    LCD.WriteLine("--- Drive Done ---");
     return;
 }
 
 void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction) {
     if(direction == DirectionForward) {
+        LCD.WriteLine("Going FW");
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
     } else {
+        LCD.WriteLine("Going BW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent);
     }
+    LCD.Write("Drive time: ");
+    LCD.WriteLine(seconds);
     Sleep(seconds);
     motorLeft.Stop();
     motorRight.Stop();
+    LCD.WriteLine("--- Drive Done ---");
     return;
 }
 
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction) {
     if(direction == DirectionClockwise) {
+        LCD.WriteLine("Going CW");
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent);
     } else {
+        LCD.WriteLine("Going CNTCW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
     }
+    LCD.Write("Turn time: ");
+    LCD.WriteLine(seconds);
     Sleep(seconds);
     motorLeft.Stop();
     motorRight.Stop();
+    LCD.WriteLine("--- Turn Done ---");
     return;
 }
 
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    double arcLength = (targetAngle / 360) * ROBOT_TURN_CIRC;
+    double arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
+    LCD.Write("Turn arc length: ");
+    LCD.WriteLine(arcLength);   
     double expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionClockwise) {
+        LCD.WriteLine("Going CW");
         motorLeft.SetPercent(motorPercent);
         motorRight.SetPercent(motorPercent);
     } else {
+        LCD.WriteLine("Going CNTCW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
     motorRight.Stop();
+    LCD.WriteLine("--- Turn Done ---");
     return;
 }
 
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent) {
     if(targetAngle > currentAngle) {
         if( (targetAngle - currentAngle) < 180) {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( (targetAngle - currentAngle) );
             turnForAngle( (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
         } else {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( 360 - (targetAngle - currentAngle) );
             turnForAngle( 360 - (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
         }
     } else {
         if( (currentAngle - targetAngle) < 180) {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( (currentAngle - targetAngle) );
             turnForAngle( (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
         } else {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( 360 - (currentAngle - targetAngle) );
             turnForAngle( 360 - (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
         }
     }
