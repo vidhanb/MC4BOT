@@ -14,6 +14,10 @@ void pt02() {
     initRobot();
     printInit();
 
+    testTreadTurns();
+
+    Sleep(15.0);
+
     // Wait until start light turns on to move
     while (cdsCell.Value() > CDS_CELL_START_THRESH);
     

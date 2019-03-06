@@ -117,7 +117,7 @@ void testSensors() {
 }
 
 void testDistance() {
-    driveForDistance(100.0, MotorPercentMedium, DirectionForward);
+    driveForDistance(50.0, MotorPercentMedium, DirectionForward);
     LCD.Write("left: ");
     LCD.WriteLine(encoderLeft.Counts());
     LCD.Write("right: ");
@@ -218,11 +218,11 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * 1.03);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * 1.042);
     } else {
         LCD.WriteLine("Going BW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent * 1.03);
+        motorRight.SetPercent(motorPercent * 1.042);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();

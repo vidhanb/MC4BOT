@@ -60,13 +60,14 @@ enum TurnDirection {
 #define CDS_CELL_START_THRESH 1.6 // volts
 
 #define WHEEL_DIAM 1.625 // inches (including treads)
-#define WHEEL_CIRC WHEEL_DIAM * PI
+#define WHEEL_CIRC (WHEEL_DIAM * PI)
 
 #define ROBOT_TURN_DIAM 9.0 //inches
-#define ROBOT_TURN_CIRC ROBOT_TURN_DIAM * PI
+#define ROBOT_TURN_CIRC (ROBOT_TURN_DIAM * PI)
 
 #define ENCODER_CTS_PER_ROT 24 // for mechanical rotary encoder
-#define ENCODER_CTS_PER_INCH ENCODER_CTS_PER_ROT / WHEEL_CIRC * 2.25
+#define ENCODER_CTS_PER_INCH ( (ENCODER_CTS_PER_ROT / WHEEL_CIRC) * 2.050 )
+#define IDEAL_RTOL_ENCODER_RATIO 1.06
 
 /////////////////////////////////////////////////////////////////////////
 
