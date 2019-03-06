@@ -13,7 +13,9 @@
 // Note: As motors are oriented differently, right motor should be set negative
 //       in order to move forward
 #define MOTOR_SIDE_DIR_CORRECTOR -1
-// #define MOTOR_SIDE_STR_CORRECTOR (if one motor is weaker than the other)
+// Multiplier for right motor since it is weaker than the left motor
+//  This is approximately the value that results in the robot driving straight
+#define MOTOR_SIDE_STR_CORRECTOR 1.042
 
 enum MotorPower {
     MotorPercentStrong = 70,
@@ -21,12 +23,12 @@ enum MotorPower {
     MotorPercentWeak = 30
 };
 
-enum DriveDirection : bool {
+enum DriveDirection {
     DirectionForward,
     DirectionBackward
 };
 
-enum TurnDirection : bool {
+enum TurnDirection {
     DirectionClockwise,
     DirectionCounterClockwise
 };
@@ -60,13 +62,15 @@ enum TurnDirection : bool {
 #define CDS_CELL_START_THRESH 1.6 // volts
 
 #define WHEEL_DIAM 1.625 // inches (including treads)
-#define WHEEL_CIRC WHEEL_DIAM * PI
+#define WHEEL_CIRC (WHEEL_DIAM * PI)
 
 #define ROBOT_TURN_DIAM 9.0 //inches
-#define ROBOT_TURN_CIRC ROBOT_TURN_DIAM * PI
+#define ROBOT_TURN_CIRC (ROBOT_TURN_DIAM * PI)
 
 #define ENCODER_CTS_PER_ROT 24 // for mechanical rotary encoder
-#define ENCODER_CTS_PER_INCH ENCODER_CTS_PER_ROT / WHEEL_CIRC
+#define ENCODER_CTS_PER_INCH ( (ENCODER_CTS_PER_ROT / WHEEL_CIRC) * 2.050 )
+// Proportion which approximately results in driving straight
+#define IDEAL_RTOL_ENCODER_RATIO 1.06
 
 /////////////////////////////////////////////////////////////////////////
 
