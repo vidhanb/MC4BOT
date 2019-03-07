@@ -218,11 +218,11 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
@@ -235,11 +235,11 @@ void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direct
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     LCD.Write("Drive time: ");
     LCD.WriteLine(seconds);
@@ -254,11 +254,11 @@ void turnForTime(double seconds, MotorPower motorPercent, TurnDirection directio
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     LCD.Write("Turn time: ");
     LCD.WriteLine(seconds);
@@ -281,11 +281,11 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         motorLeft.SetPercent(motorPercent);
-        motorRight.SetPercent(motorPercent);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
