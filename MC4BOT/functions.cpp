@@ -3,6 +3,7 @@
 #include <FEHServo.h>
 #include <FEHLCD.h>
 #include <FEHIO.h>
+#include <FEHRPS.h>
 
 // Required personal libraries
 #include "include/constants.h"
@@ -114,6 +115,31 @@ void testSensors() {
         LCD.WriteLine(encoderRight.Counts());
         Sleep(0.3);
     }
+}
+
+void testRPS() {
+    float touch_x, touch_y;
+    RPS.InitializeTouchMenu();
+
+    LCD.WriteLine("Press Screen to Start");
+    while(!LCD.Touch(&touch_x, &touch_y));
+
+    LCD.Clear();
+
+    LCD.WriteRC("RPS Test Program", 0, 0);
+    LCD.WriteRC("X Position: ", 2, 0);
+    LCD.WriteRC("Y Position: ", 3, 0);
+    LCD.WriteRC("   Heading: ", 4, 0);
+
+    while(true) {
+        LCD.WriteRC(RPS.X(), 2, 13);
+        LCD.WriteRC(RPS.Y(), 3, 13);
+        LCD.WriteRC(RPS.Heading(), 4, 13);
+
+        Sleep(10); // 10ms
+    }
+    // Will never exit infinite loop to reach here
+    return;
 }
 
 void testDistance() {
