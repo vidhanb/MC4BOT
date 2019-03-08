@@ -6,6 +6,7 @@ void printInit();
 
 void testDrive();
 void testSensors();
+void testRPS();
 void testDistance();
 void testDirections();
 void testFunctions();
