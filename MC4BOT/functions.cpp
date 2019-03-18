@@ -345,6 +345,8 @@ void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercen
     return;
 }
 
+//void driveUntil(int motorPower, special type for function pointer CALLBACKFUNC) {}
+
 // Use RPS to get current heading, then calculate appropriate turn to reach target
 void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
     float firstHeading = RPS.Heading();
@@ -356,6 +358,22 @@ void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
     return;
 }
 
-//void driveUntil(int motorPower, special type for function pointer CALLBACKFUNC) {}
+////////////////////////////////////////////////////////////
+// RPS functions ///////////////////////////////////////////
+
+void rpsCheckHeading(float targetHeading) {
+
+    return;
+}
+
+void rpsCheckXCoord(float targetX) {
+
+    return;
+}
+
+void rpsCheckYCoord(float targetY) {
+    
+    return;
+}
 
 ////////////////////////////////////////////////////////////

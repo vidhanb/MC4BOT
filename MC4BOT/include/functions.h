@@ -23,6 +23,10 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent);
 void turnToCourseAngle(int targetAngle, MotorPower motorPercent);
 
+void rpsCheckHeading(float targetHeading);
+void rpsCheckXCoord(float targetX);
+void rpsCheckYCoord(float targetY);
+
 void finalComp();
 
 #endif // FUNCTIONS_H
