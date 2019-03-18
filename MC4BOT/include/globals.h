@@ -15,4 +15,10 @@ extern AnalogInputPin cdsCell;
 extern DigitalEncoder encoderLeft;
 extern DigitalEncoder encoderRight;
 
+// Error detection and reaction values
+extern int encoderErrors;
+extern bool encodersEnabled;
+extern int rpsErrors;
+extern bool rpsEnabled;
+
 #endif // GLOBALS_H

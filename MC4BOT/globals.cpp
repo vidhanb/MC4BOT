@@ -20,3 +20,9 @@ FEHServo servoClaw(SERVO_PORT_CLAW);
 AnalogInputPin cdsCell(CDS_CELL_PORT);
 DigitalEncoder encoderLeft(ENCODER_LEFT_PORT);
 DigitalEncoder encoderRight(ENCODER_RIGHT_PORT);
+
+// Error detection and reaction values
+extern int encoderErrors = 0;
+extern bool encodersEnabled = true;
+extern int rpsErrors = 0;
+extern bool rpsEnabled = true;
