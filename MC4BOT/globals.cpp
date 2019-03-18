@@ -22,7 +22,7 @@ DigitalEncoder encoderLeft(ENCODER_LEFT_PORT);
 DigitalEncoder encoderRight(ENCODER_RIGHT_PORT);
 
 // Error detection and reaction values
-extern int encoderErrors = 0;
-extern bool encodersEnabled = true;
-extern int rpsErrors = 0;
-extern bool rpsEnabled = true;
+int encoderErrors = 0;
+bool encodersEnabled = true;
+int rpsErrors = 0;
+bool rpsEnabled = true;
