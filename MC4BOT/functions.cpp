@@ -10,6 +10,9 @@
 #include "include/globals.h"
 #include "include/functions.h"
 
+// Required C++ libraries
+#include <cmath>
+
 // Init functions //////////////////////////////////////////
 
 void initRobot() {
@@ -362,17 +365,64 @@ void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
 // RPS functions ///////////////////////////////////////////
 
 void rpsCheckHeading(float targetHeading) {
-
+    while( std::abs(RPS.Heading() - targetHeading) > 5.0) {
+        float headingDifference = RPS.Heading() - targetHeading;
+        LCD.Write("Target angle diff: ");
+        LCD.WriteLine(headingDifference);
+        if(headingDifference > 0 && headingDifference < 180) {
+            turnForAngle(2, MotorPercentWeak, DirectionClockwise);
+        } else if(headingDifference < 0 && headingDifference > -180) {
+            turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
+        } else if(headingDifference > 180) {
+            turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
+        } else if(headingDifference < -180) {
+            turnForAngle(2, MotorPercentWeak, DirectionClockwise);
+        }
+    }
     return;
 }
 
 void rpsCheckXCoord(float targetX) {
-
+    float currentHeading = RPS.Heading();
+    bool facingPlus;
+    if(currentHeading > 90 && currentHeading < 270) {
+        facingPlus = true;
+    } else {
+        facingPlus = false;
+    }
+    while( std::abs(RPS.X() - targetX) > 1.0 ) {
+        if(RPS.X() < targetX && facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        } else if(RPS.X() > targetX && facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+        } else if(RPS.X() < targetX && !facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+        } else if(RPS.X() > targetX && !facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        }
+    }
     return;
 }
 
 void rpsCheckYCoord(float targetY) {
-    
+    float currentHeading = RPS.Heading();
+    bool facingPlus;
+    if(currentHeading > 0 && currentHeading < 180) {
+        facingPlus = true;
+    } else {
+        facingPlus = false;
+    }
+    while( std::abs(RPS.Y() - targetY) > 1.0 ) {
+        if(RPS.Y() < targetY && facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        } else if(RPS.Y() > targetY && facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+        } else if(RPS.Y() < targetY && !facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+        } else if(RPS.Y() > targetY && !facingPlus) {
+            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        }
+    }
     return;
 }
 
