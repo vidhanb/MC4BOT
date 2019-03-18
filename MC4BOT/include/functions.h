@@ -21,7 +21,7 @@ void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direct
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction);
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction);
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent);
-void turnToCourseAngle(int targetAngle);
+void turnToCourseAngle(int targetAngle, MotorPower motorPercent);
 
 void finalComp();
 

@@ -346,8 +346,13 @@ void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercen
 }
 
 // Use RPS to get current heading, then calculate appropriate turn to reach target
-void turnToCourseAngle(int targetAngle) {
-    LCD.WriteLine("Not implemented yet.");
+void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
+    float firstHeading = RPS.Heading();
+    Sleep(0.5);
+    float secondHeading = RPS.Heading();
+    float currentHeading = (firstHeading + secondHeading) / 2.0;
+    int currentAngle = static_cast<int>(currentHeading);
+    turnToCourseAngle(currentAngle, targetAngle, motorPercent);
     return;
 }
 
