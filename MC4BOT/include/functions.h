@@ -27,6 +27,6 @@ void rpsCheckHeading(float targetHeading);
 void rpsCheckXCoord(float targetX);
 void rpsCheckYCoord(float targetY);
 
-void finalComp();
+void pt04();
 
 #endif // FUNCTIONS_H
