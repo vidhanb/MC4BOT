@@ -52,8 +52,10 @@ enum TurnDirection {
 #define SERVO_COIN_POS_NEUTRAL 180
 #define SERVO_COIN_POS_ACTIVE 85
 
-#define SERVO_CLAW_MIN 500
-#define SERVO_CLAW_MAX 2500
+#define SERVO_CLAW_MIN 520
+#define SERVO_CLAW_MAX 2470
+#define SERVO_CLAW_POS_NEUTRAL 0
+#define SERVO_CLAW_POS_ACTIVE 85
 
 /////////////////////////////////////////////////////////////////////////
 
