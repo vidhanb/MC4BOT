@@ -21,6 +21,12 @@ void initRobot() {
     servoLever.SetMin(SERVO_LEVER_MIN);
     servoLever.SetMax(SERVO_LEVER_MAX);
     flipLeverReset();
+    servoCoin.SetMin(SERVO_COIN_MIN);
+    servoCoin.SetMax(SERVO_COIN_MAX);
+    servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
+    servoClaw.SetMin(SERVO_CLAW_MIN);
+    servoClaw.SetMax(SERVO_CLAW_MAX);
+    servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
     return;
 }
 
