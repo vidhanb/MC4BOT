@@ -14,7 +14,7 @@
 
 int main(void)
 {
-    finalComp();
+    pt04();
 
     return 0;
 }
