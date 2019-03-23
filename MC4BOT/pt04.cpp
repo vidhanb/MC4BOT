@@ -10,6 +10,13 @@
 #include "include/globals.h"
 #include "include/functions.h"
 
+// TODO - check rpsCheckHeading() function
+//      - adjust CdS cell values (pause?)
+//      - check proper turning to get to foosball
+//      - make sure foosball claw is attached properly - setup method to attach it at right angle every time, or glue it
+//      - switch to driveForDistance?
+//      - use rpsCheckX() or rpsCheckY()?
+
 void pt04() {
     initRobot();
     printInit();
@@ -18,9 +25,6 @@ void pt04() {
     while (cdsCell.Value() > CDS_CELL_START_THRESH);
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------//
-
-        //Detect color change and move robot for 5 seconds
-        //while (cdsCell.Value() >= START_COLOR_VALUE);
 
         //Move robot up slightly
         driveForTime(2.1, MotorPercentWeak, DirectionForward);
