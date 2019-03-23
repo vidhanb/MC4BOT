@@ -330,25 +330,25 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
 }
 
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent) {
-    if(targetAngle > currentAngle) {
-        if( (targetAngle - currentAngle) < 180) {
-            LCD.Write("Turn deg: ");
-            LCD.WriteLine( (targetAngle - currentAngle) );
-            turnForAngle( (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
-        } else {
-            LCD.Write("Turn deg: ");
-            LCD.WriteLine( 360 - (targetAngle - currentAngle) );
-            turnForAngle( 360 - (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
-        }
-    } else {
+    if(currentAngle > targetAngle) {
         if( (currentAngle - targetAngle) < 180) {
             LCD.Write("Turn deg: ");
             LCD.WriteLine( (currentAngle - targetAngle) );
-            turnForAngle( (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
+            turnForAngle( (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
         } else {
             LCD.Write("Turn deg: ");
             LCD.WriteLine( 360 - (currentAngle - targetAngle) );
-            turnForAngle( 360 - (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
+            turnForAngle( 360 - (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
+        }
+    } else {
+        if( (targetAngle - currentAngle) < 180) {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( (targetAngle - currentAngle) );
+            turnForAngle( (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
+        } else {
+            LCD.Write("Turn deg: ");
+            LCD.WriteLine( 360 - (targetAngle - currentAngle) );
+            turnForAngle( 360 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
         }
     }
     return;
