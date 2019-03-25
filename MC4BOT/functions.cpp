@@ -377,12 +377,14 @@ void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercen
 
 //void driveUntil(int motorPower, special type for function pointer CALLBACKFUNC) {}
 
+// DEPRECATED - BREAKS IN A BAD WAY WHEN RPS IS BROKEN
 // Use RPS to get current heading, then calculate appropriate turn to reach target
 void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
-    float firstHeading = RPS.Heading();
-    Sleep(0.5);
-    float secondHeading = RPS.Heading();
-    float currentHeading = (firstHeading + secondHeading) / 2.0;
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
     int currentAngle = static_cast<int>(currentHeading);
     turnToCourseAngle(currentAngle, targetAngle, motorPercent);
     return;
@@ -392,10 +394,15 @@ void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
 // RPS functions ///////////////////////////////////////////
 
 void rpsCheckHeading(float targetHeading) {
-    while( std::abs(RPS.Heading() - targetHeading) > 5.0) {
-        float headingDifference = RPS.Heading() - targetHeading;
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    float headingDifference = currentHeading - targetHeading;
+    while( std::abs(headingDifference) > 5.0) {
         LCD.Write("Target angle diff: ");
-        LCD.WriteLine(headingDifference);
+        LCD.WriteLine( headingDifference );
         if(headingDifference > 0 && headingDifference < 180) {
             turnForAngle(2, MotorPercentWeak, DirectionClockwise);
         } else if(headingDifference < 0 && headingDifference > -180) {
@@ -405,49 +412,83 @@ void rpsCheckHeading(float targetHeading) {
         } else if(headingDifference < -180) {
             turnForAngle(2, MotorPercentWeak, DirectionClockwise);
         }
+        currentHeading = rpsSampleHeading();
+        if(currentHeading < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
+        }
+        headingDifference = currentHeading - targetHeading;
     }
     return;
 }
 
 void rpsCheckXCoord(float targetX) {
-    float currentHeading = RPS.Heading();
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
     bool facingPlus;
     if(currentHeading > 90 && currentHeading < 270) {
         facingPlus = true;
     } else {
         facingPlus = false;
     }
-    while( std::abs(RPS.X() - targetX) > 1.0 ) {
-        if(RPS.X() < targetX && facingPlus) {
+    float currentXCoord = rpsSampleXCoord();
+    if(currentXCoord < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    while( std::abs(currentXCoord - targetX) > 1.0 ) {
+        if(currentXCoord < targetX && facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
-        } else if(RPS.X() > targetX && facingPlus) {
+        } else if(currentXCoord > targetX && facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
-        } else if(RPS.X() < targetX && !facingPlus) {
+        } else if(currentXCoord < targetX && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
-        } else if(RPS.X() > targetX && !facingPlus) {
+        } else if(currentXCoord > targetX && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        }
+        currentXCoord = rpsSampleXCoord();
+        if(currentXCoord < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
         }
     }
     return;
 }
 
 void rpsCheckYCoord(float targetY) {
-    float currentHeading = RPS.Heading();
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
     bool facingPlus;
     if(currentHeading > 0 && currentHeading < 180) {
         facingPlus = true;
     } else {
         facingPlus = false;
     }
-    while( std::abs(RPS.Y() - targetY) > 1.0 ) {
-        if(RPS.Y() < targetY && facingPlus) {
+    float currentYCoord = rpsSampleYCoord();
+    if(currentYCoord < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    while( std::abs(currentYCoord - targetY) > 1.0 ) {
+        if(currentYCoord < targetY && facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
-        } else if(RPS.Y() > targetY && facingPlus) {
+        } else if(currentYCoord > targetY && facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
-        } else if(RPS.Y() < targetY && !facingPlus) {
+        } else if(currentYCoord < targetY && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
-        } else if(RPS.Y() > targetY && !facingPlus) {
+        } else if(currentYCoord > targetY && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+        }
+        currentYCoord = rpsSampleYCoord();
+        if(currentYCoord < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
         }
     }
     return;
@@ -510,7 +551,7 @@ float rpsSampleXCoord() {
     // At this point, either the sample is good or we've exceeded the max number
     //   of incorrect values. If the sample is bad, quit trying and return an error value
     if(sampleOne < 0.0 || sampleOne > 36.0) {
-        return sampleOne;
+        return -3.0;
     }
     sampleTwo = RPS.X();
     while((sampleTwo < 0.0 || sampleTwo > 36.0) && extraAttempts < 3 ) {
@@ -518,7 +559,7 @@ float rpsSampleXCoord() {
         sampleTwo = RPS.X();
     }
     if(sampleTwo < 0.0 || sampleTwo > 36.0) {
-        return sampleTwo;
+        return -3.0;
     }
     sampleThree = RPS.X();
     while((sampleThree < 0.0 || sampleThree > 36.0) && extraAttempts < 3 ) {
@@ -526,7 +567,7 @@ float rpsSampleXCoord() {
         sampleThree = RPS.X();
     }
     if(sampleThree < 0.0 || sampleThree > 36.0) {
-        return sampleThree;
+        return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
     if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
@@ -552,7 +593,7 @@ float rpsSampleYCoord() {
     // At this point, either the sample is good or we've exceeded the max number
     //   of incorrect values. If the sample is bad, quit trying and return an error value
     if(sampleOne < 0.0 || sampleOne > 72.0) {
-        return sampleOne;
+        return -3.0;
     }
     sampleTwo = RPS.Y();
     while((sampleTwo < 0.0 || sampleTwo > 72.0) && extraAttempts < 3 ) {
@@ -560,7 +601,7 @@ float rpsSampleYCoord() {
         sampleTwo = RPS.Y();
     }
     if(sampleTwo < 0.0 || sampleTwo > 72.0) {
-        return sampleTwo;
+        return -3.0;
     }
     sampleThree = RPS.Y();
     while((sampleThree < 0.0 || sampleThree > 72.0) && extraAttempts < 3 ) {
@@ -568,7 +609,7 @@ float rpsSampleYCoord() {
         sampleThree = RPS.Y();
     }
     if(sampleThree < 0.0 || sampleThree > 72.0) {
-        return sampleThree;
+        return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
     if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
