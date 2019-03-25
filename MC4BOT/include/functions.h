@@ -26,6 +26,9 @@ void turnToCourseAngle(int targetAngle, MotorPower motorPercent);
 void rpsCheckHeading(float targetHeading);
 void rpsCheckXCoord(float targetX);
 void rpsCheckYCoord(float targetY);
+float rpsSampleHeading();
+float rpsSampleXCoord();
+float rpsSampleYCoord();
 
 void pt04();
 
