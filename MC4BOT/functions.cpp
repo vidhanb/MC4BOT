@@ -453,4 +453,130 @@ void rpsCheckYCoord(float targetY) {
     return;
 }
 
+// Wrap RPS.Heading() for some automatic error detection
+float rpsSampleHeading() {
+    // Keep track of how many times we resample to avoid an incorrect value
+    int extraAttempts = 0;
+    float sampleOne, sampleTwo, sampleThree, sampleFinal;
+    sampleOne = RPS.Heading();
+    // If sample outside of range and we haven't exceeded the max number of
+    //   incorrect values, try again
+    while( (sampleOne < 0.0 || sampleOne > 360.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleOne = RPS.Heading();
+    }
+    // At this point, either the sample is good or we've exceeded the max number
+    //   of incorrect values. If the sample is bad, quit trying and return an error value
+    if(sampleOne < 0.0 || sampleOne > 360.0) {
+        return -3.0;
+    }
+    sampleTwo = RPS.Heading();
+    while((sampleTwo < 0.0 || sampleTwo > 360.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleTwo = RPS.Heading();
+    }
+    if(sampleTwo < 0.0 || sampleTwo > 360.0) {
+        return -3.0;
+    }
+    sampleThree = RPS.Heading();
+    while((sampleThree < 0.0 || sampleThree > 360.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleThree = RPS.Heading();
+    }
+    if(sampleThree < 0.0 || sampleThree > 360.0) {
+        return -3.0;
+    }
+    // If RPS is returning values that are within range but vary wildly, return an error value
+    if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+        return -3.0;
+    }
+    // Otherwise, use valid samples to calculate an averaged value and return it
+    sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    return sampleFinal;
+}
+
+// Wrap RPS.X() for some automatic error detection
+float rpsSampleXCoord() {
+    // Keep track of how many times we resample to avoid an incorrect value
+    int extraAttempts = 0;
+    float sampleOne, sampleTwo, sampleThree, sampleFinal;
+    sampleOne = RPS.X();
+    // If sample outside of range and we haven't exceeded the max number of
+    //   incorrect values, try again
+    while( (sampleOne < 0.0 || sampleOne > 36.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleOne = RPS.X();
+    }
+    // At this point, either the sample is good or we've exceeded the max number
+    //   of incorrect values. If the sample is bad, quit trying and return an error value
+    if(sampleOne < 0.0 || sampleOne > 36.0) {
+        return sampleOne;
+    }
+    sampleTwo = RPS.X();
+    while((sampleTwo < 0.0 || sampleTwo > 36.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleTwo = RPS.X();
+    }
+    if(sampleTwo < 0.0 || sampleTwo > 36.0) {
+        return sampleTwo;
+    }
+    sampleThree = RPS.X();
+    while((sampleThree < 0.0 || sampleThree > 36.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleThree = RPS.X();
+    }
+    if(sampleThree < 0.0 || sampleThree > 36.0) {
+        return sampleThree;
+    }
+    // If RPS is returning values that are within range but vary wildly, return an error value
+    if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+        return -3.0;
+    }
+    // Otherwise, use valid samples to calculate an averaged value and return it
+    sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    return sampleFinal;
+}
+
+// Wrap RPS.Y() for some automatic error detection
+float rpsSampleYCoord() {
+    // Keep track of how many times we resample to avoid an incorrect value
+    int extraAttempts = 0;
+    float sampleOne, sampleTwo, sampleThree, sampleFinal;
+    sampleOne = RPS.Y();
+    // If sample outside of range and we haven't exceeded the max number of
+    //   incorrect values, try again
+    while( (sampleOne < 0.0 || sampleOne > 72.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleOne = RPS.Y();
+    }
+    // At this point, either the sample is good or we've exceeded the max number
+    //   of incorrect values. If the sample is bad, quit trying and return an error value
+    if(sampleOne < 0.0 || sampleOne > 72.0) {
+        return sampleOne;
+    }
+    sampleTwo = RPS.Y();
+    while((sampleTwo < 0.0 || sampleTwo > 72.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleTwo = RPS.Y();
+    }
+    if(sampleTwo < 0.0 || sampleTwo > 72.0) {
+        return sampleTwo;
+    }
+    sampleThree = RPS.Y();
+    while((sampleThree < 0.0 || sampleThree > 72.0) && extraAttempts < 3 ) {
+        extraAttempts++;
+        sampleThree = RPS.Y();
+    }
+    if(sampleThree < 0.0 || sampleThree > 72.0) {
+        return sampleThree;
+    }
+    // If RPS is returning values that are within range but vary wildly, return an error value
+    if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+        return -3.0;
+    }
+    // Otherwise, use valid samples to calculate an averaged value and return it
+    sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    return sampleFinal;
+}
+
 ////////////////////////////////////////////////////////////
