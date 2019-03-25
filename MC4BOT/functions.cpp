@@ -304,6 +304,27 @@ void turnForTime(double seconds, MotorPower motorPercent, TurnDirection directio
     return;
 }
 
+void turnForRatioTime(double seconds, MotorPower motorPercent, TurnDirection direction, double motorRatio) {
+    if(direction == DirectionClockwise) {
+        LCD.Write("Going CW, ratio ");
+        LCD.WriteLine(motorRatio);
+        motorLeft.SetPercent(motorPercent);
+        motorRight.SetPercent(motorPercent * motorRatio * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+    } else {
+        LCD.Write("Going CNTCW, ratio ");
+        LCD.WriteLine(motorRatio);
+        motorLeft.SetPercent(motorPercent * motorRatio);
+        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+    }
+    LCD.Write("Turn time: ");
+    LCD.WriteLine(seconds);
+    Sleep(seconds);
+    motorLeft.Stop();
+    motorRight.Stop();
+    LCD.WriteLine("--- Turn Done ---");
+    return;
+}
+
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
