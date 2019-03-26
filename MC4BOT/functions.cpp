@@ -255,11 +255,15 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
+        // Drive left motor forwards
         motorLeft.SetPercent(motorPercent);
+        // Drive right motor forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
+        // Drive left motor backwards
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
@@ -272,11 +276,15 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
 void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction) {
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
+        // Drive left motor forwards
         motorLeft.SetPercent(motorPercent);
+        // Drive right motor forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
+        // Drive left motor backwards
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     LCD.Write("Drive time: ");
@@ -291,11 +299,15 @@ void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direct
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction) {
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
+        // Drive left motor forwards
         motorLeft.SetPercent(motorPercent);
+        // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
+        // Drive left motor backwards
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        // Drive right motor forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     LCD.Write("Turn time: ");
@@ -311,12 +323,16 @@ void turnForRatioTime(double seconds, MotorPower motorPercent, TurnDirection dir
     if(direction == DirectionClockwise) {
         LCD.Write("Going CW, ratio ");
         LCD.WriteLine(motorRatio);
+        // Drive left motor forwards
         motorLeft.SetPercent(motorPercent);
+        // Drive right motor, at a proportional lesser value, forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * motorRatio * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.Write("Going CNTCW, ratio ");
         LCD.WriteLine(motorRatio);
+        // Drive left motor forwards, at a proportional lesser value
         motorLeft.SetPercent(motorPercent * motorRatio);
+        // Drive right motor, forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     LCD.Write("Turn time: ");
@@ -339,11 +355,15 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
+        // Drive left motor forward
         motorLeft.SetPercent(motorPercent);
+        // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
+        // Drive left motor backwards
         motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        // Drive right motor forwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
