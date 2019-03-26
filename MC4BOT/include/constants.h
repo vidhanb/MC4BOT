@@ -55,21 +55,21 @@ enum TurnDirection {
 #define SERVO_CLAW_MIN 520
 #define SERVO_CLAW_MAX 2470
 #define SERVO_CLAW_POS_NEUTRAL 0
-#define SERVO_CLAW_POS_ACTIVE 85
+#define SERVO_CLAW_POS_ACTIVE 75
 
 /////////////////////////////////////////////////////////////////////////
 
 // Sensor settings
-#define CDS_CELL_PORT FEHIO::P0_0
-#define ENCODER_LEFT_PORT FEHIO::P1_0
-#define ENCODER_RIGHT_PORT FEHIO::P1_2
+#define CDS_CELL_PORT FEHIO::P2_7
+#define ENCODER_LEFT_PORT FEHIO::P3_7
+#define ENCODER_RIGHT_PORT FEHIO::P0_0
 
 #define CDS_CELL_START_THRESH 1.6 // volts
 
 #define WHEEL_DIAM 1.625 // inches (including treads)
 #define WHEEL_CIRC (WHEEL_DIAM * PI)
 
-#define ROBOT_TURN_DIAM 9.0 //inches
+#define ROBOT_TURN_DIAM 10.5 //inches
 #define ROBOT_TURN_CIRC (ROBOT_TURN_DIAM * PI)
 
 #define ENCODER_CTS_PER_ROT 24 // for mechanical rotary encoder
