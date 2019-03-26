@@ -15,7 +15,7 @@ void finalComp() {
     printInit();
 
     // Wait until start light turns on to move
-    while (cdsCell.Value() > CDS_CELL_START_THRESH);
+    while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
 
     
 

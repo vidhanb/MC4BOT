@@ -83,8 +83,10 @@ void printInit() {
     LCD.Write("CdS Cell Init-{");
     LCD.Write("Port:");
     LCD.Write(CDS_CELL_PORT);
-    LCD.Write(",Thresh:");
-    LCD.Write(CDS_CELL_START_THRESH);
+    LCD.Write(",D/B thresh:");
+    LCD.Write(CDS_CELL_DIV_DARK_BLUE);
+    LCD.Write(",B/R thresh:");
+    LCD.Write(CDS_CELL_DIV_BLUE_RED);
     LCD.WriteLine("}");
 
     LCD.Write("Encoder left port: ");

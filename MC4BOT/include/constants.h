@@ -64,7 +64,9 @@ enum TurnDirection {
 #define ENCODER_LEFT_PORT FEHIO::P3_7
 #define ENCODER_RIGHT_PORT FEHIO::P0_0
 
-#define CDS_CELL_START_THRESH 1.6 // volts
+// Volts
+#define CDS_CELL_DIV_DARK_BLUE 2.0
+#define CDS_CELL_DIV_BLUE_RED 1.0
 
 #define WHEEL_DIAM 1.625 // inches (including treads)
 #define WHEEL_CIRC (WHEEL_DIAM * PI)
