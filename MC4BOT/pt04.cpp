@@ -15,11 +15,13 @@
 //      - check proper turning to get to foosball
 //      - make sure foosball claw is attached properly - setup method to attach it at right angle every time, or glue it
 //      - switch to driveForDistance?
-//      - use rpsCheckX() or rpsCheckY()?
+//      - use rpsCheckX() or rpsCheckY()? - need to get desired positions first
 
 void pt04() {
     initRobot();
     printInit();
+
+    testSensors();
 
     // Wait until start light turns on to move
     while (cdsCell.Value() > CDS_CELL_START_THRESH);
@@ -27,61 +29,74 @@ void pt04() {
     //--------------------------------------------------------------------------------------------------------------------------------------------------//
 
         //Move robot up slightly
-        driveForTime(2.1, MotorPercentWeak, DirectionForward);
+        driveForDistance(4.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         //Turn the robot CW to face the DDR button
-        turnForTime(1.7, MotorPercentWeak, DirectionClockwise);
+        turnForAngle(45, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
+
+        rpsCheckHeading(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+
 
         //Move robot towards DDR
-        driveForTime(2.9, MotorPercentMedium, DirectionForward);
+        driveForDistance(14.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
+
+        rpsCheckXCoord(31.5);
+        Sleep(ACTION_SEP_PAUSE);
+
 
         //Angle robot towards DDR
-        turnForTime(3.2, MotorPercentWeak, DirectionClockwise);
+        turnForAngle(90, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
 
+        rpsCheckHeading(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+
         //Press button
-        driveForTime(2.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(6.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         //Back away from DDR
-        driveForTime(1.0, MotorPercentMedium, DirectionBackward);
+        driveForDistance(3.0, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
 
         //Rotate robot 180 degrees to face ramp
-        turnForTime(7.0, MotorPercentWeak, DirectionClockwise);
+        turnForAngle(180, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
 
         //USE RPS TO CHECK ANGLE
-        rpsCheckHeading(95.0);
+        rpsCheckHeading(0.0);
         Sleep(ACTION_SEP_PAUSE);
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------//
         //Foosball
         //Move robot up ramp to foosball
-        driveForTime(4.0, MotorPercentStrong, DirectionForward);
+        driveForDistance(32.0, MotorPercentStrong, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+
+        rpsCheckYCoord(53.0);
         Sleep(ACTION_SEP_PAUSE);
 
         //USE RPS TO CHECK ANGLE after up ramp
-        rpsCheckHeading(95.0);
+        rpsCheckHeading(0.0);
         Sleep(ACTION_SEP_PAUSE);
 
-
         //Continue moving robot forward to foosball
-        driveForTime(3.0, MotorPercentStrong, DirectionForward);
+        driveForDistance(15.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
 
         //MIGHT NEED TO ROTATE, MOVE FORWARD, ROTATE
 
         //Rotate robot 90 counterclockwise
-        turnForTime(3.1, MotorPercentWeak, DirectionCounterClockwise);
+        turnForAngle(90, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
 
-        //Move forward slightly so claw can reach foosball counter
-        driveForTime(1.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(1.0, MotorPercentWeak, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         //Drop arm
@@ -89,11 +104,26 @@ void pt04() {
         Sleep(ACTION_SEP_PAUSE);
 
         //Move robot forward
-        driveForTime(3.0, MotorPercentWeak, DirectionForward);
+        driveForDistance(10.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         //Lift arm
         servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistance(8.0, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngle(90, MotorPercentMedium, DirectionClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistance(15.0, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+
+        rpsCheckHeading(0.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistance(35.0, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
 
 

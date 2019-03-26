@@ -27,6 +27,7 @@ void initRobot() {
     servoClaw.SetMin(SERVO_CLAW_MIN);
     servoClaw.SetMax(SERVO_CLAW_MAX);
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
+    RPS.InitializeTouchMenu();
     return;
 }
 
@@ -118,10 +119,10 @@ void testSensors() {
     while(true) {
         LCD.Write("CdS: ");
         LCD.WriteLine(cdsCell.Value());
-        LCD.Write("Left encoder: ");
-        LCD.WriteLine(encoderLeft.Counts());
-        LCD.Write("Right encoder: ");
-        LCD.WriteLine(encoderRight.Counts());
+        //LCD.Write("Left encoder: ");
+        //LCD.WriteLine(encoderLeft.Counts());
+        //LCD.Write("Right encoder: ");
+        //LCD.WriteLine(encoderRight.Counts());
         Sleep(0.3);
     }
 }
@@ -400,7 +401,7 @@ void rpsCheckHeading(float targetHeading) {
         return;
     }
     float headingDifference = currentHeading - targetHeading;
-    while( std::abs(headingDifference) > 5.0) {
+    while( std::abs(headingDifference) > 3.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0 && headingDifference < 180) {
@@ -429,7 +430,7 @@ void rpsCheckXCoord(float targetX) {
         return;
     }
     bool facingPlus;
-    if(currentHeading > 90 && currentHeading < 270) {
+    if(currentHeading > 180.0) {
         facingPlus = true;
     } else {
         facingPlus = false;
@@ -465,10 +466,10 @@ void rpsCheckYCoord(float targetY) {
         return;
     }
     bool facingPlus;
-    if(currentHeading > 0 && currentHeading < 180) {
-        facingPlus = true;
-    } else {
+    if(currentHeading > 90.0 && currentHeading < 270.0) {
         facingPlus = false;
+    } else {
+        facingPlus = true;
     }
     float currentYCoord = rpsSampleYCoord();
     if(currentYCoord < 0.0) {
@@ -570,7 +571,7 @@ float rpsSampleXCoord() {
         return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
-    if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+    if(std::abs(sampleOne - sampleTwo) > 1.0 || std::abs(sampleOne - sampleThree) > 1.0) {
         return -3.0;
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
@@ -612,7 +613,7 @@ float rpsSampleYCoord() {
         return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
-    if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+    if(std::abs(sampleOne - sampleTwo) > 1.0 || std::abs(sampleOne - sampleThree) > 1.0) {
         return -3.0;
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
