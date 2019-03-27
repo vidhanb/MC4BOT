@@ -279,7 +279,9 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
         // Calculate how far we've gone for next loop
         currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
     }
+    LCD.Write("Left encoder: ");
     LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("Right encoder: ");
     LCD.WriteLine(encoderRight.Counts());
     motorLeft.Stop();
     motorRight.Stop();
@@ -315,7 +317,9 @@ void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection di
         // Calculate how far we've gone for next loop
         currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
     }
+    LCD.Write("Left encoder: ");
     LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("Right encoder: ");
     LCD.WriteLine(encoderRight.Counts());
     motorLeft.Stop();
     motorRight.Stop();

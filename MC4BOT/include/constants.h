@@ -52,8 +52,8 @@ enum TurnDirection {
 #define SERVO_COIN_POS_NEUTRAL 180
 #define SERVO_COIN_POS_ACTIVE 85
 
-#define SERVO_CLAW_MIN 540
-#define SERVO_CLAW_MAX 2450
+#define SERVO_CLAW_MIN 550
+#define SERVO_CLAW_MAX 2440
 #define SERVO_CLAW_POS_NEUTRAL 0
 #define SERVO_CLAW_POS_ACTIVE 75
 
@@ -61,7 +61,7 @@ enum TurnDirection {
 
 // Sensor settings
 #define CDS_CELL_PORT FEHIO::P2_7
-#define ENCODER_LEFT_PORT FEHIO::P3_7
+#define ENCODER_LEFT_PORT FEHIO::P1_0
 #define ENCODER_RIGHT_PORT FEHIO::P0_0
 
 // Volts

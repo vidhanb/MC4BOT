@@ -16,12 +16,36 @@ void finalComp() {
 
     // Wait until start light turns on to move
     //while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
+    /*
+    driveForDistance(30.0, MotorPercentWeak, DirectionForward);
+    Sleep(3.0);
+    driveForDistance(30.0, MotorPercentWeak, DirectionBackward);
+    Sleep(3.0);
 
-    driveForDistanceAccelMap(4.0, MotorPercentWeak, DirectionForward);
+    driveForDistance(30.0, MotorPercentMedium, DirectionForward);
     Sleep(3.0);
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
+    driveForDistance(30.0, MotorPercentMedium, DirectionBackward);
     Sleep(3.0);
-    driveForDistanceAccelMap(4.0, MotorPercentStrong, DirectionForward);
+
+    driveForDistance(30.0, MotorPercentStrong, DirectionForward);
+    Sleep(3.0);
+    driveForDistance(30.0, MotorPercentStrong, DirectionBackward);
+    Sleep(3.0);
+
+    driveForDistanceAccelMap(30.0, MotorPercentWeak, DirectionForward);
+    Sleep(3.0);
+    driveForDistanceAccelMap(30.0, MotorPercentWeak, DirectionBackward);
+    Sleep(3.0);
+
+    driveForDistanceAccelMap(30.0, MotorPercentMedium, DirectionForward);
+    Sleep(3.0);
+    driveForDistanceAccelMap(30.0, MotorPercentMedium, DirectionBackward);
+    Sleep(3.0);
+    */
+
+    driveForDistanceAccelMap(30.0, MotorPercentStrong, DirectionForward);
+    Sleep(3.0);
+    driveForDistanceAccelMap(30.0, MotorPercentStrong, DirectionBackward);
     Sleep(3.0);
 
     /*
