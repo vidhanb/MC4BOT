@@ -27,6 +27,8 @@ void initRobot() {
     servoClaw.SetMin(SERVO_CLAW_MIN);
     servoClaw.SetMax(SERVO_CLAW_MAX);
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
+    encoderLeft.ResetCounts();
+    encoderRight.ResetCounts();
     //RPS.InitializeTouchMenu();
     return;
 }
