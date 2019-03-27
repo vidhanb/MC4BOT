@@ -4,18 +4,24 @@
 void initRobot();
 void printInit();
 
-void testDrive();
+void testDriveStraight();
 void testSensors();
 void testRPS();
-void testDistance();
-void testDirections();
-void testFunctions();
+void testDriveDistanceLong();
+void testDriveDirections();
+void testDriveFunctions();
 void testTreadTurns();
+void testServoRange();
 void testServos();
 
 void flipLever();
 void flipLeverReset();
 void rpsResetPress();
+void foosballDeploy();
+void foosballRetract();
+void coinRelease();
+
+float accelerationFunction(float ratio);
 
 void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);

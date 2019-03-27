@@ -105,7 +105,7 @@ void printInit() {
 ////////////////////////////////////////////////////////////
 // Test functions //////////////////////////////////////////
 
-void testDrive() {
+void testDriveStraight() {
     motorLeft.SetPercent(100);
     motorRight.SetPercent(-100);
     Sleep(3.0);
@@ -156,7 +156,7 @@ void testRPS() {
     return;
 }
 
-void testDistance() {
+void testDriveDistanceLong() {
     driveForDistance(50.0, MotorPercentMedium, DirectionForward);
     LCD.Write("left: ");
     LCD.WriteLine(encoderLeft.Counts());
@@ -164,7 +164,7 @@ void testDistance() {
     LCD.WriteLine(encoderRight.Counts());
 }
 
-void testDirections() {
+void testDriveDirections() {
     LCD.WriteLine(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
     LCD.WriteLine("turn right");
     turnForAngle(30.0, MotorPercentMedium, DirectionClockwise);
@@ -180,7 +180,7 @@ void testDirections() {
     Sleep(4.0);
 }
 
-void testFunctions() {
+void testDriveFunctions() {
     driveForDistance(4.0, MotorPercentMedium, DirectionForward);
     driveForTime(4.0, MotorPercentMedium, DirectionBackward);
     turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
@@ -199,8 +199,7 @@ void testTreadTurns() {
    }
 }
 
-void testServos() {
-    LCD.WriteLine("servo time");
+void testServoRange() {
     servoLever.SetDegree(180);
     LCD.WriteLine(180);
     Sleep(2.0);
@@ -213,6 +212,22 @@ void testServos() {
     servoLever.SetDegree(45);
     LCD.WriteLine(45);
     Sleep(2.0);
+}
+
+void testServos() {
+    LCD.WriteLine("servo time");
+    rpsResetPress();
+    Sleep(1.0);
+    LCD.WriteLine("coin");
+    coinRelease();
+    Sleep(1.0);
+    servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
+    Sleep(1.0);
+    LCD.WriteLine("claw");
+    foosballDeploy();
+    Sleep(1.0);
+    foosballRetract();
+    LCD.WriteLine("servo tests done");
 }
 
 ////////////////////////////////////////////////////////////
@@ -244,6 +259,32 @@ void rpsResetPress() {
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
     return;
+}
+
+void foosballDeploy() {
+    int currAngle = SERVO_CLAW_POS_NEUTRAL;
+    // Slow down the servo motor's movement so that it has more torque
+    // 38 2-degree steps * 0.01seconds per step = 0.38 seconds 
+    while(currAngle < SERVO_LEVER_POS_ACTIVE) {
+        servoClaw.SetDegree(currAngle);
+        currAngle+= 2;
+        Sleep(SERVO_LEVER_ITER_PAUSE);
+    }
+}
+
+void foosballRetract() {
+    int currAngle = SERVO_CLAW_POS_ACTIVE;
+    // Slow down the servo motor's movement so that it has more torque
+    // 38 2-degree steps * 0.01seconds per step = 0.38 seconds 
+    while(currAngle > SERVO_LEVER_POS_NEUTRAL) {
+        servoClaw.SetDegree(currAngle);
+        currAngle-= 2;
+        Sleep(SERVO_LEVER_ITER_PAUSE);
+    }
+}
+
+void coinRelease() {
+    servoCoin.SetDegree(SERVO_COIN_POS_ACTIVE);
 }
 
 ////////////////////////////////////////////////////////////

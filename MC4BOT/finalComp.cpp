@@ -14,7 +14,7 @@ void finalComp() {
     initRobot();
     printInit();
 
-    rpsResetPress();
+    testServos();
 
     /*
     driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
