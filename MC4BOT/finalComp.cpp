@@ -14,6 +14,9 @@ void finalComp() {
     initRobot();
     printInit();
 
+    rpsResetPress();
+
+    /*
     driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
@@ -31,6 +34,7 @@ void finalComp() {
 
     rpsCheckXCoord(27.0);
     Sleep(ACTION_SEP_PAUSE);
+    */
 
     // Wait until start light turns on to move
     //while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);

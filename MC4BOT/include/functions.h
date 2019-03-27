@@ -15,6 +15,7 @@ void testServos();
 
 void flipLever();
 void flipLeverReset();
+void rpsResetPress();
 
 void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);

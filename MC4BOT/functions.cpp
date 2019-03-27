@@ -29,7 +29,7 @@ void initRobot() {
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    RPS.InitializeTouchMenu();
+    //RPS.InitializeTouchMenu();
     return;
 }
 
@@ -231,16 +231,16 @@ void flipLeverReset() {
 void rpsResetPress() {
     int currAngle = SERVO_LEVER_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
-    // 90degrees difference * 0.02seconds per degree = 1.8 secons 
+    // 45 2-degree steps * 0.01seconds per step = 0.45 seconds 
     while(currAngle > SERVO_LEVER_POS_ACTIVE) {
         servoLever.SetDegree(currAngle);
-        currAngle--;
+        currAngle-= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
     Sleep(SERVO_LEVER_RESET_PAUSE);
     while(currAngle < SERVO_LEVER_POS_NEUTRAL) {
         servoLever.SetDegree(currAngle);
-        currAngle++;
+        currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
     return;
