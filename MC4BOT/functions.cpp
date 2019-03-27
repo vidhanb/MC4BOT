@@ -489,6 +489,7 @@ void rpsCheckHeading(float targetHeading) {
         } else if(headingDifference < -180) {
             turnForAngle(2, MotorPercentWeak, DirectionClockwise);
         }
+        Sleep(ACTION_SEP_PAUSE);
         currentHeading = rpsSampleHeading();
         if(currentHeading < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -526,6 +527,7 @@ void rpsCheckXCoord(float targetX) {
         } else if(currentXCoord > targetX && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
         }
+        Sleep(ACTION_SEP_PAUSE);
         currentXCoord = rpsSampleXCoord();
         if(currentXCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -562,6 +564,7 @@ void rpsCheckYCoord(float targetY) {
         } else if(currentYCoord > targetY && !facingPlus) {
             driveForDistance(0.5, MotorPercentWeak, DirectionForward);
         }
+        Sleep(ACTION_SEP_PAUSE);
         currentYCoord = rpsSampleYCoord();
         if(currentYCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
