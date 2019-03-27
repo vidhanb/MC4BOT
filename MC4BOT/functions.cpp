@@ -225,8 +225,11 @@ void testServos() {
     Sleep(1.0);
     LCD.WriteLine("claw");
     foosballDeploy();
+    LCD.WriteLine("claw down");
     Sleep(1.0);
     foosballRetract();
+    LCD.WriteLine("claw up");
+    Sleep(1.0);
     LCD.WriteLine("servo tests done");
 }
 
@@ -265,7 +268,7 @@ void foosballDeploy() {
     int currAngle = SERVO_CLAW_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
     // 38 2-degree steps * 0.01seconds per step = 0.38 seconds 
-    while(currAngle < SERVO_LEVER_POS_ACTIVE) {
+    while(currAngle < SERVO_CLAW_POS_ACTIVE) {
         servoClaw.SetDegree(currAngle);
         currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -276,7 +279,7 @@ void foosballRetract() {
     int currAngle = SERVO_CLAW_POS_ACTIVE;
     // Slow down the servo motor's movement so that it has more torque
     // 38 2-degree steps * 0.01seconds per step = 0.38 seconds 
-    while(currAngle > SERVO_LEVER_POS_NEUTRAL) {
+    while(currAngle > SERVO_CLAW_POS_NEUTRAL) {
         servoClaw.SetDegree(currAngle);
         currAngle-= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
