@@ -29,7 +29,7 @@ void initRobot() {
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    //RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
     return;
 }
 
@@ -249,16 +249,16 @@ void rpsResetPress() {
 ////////////////////////////////////////////////////////////
 // Drive functions /////////////////////////////////////////
 
-double accelerationFunction(double ratio) {
+float accelerationFunction(float ratio) {
     // Equivalent to function: -16(x-0.5)^4 + 1
-    double result = (-10.0 * std::pow( (ratio - 0.5), 4.0) ) + 1.0;
+    float result = (-10.0 * std::pow( (ratio - 0.5), 4.0) ) + 1.0;
     return result;
 }
 
-void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction) {
+void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    double expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionForward) {
@@ -274,7 +274,7 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
         // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
-    double currentEncoderCounts = 0.0;
+    float currentEncoderCounts = 0.0;
     while( currentEncoderCounts < expectedEncoderCounts) {
         // Calculate how far we've gone for next loop
         currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
@@ -289,10 +289,10 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
     return;
 }
 
-void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection direction) {
+void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    double expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionForward) {
@@ -301,9 +301,9 @@ void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection di
         LCD.WriteLine("Going BW");
         motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
     }
-    double currentEncoderCounts = 0.0;
-    double currentDistanceRatio = 0.0;
-    double currentAccelMult = 0.0;
+    float currentEncoderCounts = 0.0;
+    float currentDistanceRatio = 0.0;
+    float currentAccelMult = 0.0;
     while( currentEncoderCounts < expectedEncoderCounts) {
         // See how much of our journey we've completed so far
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
@@ -327,7 +327,7 @@ void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection di
     return;
 }
 
-void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction) {
+void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction) {
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         // Drive left motor forwards
@@ -350,7 +350,7 @@ void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direct
     return;
 }
 
-void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction) {
+void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction) {
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         // Drive left motor forwards
@@ -373,7 +373,7 @@ void turnForTime(double seconds, MotorPower motorPercent, TurnDirection directio
     return;
 }
 
-void turnForRatioTime(double seconds, MotorPower motorPercent, TurnDirection direction, double motorRatio) {
+void turnForRatioTime(float seconds, MotorPower motorPercent, TurnDirection direction, float motorRatio) {
     if(direction == DirectionClockwise) {
         LCD.Write("Going CW, ratio ");
         LCD.WriteLine(motorRatio);
@@ -401,10 +401,10 @@ void turnForRatioTime(double seconds, MotorPower motorPercent, TurnDirection dir
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    double arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
+    float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
     LCD.Write("Turn arc length: ");
     LCD.WriteLine(arcLength);   
-    double expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
+    float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionClockwise) {

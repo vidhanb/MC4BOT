@@ -16,10 +16,10 @@ void testServos();
 void flipLever();
 void flipLeverReset();
 
-void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction);
-void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection direction);
-void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction);
-void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction);
+void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction);
+void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
+void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction);
+void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction);
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction);
 void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent);
 void turnToCourseAngle(int targetAngle, MotorPower motorPercent);

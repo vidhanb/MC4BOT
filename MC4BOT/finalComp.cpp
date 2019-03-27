@@ -14,6 +14,24 @@ void finalComp() {
     initRobot();
     printInit();
 
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    turnForAngle(45, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+
+    rpsCheckHeading(270.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    rpsCheckXCoord(13.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceAccelMap(14.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    rpsCheckXCoord(27.0);
+    Sleep(ACTION_SEP_PAUSE);
+
     // Wait until start light turns on to move
     //while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
     /*
@@ -43,10 +61,12 @@ void finalComp() {
     Sleep(3.0);
     */
 
+    /*
     driveForDistanceAccelMap(30.0, MotorPercentStrong, DirectionForward);
     Sleep(3.0);
     driveForDistanceAccelMap(30.0, MotorPercentStrong, DirectionBackward);
     Sleep(3.0);
+    */
 
     /*
     | PSEUDOCODE
