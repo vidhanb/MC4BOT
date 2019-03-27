@@ -17,7 +17,7 @@ void finalComp() {
     driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    turnForAngle(45, MotorPercentMedium, DirectionClockwise);
+    turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
     rpsCheckHeading(270.0);

@@ -167,10 +167,10 @@ void testDistance() {
 void testDirections() {
     LCD.WriteLine(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
     LCD.WriteLine("turn right");
-    turnForAngle(30, MotorPercentMedium, DirectionClockwise);
+    turnForAngle(30.0, MotorPercentMedium, DirectionClockwise);
     Sleep(2.0);
     LCD.WriteLine("turn left");
-    turnForAngle(30, MotorPercentMedium, DirectionCounterClockwise);
+    turnForAngle(30.0, MotorPercentMedium, DirectionCounterClockwise);
     Sleep(2.0);
     LCD.WriteLine("forwards");
     driveForDistance(2.0, MotorPercentMedium, DirectionForward);
@@ -183,18 +183,18 @@ void testDirections() {
 void testFunctions() {
     driveForDistance(4.0, MotorPercentMedium, DirectionForward);
     driveForTime(4.0, MotorPercentMedium, DirectionBackward);
-    turnForAngle(90, MotorPercentMedium, DirectionClockwise);
+    turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
     turnForTime(2.0, MotorPercentMedium, DirectionCounterClockwise);
-    turnToCourseAngle(90, 180, MotorPercentMedium);
-    turnToCourseAngle(90, 0, MotorPercentMedium);
+    turnToCourseAngle(90.0, 180, MotorPercentMedium);
+    turnToCourseAngle(90.0, 0, MotorPercentMedium);
     LCD.WriteLine("Done");
 }
 
 void testTreadTurns() {
    while(true) {
-       turnForAngle(180, MotorPercentMedium, DirectionClockwise);
+       turnForAngle(180.0, MotorPercentMedium, DirectionClockwise);
        Sleep(1.0);
-       turnForAngle(180, MotorPercentMedium, DirectionCounterClockwise);
+       turnForAngle(180.0, MotorPercentMedium, DirectionCounterClockwise);
        Sleep(1.0);
    }
 }
@@ -398,7 +398,7 @@ void turnForRatioTime(float seconds, MotorPower motorPercent, TurnDirection dire
     return;
 }
 
-void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction) {
+void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
     float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
@@ -427,26 +427,26 @@ void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direct
     return;
 }
 
-void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent) {
+void turnToCourseAngle(float currentAngle, float targetAngle, MotorPower motorPercent) {
     if(currentAngle > targetAngle) {
-        if( (currentAngle - targetAngle) < 180) {
+        if( (currentAngle - targetAngle) < 180.0) {
             LCD.Write("Turn deg: ");
             LCD.WriteLine( (currentAngle - targetAngle) );
             turnForAngle( (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
         } else {
             LCD.Write("Turn deg: ");
-            LCD.WriteLine( 360 - (currentAngle - targetAngle) );
-            turnForAngle( 360 - (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
+            LCD.WriteLine( 360.0 - (currentAngle - targetAngle) );
+            turnForAngle( 360.0 - (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
         }
     } else {
-        if( (targetAngle - currentAngle) < 180) {
+        if( (targetAngle - currentAngle) < 180.0) {
             LCD.Write("Turn deg: ");
             LCD.WriteLine( (targetAngle - currentAngle) );
             turnForAngle( (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
         } else {
             LCD.Write("Turn deg: ");
-            LCD.WriteLine( 360 - (targetAngle - currentAngle) );
-            turnForAngle( 360 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
+            LCD.WriteLine( 360.0 - (targetAngle - currentAngle) );
+            turnForAngle( 360.0 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
         }
     }
     return;
@@ -456,13 +456,13 @@ void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercen
 
 // DEPRECATED - BREAKS IN A BAD WAY WHEN RPS IS BROKEN
 // Use RPS to get current heading, then calculate appropriate turn to reach target
-void turnToCourseAngle(int targetAngle, MotorPower motorPercent) {
+void turnToCourseAngle(float targetAngle, MotorPower motorPercent) {
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
     }
-    int currentAngle = static_cast<int>(currentHeading);
+    float currentAngle = currentHeading;
     turnToCourseAngle(currentAngle, targetAngle, motorPercent);
     return;
 }
@@ -480,13 +480,13 @@ void rpsCheckHeading(float targetHeading) {
     while( std::abs(headingDifference) > 3.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
-        if(headingDifference > 0 && headingDifference < 180) {
+        if(headingDifference > 0.0 && headingDifference < 180.0) {
             turnForAngle(2, MotorPercentWeak, DirectionClockwise);
-        } else if(headingDifference < 0 && headingDifference > -180) {
+        } else if(headingDifference < 0.0 && headingDifference > -180.0) {
             turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
-        } else if(headingDifference > 180) {
+        } else if(headingDifference > 180.0) {
             turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
-        } else if(headingDifference < -180) {
+        } else if(headingDifference < -180.0) {
             turnForAngle(2, MotorPercentWeak, DirectionClockwise);
         }
         Sleep(ACTION_SEP_PAUSE);

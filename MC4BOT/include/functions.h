@@ -20,9 +20,9 @@ void driveForDistance(float inches, MotorPower motorPercent, DriveDirection dire
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
 void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction);
 void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction);
-void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction);
-void turnToCourseAngle(int currentAngle, int targetAngle, MotorPower motorPercent);
-void turnToCourseAngle(int targetAngle, MotorPower motorPercent);
+void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection direction);
+void turnToCourseAngle(float currentAngle, int targetAngle, MotorPower motorPercent);
+void turnToCourseAngle(float targetAngle, MotorPower motorPercent);
 
 void rpsCheckHeading(float targetHeading);
 void rpsCheckXCoord(float targetX);
