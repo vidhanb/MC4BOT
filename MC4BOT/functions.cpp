@@ -27,7 +27,7 @@ void initRobot() {
     servoClaw.SetMin(SERVO_CLAW_MIN);
     servoClaw.SetMax(SERVO_CLAW_MAX);
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
-    RPS.InitializeTouchMenu();
+    //RPS.InitializeTouchMenu();
     return;
 }
 
@@ -247,6 +247,12 @@ void rpsResetPress() {
 ////////////////////////////////////////////////////////////
 // Drive functions /////////////////////////////////////////
 
+double accelerationFunction(double ratio) {
+    // Equivalent to function: -16(x-0.5)^4 + 1
+    double result = (-10.0 * std::pow( (ratio - 0.5), 4.0) ) + 1.0;
+    return result;
+}
+
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction) {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
@@ -266,7 +272,49 @@ void driveForDistance(double inches, MotorPower motorPercent, DriveDirection dir
         // Drive right motor backwards, with strength adjuster
         motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
-    while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
+    double currentEncoderCounts = 0.0;
+    while( currentEncoderCounts < expectedEncoderCounts) {
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+    }
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(encoderRight.Counts());
+    motorLeft.Stop();
+    motorRight.Stop();
+    LCD.WriteLine("--- Drive Done ---");
+    return;
+}
+
+void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection direction) {
+    encoderLeft.ResetCounts();
+    encoderRight.ResetCounts();
+    double expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
+    if(direction == DirectionForward) {
+        LCD.WriteLine("Going FW");
+    } else {
+        LCD.WriteLine("Going BW");
+        motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
+    }
+    double currentEncoderCounts = 0.0;
+    double currentDistanceRatio = 0.0;
+    double currentAccelMult = 0.0;
+    while( currentEncoderCounts < expectedEncoderCounts) {
+        // See how much of our journey we've completed so far
+        currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
+        // Map above proportion value to a multiplier for smoother acceleration
+        currentAccelMult = accelerationFunction(currentDistanceRatio);
+        // Set motor percents according to above mapped value
+        // Drive left motor
+        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        // Drive right motor, with strength adjuster
+        motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+    }
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(encoderRight.Counts());
     motorLeft.Stop();
     motorRight.Stop();
     LCD.WriteLine("--- Drive Done ---");

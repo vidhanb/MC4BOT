@@ -17,6 +17,7 @@ void flipLever();
 void flipLeverReset();
 
 void driveForDistance(double inches, MotorPower motorPercent, DriveDirection direction);
+void driveForDistanceAccelMap(double inches, int motorPercent, DriveDirection direction);
 void driveForTime(double seconds, MotorPower motorPercent, DriveDirection direction);
 void turnForTime(double seconds, MotorPower motorPercent, TurnDirection direction);
 void turnForAngle(int targetAngle, MotorPower motorPercent, TurnDirection direction);

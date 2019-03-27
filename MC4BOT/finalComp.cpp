@@ -15,9 +15,14 @@ void finalComp() {
     printInit();
 
     // Wait until start light turns on to move
-    while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
+    //while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
 
-    
+    driveForDistanceAccelMap(4.0, MotorPercentWeak, DirectionForward);
+    Sleep(3.0);
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
+    Sleep(3.0);
+    driveForDistanceAccelMap(4.0, MotorPercentStrong, DirectionForward);
+    Sleep(3.0);
 
     /*
     | PSEUDOCODE
