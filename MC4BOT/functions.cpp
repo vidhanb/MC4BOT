@@ -371,6 +371,55 @@ void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection dir
     return;
 }
 
+void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction) {
+    encoderLeft.ResetCounts();
+    encoderRight.ResetCounts();
+    float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
+    if(direction == DirectionForward) {
+        LCD.WriteLine("Going FW");
+    } else {
+        LCD.WriteLine("Going BW");
+        motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
+    }
+    float leftEncoderCounts = 0.0;
+    float rightEncoderCounts = 0.0;
+    float encoderProportion = 0.0;
+    float currentEncoderCounts = 0.0;
+    float currentDistanceRatio = 0.0;
+    float currentAccelMult = 0.0;
+    while( currentEncoderCounts < expectedEncoderCounts) {
+        // See how much of our journey we've completed so far
+        currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
+        // Map above proportion value to a multiplier for smoother acceleration
+        currentAccelMult = accelerationFunction(currentDistanceRatio);
+        if( ( std::abs(currentDistanceRatio - 0.5) ) < 0.4 ) {
+            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * 1.06;
+        } else {
+            encoderProportion = 1.0;
+        }
+        // Set motor percents according to above mapped value
+        // Drive left motor
+        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        // Drive right motor, with strength adjuster
+        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        //motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        leftEncoderCounts = encoderLeft.Counts();
+        rightEncoderCounts = encoderRight.Counts();
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( leftEncoderCounts + rightEncoderCounts ) / 2.0;
+    }
+    LCD.Write("Left encoder: ");
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("Right encoder: ");
+    LCD.WriteLine(encoderRight.Counts());
+    motorLeft.Stop();
+    motorRight.Stop();
+    LCD.WriteLine("--- Drive Done ---");
+    return;
+}
+
 void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction) {
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");

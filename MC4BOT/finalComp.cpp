@@ -9,8 +9,9 @@ void finalComp() {
     initRobot();
     printInit();
 
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
+    driveForDistanceProportion(40.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
+    return;
 
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
@@ -21,7 +22,7 @@ void finalComp() {
     //rpsCheckXCoordDynamic(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceAccelMap(10.0, MotorPercentMedium, DirectionForward);
+    driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
     //rpsCheckXCoordDynamic(27.0);

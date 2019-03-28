@@ -25,6 +25,7 @@ float accelerationFunction(float ratio);
 
 void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
+void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction);
 void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction);
 void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction);
 void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection direction);
