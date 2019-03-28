@@ -31,9 +31,12 @@ void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection dire
 void turnToCourseAngle(float currentAngle, int targetAngle, MotorPower motorPercent);
 void turnToCourseAngle(float targetAngle, MotorPower motorPercent);
 
-void rpsCheckHeading(float targetHeading);
-void rpsCheckXCoord(float targetX);
-void rpsCheckYCoord(float targetY);
+void rpsCheckHeadingConstant(float targetHeading);
+void rpsCheckXCoordConstant(float targetX);
+void rpsCheckYCoordConstant(float targetY);
+void rpsCheckHeadingDynamic(float targetHeading);
+void rpsCheckXCoordDynamic(float targetX);
+void rpsCheckYCoordDynamic(float targetY);
 float rpsSampleHeading();
 float rpsSampleXCoord();
 float rpsSampleYCoord();

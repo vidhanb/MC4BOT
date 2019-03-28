@@ -29,7 +29,7 @@ void initRobot() {
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    //RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
     return;
 }
 
@@ -514,7 +514,7 @@ void turnToCourseAngle(float targetAngle, MotorPower motorPercent) {
 ////////////////////////////////////////////////////////////
 // RPS functions ///////////////////////////////////////////
 
-void rpsCheckHeading(float targetHeading) {
+void rpsCheckHeadingConstant(float targetHeading) {
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -525,13 +525,13 @@ void rpsCheckHeading(float targetHeading) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0.0 && headingDifference < 180.0) {
-            turnForAngle(2, MotorPercentWeak, DirectionClockwise);
+            turnForAngle(2.0, MotorPercentWeak, DirectionClockwise);
         } else if(headingDifference < 0.0 && headingDifference > -180.0) {
-            turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngle(2.0, MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference > 180.0) {
-            turnForAngle(2, MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngle(2.0, MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference < -180.0) {
-            turnForAngle(2, MotorPercentWeak, DirectionClockwise);
+            turnForAngle(2.0, MotorPercentWeak, DirectionClockwise);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentHeading = rpsSampleHeading();
@@ -544,7 +544,7 @@ void rpsCheckHeading(float targetHeading) {
     return;
 }
 
-void rpsCheckXCoord(float targetX) {
+void rpsCheckXCoordConstant(float targetX) {
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -581,7 +581,7 @@ void rpsCheckXCoord(float targetX) {
     return;
 }
 
-void rpsCheckYCoord(float targetY) {
+void rpsCheckYCoordConstant(float targetY) {
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -614,6 +614,114 @@ void rpsCheckYCoord(float targetY) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
         }
+    }
+    return;
+}
+
+void rpsCheckHeadingDynamic(float targetHeading) {
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    float headingDifference = currentHeading - targetHeading;
+    while( std::abs(headingDifference) > 3.0) {
+        LCD.Write("Target angle diff: ");
+        LCD.WriteLine( headingDifference );
+        if(headingDifference > 0.0 && headingDifference < 180.0) {
+            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+        } else if(headingDifference < 0.0 && headingDifference > -180.0) {
+            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+        } else if(headingDifference > 180.0) {
+            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+        } else if(headingDifference < -180.0) {
+            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+        }
+        Sleep(ACTION_SEP_PAUSE);
+        currentHeading = rpsSampleHeading();
+        if(currentHeading < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
+        }
+        headingDifference = currentHeading - targetHeading;
+    }
+    return;
+}
+
+void rpsCheckXCoordDynamic(float targetX) {
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    bool facingPlus;
+    if(currentHeading < 180.0) {
+        facingPlus = false;
+    } else {
+        facingPlus = true;
+    }
+    float currentXCoord = rpsSampleXCoord();
+    if(currentXCoord < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    float positionXDifference = std::abs(currentXCoord - targetX);
+    while( std::abs(currentXCoord - targetX) > 1.0 ) {
+        if(currentXCoord < targetX && facingPlus) {
+            driveForDistance(positionXDifference, MotorPercentWeak, DirectionForward);
+        } else if(currentXCoord > targetX && facingPlus) {
+            driveForDistance(positionXDifference, MotorPercentWeak, DirectionBackward);
+        } else if(currentXCoord < targetX && !facingPlus) {
+            driveForDistance(positionXDifference, MotorPercentWeak, DirectionBackward);
+        } else if(currentXCoord > targetX && !facingPlus) {
+            driveForDistance(positionXDifference, MotorPercentWeak, DirectionForward);
+        }
+        Sleep(ACTION_SEP_PAUSE);
+        currentXCoord = rpsSampleXCoord();
+        if(currentXCoord < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
+        }
+        positionXDifference = std::abs(currentXCoord - targetX);
+    }
+    return;
+}
+
+void rpsCheckYCoordDynamic(float targetY) {
+    float currentHeading = rpsSampleHeading();
+    if(currentHeading < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    bool facingPlus;
+    if(currentHeading > 90.0 && currentHeading < 270.0) {
+        facingPlus = false;
+    } else {
+        facingPlus = true;
+    }
+    float currentYCoord = rpsSampleYCoord();
+    if(currentYCoord < 0.0) {
+        // RPS is having issues right now, we can't perform this function accurately, so just quit
+        return;
+    }
+    float positionYDifference = std::abs(currentYCoord - targetY);
+    while( std::abs(currentYCoord - targetY) > 1.0 ) {
+        if(currentYCoord < targetY && facingPlus) {
+            driveForDistance(positionYDifference, MotorPercentWeak, DirectionForward);
+        } else if(currentYCoord > targetY && facingPlus) {
+            driveForDistance(positionYDifference, MotorPercentWeak, DirectionBackward);
+        } else if(currentYCoord < targetY && !facingPlus) {
+            driveForDistance(positionYDifference, MotorPercentWeak, DirectionBackward);
+        } else if(currentYCoord > targetY && !facingPlus) {
+            driveForDistance(positionYDifference, MotorPercentWeak, DirectionForward);
+        }
+        Sleep(ACTION_SEP_PAUSE);
+        currentYCoord = rpsSampleYCoord();
+        if(currentYCoord < 0.0) {
+            // RPS is having issues right now, we can't perform this function accurately, so just quit
+            return;
+        }
+        positionYDifference = std::abs(currentYCoord - targetY);
     }
     return;
 }

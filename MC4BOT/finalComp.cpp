@@ -17,56 +17,20 @@ void finalComp() {
     driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsResetPress();
-    Sleep(ACTION_SEP_PAUSE);
-
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
-    Sleep(ACTION_SEP_PAUSE);
-
-    LCD.WriteLine("waiting 10s");
-    Sleep(9.0);
-    LCD.WriteLine(1);
-    Sleep(1.0);
-
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
-
-    rpsResetPress();
-    Sleep(ACTION_SEP_PAUSE);
-
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
-    Sleep(ACTION_SEP_PAUSE);
-
-    LCD.WriteLine("waiting 10s");
-    Sleep(9.0);
-    LCD.WriteLine(1);
-    Sleep(1.0);
-    foosballDeploy();
-    Sleep(ACTION_SEP_PAUSE);
-    driveForDistanceAccelMap(12.0, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
-    foosballRetract();
-    LCD.WriteLine("done");
-
-    /*
-    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
-
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckHeading(270.0);
+    rpsCheckHeadingDynamic(270.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckXCoord(13.0);
+    rpsCheckXCoordDynamic(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceAccelMap(14.0, MotorPercentMedium, DirectionForward);
+    driveForDistanceAccelMap(10.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckXCoord(27.0);
+    rpsCheckXCoordDynamic(27.0);
     Sleep(ACTION_SEP_PAUSE);
-    */
 
     // Wait until start light turns on to move
     //while (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE);
