@@ -1,40 +1,142 @@
 // Required proteus firmware libraries
 #include <FEHUtility.h>
 #include <FEHSD.h>
+#include <FEHIO.h>
+#include <FEHServo.h>
+#include <FEHMotor.h>
 
 // Required personal libraries
 #include "include/constants.h"
+#include "include/globals.h"
 #include "include/functions.h"
 
 void finalComp() {
     initRobot();
     //printInit();
-    //competitionStart();
+    competitionStart();
 
-    turnForAngleProportion(180.0, MotorPercentMedium, DirectionClockwise);
-    Sleep(2.0);
+    // Robot starts at (11.0, 11.0)
 
-    turnForAngleProportion(180.0, MotorPercentMedium, DirectionCounterClockwise);
-    Sleep(2.0);
-    return;
-
-    driveForDistanceProportion(30.0, MotorPercentMedium, DirectionForward);
+    turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
+    //rpsCheckHeadingDynamic(270.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckXCoordDynamic(11.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckHeadingDynamic(270.0);
+    driveForDistanceProportion(14.5, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckXCoordDynamic(13.0);
+    //rpsCheckHeadingDynamic(270.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckXCoordDynamic(25.5);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
+    // Robot before this split is at (25.5, 11.0)
 
-    rpsCheckXCoordDynamic(27.0);
-    Sleep(ACTION_SEP_PAUSE);
+    if( cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
+        // Red light
+        turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(11.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistance(3.0, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        rpsResetPress();
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(13.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckXCoordDynamic(25.5);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistanceProportion(6.5, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckXCoordDynamic(32.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(0.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(13.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        // Robot is now facing ramp at (32.0, 13.0)
+
+    } else {
+        // Blue light
+        driveForDistanceProportion(5.5, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckXCoordDynamic(31.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(11.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistance(3.0, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        rpsResetPress();
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(180.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(13.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckXCoordDynamic(31.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        driveForDistanceProportion(1.0, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(270.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckXCoordDynamic(32.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckHeadingDynamic(0.0);
+        Sleep(ACTION_SEP_PAUSE);
+        //rpsCheckYCoordDynamic(13.0);
+        Sleep(ACTION_SEP_PAUSE);
+
+        // Robot is now facing ramp at (32.0, 13.0)
+
+    }
 
     /*
     | PSEUDOCODE

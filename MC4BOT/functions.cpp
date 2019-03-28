@@ -806,14 +806,18 @@ void rpsCheckHeadingDynamic(float targetHeading) {
     while( std::abs(headingDifference) > 3.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
+        LCD.Write("current: ");
+        LCD.WriteLine(currentHeading);
+        LCD.Write("target: ");
+        LCD.WriteLine(targetHeading);
         if(headingDifference > 0.0 && headingDifference < 180.0) {
-            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
         } else if(headingDifference < 0.0 && headingDifference > -180.0) {
-            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference > 180.0) {
-            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference < -180.0) {
-            turnForAngle(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentHeading = rpsSampleHeading();
@@ -846,13 +850,13 @@ void rpsCheckXCoordDynamic(float targetX) {
     float positionXDifference = std::abs(currentXCoord - targetX);
     while( std::abs(currentXCoord - targetX) > 1.0 ) {
         if(currentXCoord < targetX && facingPlus) {
-            driveForDistance(positionXDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionForward);
         } else if(currentXCoord > targetX && facingPlus) {
-            driveForDistance(positionXDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionBackward);
         } else if(currentXCoord < targetX && !facingPlus) {
-            driveForDistance(positionXDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionBackward);
         } else if(currentXCoord > targetX && !facingPlus) {
-            driveForDistance(positionXDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentXCoord = rpsSampleXCoord();
@@ -885,13 +889,13 @@ void rpsCheckYCoordDynamic(float targetY) {
     float positionYDifference = std::abs(currentYCoord - targetY);
     while( std::abs(currentYCoord - targetY) > 1.0 ) {
         if(currentYCoord < targetY && facingPlus) {
-            driveForDistance(positionYDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionForward);
         } else if(currentYCoord > targetY && facingPlus) {
-            driveForDistance(positionYDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionBackward);
         } else if(currentYCoord < targetY && !facingPlus) {
-            driveForDistance(positionYDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionBackward);
         } else if(currentYCoord > targetY && !facingPlus) {
-            driveForDistance(positionYDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentYCoord = rpsSampleYCoord();
