@@ -14,7 +14,39 @@ void finalComp() {
     initRobot();
     printInit();
 
-    testServos();
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    rpsResetPress();
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    LCD.WriteLine("waiting 10s");
+    Sleep(9.0);
+    LCD.WriteLine(1);
+    Sleep(1.0);
+
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    rpsResetPress();
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionBackward);
+    Sleep(ACTION_SEP_PAUSE);
+
+    LCD.WriteLine("waiting 10s");
+    Sleep(9.0);
+    LCD.WriteLine(1);
+    Sleep(1.0);
+    foosballDeploy();
+    Sleep(ACTION_SEP_PAUSE);
+    driveForDistanceAccelMap(12.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    foosballRetract();
+    LCD.WriteLine("done");
 
     /*
     driveForDistanceAccelMap(4.0, MotorPercentMedium, DirectionForward);

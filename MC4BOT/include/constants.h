@@ -43,7 +43,7 @@ enum TurnDirection {
 #define SERVO_LEVER_MIN 760
 #define SERVO_LEVER_MAX 2480
 #define SERVO_LEVER_POS_NEUTRAL 170
-#define SERVO_LEVER_POS_ACTIVE 90
+#define SERVO_LEVER_POS_ACTIVE 70
 #define SERVO_LEVER_ITER_PAUSE 0.01
 #define SERVO_LEVER_RESET_PAUSE 5.5
 
@@ -55,7 +55,7 @@ enum TurnDirection {
 #define SERVO_CLAW_MIN 530
 #define SERVO_CLAW_MAX 2430
 #define SERVO_CLAW_POS_NEUTRAL 0
-#define SERVO_CLAW_POS_ACTIVE 75
+#define SERVO_CLAW_POS_ACTIVE 85
 
 /////////////////////////////////////////////////////////////////////////
 
