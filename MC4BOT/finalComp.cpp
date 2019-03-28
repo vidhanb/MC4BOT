@@ -1,13 +1,8 @@
 // Required proteus firmware libraries
-#include <FEHMotor.h>
-#include <FEHServo.h>
-#include <FEHLCD.h>
-#include <FEHIO.h>
 #include <FEHUtility.h>
 
 // Required personal libraries
 #include "include/constants.h"
-#include "include/globals.h"
 #include "include/functions.h"
 
 void finalComp() {
@@ -20,16 +15,16 @@ void finalComp() {
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckHeadingDynamic(270.0);
+    //rpsCheckHeadingDynamic(270.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckXCoordDynamic(13.0);
+    //rpsCheckXCoordDynamic(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
     driveForDistanceAccelMap(10.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckXCoordDynamic(27.0);
+    //rpsCheckXCoordDynamic(27.0);
     Sleep(ACTION_SEP_PAUSE);
 
     // Wait until start light turns on to move

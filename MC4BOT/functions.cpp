@@ -1,8 +1,8 @@
 // Required proteus firmware libraries
 #include <FEHMotor.h>
 #include <FEHServo.h>
-#include <FEHLCD.h>
 #include <FEHIO.h>
+#include <FEHLCD.h>
 #include <FEHRPS.h>
 
 // Required personal libraries
@@ -29,7 +29,7 @@ void initRobot() {
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
-    RPS.InitializeTouchMenu();
+    //RPS.InitializeTouchMenu();
     return;
 }
 
