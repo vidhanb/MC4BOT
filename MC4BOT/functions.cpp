@@ -4,6 +4,7 @@
 #include <FEHIO.h>
 #include <FEHLCD.h>
 #include <FEHRPS.h>
+#include <FEHSD.h>
 
 // Required personal libraries
 #include "include/constants.h"
@@ -18,6 +19,7 @@
 void initRobot() {
     LCD.Clear( FEHLCD::Black );
     LCD.SetFontColor( FEHLCD::White );
+
     servoLever.SetMin(SERVO_LEVER_MIN);
     servoLever.SetMax(SERVO_LEVER_MAX);
     flipLeverReset();
@@ -27,13 +29,20 @@ void initRobot() {
     servoClaw.SetMin(SERVO_CLAW_MIN);
     servoClaw.SetMax(SERVO_CLAW_MAX);
     servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
+
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
+
     //RPS.InitializeTouchMenu();
+
+    SD.OpenLog();
+
     return;
 }
 
 void printInit() {
+    // decide on preambles for SD data logging - init, run? where to put initial RPS tests?
+
     // Print info for drive motors
     LCD.Write("Left Motor Init-{");
     LCD.Write("Port:");
@@ -98,7 +107,7 @@ void printInit() {
     LCD.Write("Encoder counts/inch: ");
     LCD.WriteLine(ENCODER_CTS_PER_INCH);
 
-    LCD.WriteLine("Init complete.");
+    LCD.WriteLine("Setup and init log complete.");
     return;
 }
 
@@ -413,8 +422,8 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a multiplier for smoother acceleration
         currentAccelMult = accelerationFunction(currentDistanceRatio);
-        if( ( std::abs(currentDistanceRatio - 0.5) ) < 0.4 ) {
-            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * 1.06;
+        if( currentDistanceRatio > 0.1 ) {
+            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
         } else {
             encoderProportion = 1.0;
         }
@@ -422,7 +431,8 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
         // Drive left motor
         motorLeft.SetPercent(motorPercent * currentAccelMult);
         // Drive right motor, with strength adjuster
-        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR);
+        //motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
         //motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
         leftEncoderCounts = encoderLeft.Counts();
         rightEncoderCounts = encoderRight.Counts();
@@ -535,6 +545,106 @@ void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection dire
     while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     motorLeft.Stop();
     motorRight.Stop();
+    LCD.Write("L enc: ");
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("R enc: ");
+    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine("--- Turn Done ---");
+    return;
+}
+
+void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection direction) {
+    encoderLeft.ResetCounts();
+    encoderRight.ResetCounts();
+    float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
+    LCD.Write("Turn arc length: ");
+    LCD.WriteLine(arcLength);   
+    float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
+    if(direction == DirectionClockwise) {
+        LCD.WriteLine("Going CW");
+    } else {
+        LCD.WriteLine("Going CNTCW");
+        motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
+    }
+    float currentEncoderCounts = 0.0;
+    float currentDistanceRatio = 0.0;
+    float currentAccelMult = 0.0;
+    while( currentEncoderCounts < expectedEncoderCounts) {
+        // See how much of our journey we've completed so far
+        currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
+        // Map above proportion value to a multiplier for smoother acceleration
+        currentAccelMult = accelerationFunction(currentDistanceRatio);
+        // Set motor percents according to above mapped value
+        // Drive left motor
+        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        // Drive right motor, with strength adjuster
+        motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_STR_CORRECTOR);
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+    }
+    motorLeft.Stop();
+    motorRight.Stop();
+    LCD.Write("L enc: ");
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("R enc: ");
+    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine("--- Turn Done ---");
+    return;
+}
+
+void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection direction) {
+    encoderLeft.ResetCounts();
+    encoderRight.ResetCounts();
+    float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
+    LCD.Write("Turn arc length: ");
+    LCD.WriteLine(arcLength);   
+    float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
+    float turnEncoderRatio;
+    if(direction == DirectionClockwise) {
+        LCD.WriteLine("Going CW");
+        turnEncoderRatio = 1.18;
+        expectedEncoderCounts *= 1.02;
+    } else {
+        LCD.WriteLine("Going CNTCW");
+        turnEncoderRatio = 0.98;
+        motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
+    }
+    float leftEncoderCounts = 0.0;
+    float rightEncoderCounts = 0.0;
+    float encoderProportion = 0.0;
+    float currentEncoderCounts = 0.0;
+    float currentDistanceRatio = 0.0;
+    float currentAccelMult = 0.0;
+    while( currentEncoderCounts < expectedEncoderCounts) {
+        // See how much of our journey we've completed so far
+        currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
+        // Map above proportion value to a multiplier for smoother acceleration
+        currentAccelMult = accelerationFunction(currentDistanceRatio);
+        if( currentDistanceRatio > 0.1 ) {
+            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * turnEncoderRatio;
+        } else {
+            encoderProportion = 1.0;
+        }
+        // Set motor percents according to above mapped value
+        // Drive left motor
+        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        // Drive right motor, with strength adjuster
+        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion);
+        leftEncoderCounts = encoderLeft.Counts();
+        rightEncoderCounts = encoderRight.Counts();
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( leftEncoderCounts + rightEncoderCounts ) / 2.0;
+    }
+    motorLeft.Stop();
+    motorRight.Stop();
+    LCD.Write("L enc: ");
+    LCD.WriteLine(encoderLeft.Counts());
+    LCD.Write("R enc: ");
+    LCD.WriteLine(encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
     return;
 }
@@ -593,13 +703,13 @@ void rpsCheckHeadingConstant(float targetHeading) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0.0 && headingDifference < 180.0) {
-            turnForAngle(2.0, MotorPercentWeak, DirectionClockwise);
+            turnForAngle(1.0, MotorPercentWeak, DirectionClockwise);
         } else if(headingDifference < 0.0 && headingDifference > -180.0) {
-            turnForAngle(2.0, MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngle(1.0, MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference > 180.0) {
-            turnForAngle(2.0, MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngle(1.0, MotorPercentWeak, DirectionCounterClockwise);
         } else if(headingDifference < -180.0) {
-            turnForAngle(2.0, MotorPercentWeak, DirectionClockwise);
+            turnForAngle(1.0, MotorPercentWeak, DirectionClockwise);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentHeading = rpsSampleHeading();
@@ -631,13 +741,13 @@ void rpsCheckXCoordConstant(float targetX) {
     }
     while( std::abs(currentXCoord - targetX) > 1.0 ) {
         if(currentXCoord < targetX && facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionForward);
         } else if(currentXCoord > targetX && facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionBackward);
         } else if(currentXCoord < targetX && !facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionBackward);
         } else if(currentXCoord > targetX && !facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentXCoord = rpsSampleXCoord();
@@ -668,13 +778,13 @@ void rpsCheckYCoordConstant(float targetY) {
     }
     while( std::abs(currentYCoord - targetY) > 1.0 ) {
         if(currentYCoord < targetY && facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionForward);
         } else if(currentYCoord > targetY && facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionBackward);
         } else if(currentYCoord < targetY && !facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionBackward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionBackward);
         } else if(currentYCoord > targetY && !facingPlus) {
-            driveForDistance(0.5, MotorPercentWeak, DirectionForward);
+            driveForDistance(0.25, MotorPercentWeak, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentYCoord = rpsSampleYCoord();

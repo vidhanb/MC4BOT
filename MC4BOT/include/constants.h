@@ -74,8 +74,8 @@ enum TurnDirection {
 #define ROBOT_TURN_DIAM 10.5 //inches
 #define ROBOT_TURN_CIRC (ROBOT_TURN_DIAM * PI)
 
-#define ENCODER_CTS_PER_ROT 24 // for mechanical rotary encoder
-#define ENCODER_CTS_PER_INCH ( (ENCODER_CTS_PER_ROT / WHEEL_CIRC) * 2.050 )
+#define ENCODER_CTS_PER_ROT 48 // for mechanical rotary encoder
+#define ENCODER_CTS_PER_INCH ( (ENCODER_CTS_PER_ROT / WHEEL_CIRC) )
 // Proportion which approximately results in driving straight
 #define IDEAL_RTOL_ENCODER_RATIO 1.06
 

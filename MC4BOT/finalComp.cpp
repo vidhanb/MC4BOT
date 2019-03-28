@@ -1,5 +1,6 @@
 // Required proteus firmware libraries
 #include <FEHUtility.h>
+#include <FEHSD.h>
 
 // Required personal libraries
 #include "include/constants.h"
@@ -7,26 +8,32 @@
 
 void finalComp() {
     initRobot();
-    printInit();
-    competitionStart();
+    //printInit();
+    //competitionStart();
 
-    driveForDistanceProportion(40.0, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
+    turnForAngleProportion(180.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(2.0);
+
+    turnForAngleProportion(180.0, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(2.0);
     return;
+
+    driveForDistanceProportion(30.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
 
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckHeadingDynamic(270.0);
+    rpsCheckHeadingDynamic(270.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckXCoordDynamic(13.0);
+    rpsCheckXCoordDynamic(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
     driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckXCoordDynamic(27.0);
+    rpsCheckXCoordDynamic(27.0);
     Sleep(ACTION_SEP_PAUSE);
 
     /*
@@ -69,6 +76,8 @@ void finalComp() {
     | - Rotate 45 degrees clockwise
     | - Drive forward until we push the finish button
     */
+
+    SD.CloseLog();
 
     return;
 }
