@@ -138,6 +138,29 @@ void finalComp() {
 
     }
 
+    driveForDistanceProportion(32.0, MotorPercentStrong, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckHeadingDynamic(0.0);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckYCoordDynamic(53.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceProportion(15.0, MotorPercentStrong, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckHeadingDynamic(0.0);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckYCoordDynamic(68.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckHeadingDynamic(90.0);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckXCoordDynamic(31.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    
+
     /*
     | PSEUDOCODE
     |
