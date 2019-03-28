@@ -102,6 +102,25 @@ void printInit() {
     return;
 }
 
+void competitionStart() {
+    LCD.Clear();
+    LCD.WriteLine("");
+    LCD.WriteLine("AWAITING FINAL ACTION");
+    LCD.WriteLine("");
+    LCD.WriteLine("PRESS ANYWHERE TO BEGIN");
+    float xTouch, yTouch;
+    // Wait until screen is touched...
+    while( !LCD.Touch(&xTouch, &yTouch) ) {};
+    // ... then released
+    while( LCD.Touch(&xTouch, &yTouch) ) {};
+    unsigned int finalActionTime = TimeNowSec();
+    LCD.WriteLine("STARTED");
+    LCD.WriteLine("AWAITING COURSE OR TIMEOUT");
+    // Wait until the start light turns on, or somehow 30 seconds has passed and we missed it
+    while ( (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
+    // Exit this function and let the games begin!
+}
+
 ////////////////////////////////////////////////////////////
 // Test functions //////////////////////////////////////////
 

@@ -3,6 +3,7 @@
 
 void initRobot();
 void printInit();
+void competitionStart();
 
 void testDriveStraight();
 void testSensors();
