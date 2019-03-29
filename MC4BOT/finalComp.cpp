@@ -13,46 +13,46 @@
 void finalComp() {
     initRobot();
     //printInit();
-    //competitionStart();
+    competitionStart();
 
     // Robot starts at (11.0, 11.0)
 
-    driveForDistanceProportion(1.414, MotorPercentMedium, DirectionForward);
+    driveForDistanceProportion(2.828, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(312.0);
+    rpsCheckHeadingConstant(312.0);
     Sleep(ACTION_SEP_PAUSE);
 
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckHeadingConstant(267.0);
+    rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordConstant(12.0);
+    rpsCheckXCoordConstant(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    // Robot now at (12.0, 12.0)
+    // Robot now at (13.0, 13.0)
 
     driveForDistanceProportion(13.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckHeadingConstant(267.0);
+    rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordConstant(25.0);
+    rpsCheckXCoordConstant(26.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    // Robot before this split is at (25.0, 12.0)
+    // Robot before this split is at (26.0, 13.0)
 
     // Red light
     turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckYCoordConstant(12.0);
+    rpsCheckYCoordConstant(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistance(4.0, MotorPercentMedium, DirectionForward);
+    driveForTime(5.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
 
     rpsResetPress();
@@ -60,56 +60,56 @@ void finalComp() {
 
     driveForDistanceProportion(3.0, MotorPercentMedium, DirectionBackward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckYCoordConstant(13.0);
+    rpsCheckYCoordConstant(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    // Robot is now at (25.0, 13.0)
+    // Robot is now at (26.0, 13.0)
 
     turnForAngle(90.0, MotorPercentMedium, DirectionCounterClockwise);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(267.0);
+    rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordConstant(25.0);
+    rpsCheckXCoordConstant(26.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceProportion(9.0, MotorPercentMedium, DirectionBackward);
+    driveForDistanceProportion(11.0, MotorPercentMedium, DirectionBackward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(267.0);
+    rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordConstant(16.0);
+    rpsCheckXCoordConstant(15.0);
     Sleep(ACTION_SEP_PAUSE);
 
     turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordConstant(13.0);
+    rpsCheckYCoordConstant(13.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    // Robot is now at (16.0, 13.0)
+    // Robot is now at (15.0, 13.0)
 
-    driveForDistanceProportion(10.0, MotorPercentMedium, DirectionBackward);
+    driveForTime(8.0, MotorPercentMedium, DirectionBackward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
 
     coinRelease();
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceProportion(8.0, MotorPercentMedium, DirectionForward);
+    driveForDistanceProportion(14.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(177.0);
+    rpsCheckHeadingConstant(177.0);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckYCoordConstant(16.0);
+    rpsCheckYCoordConstant(15.0);
     Sleep(ACTION_SEP_PAUSE);
 
-    // Robot is now at (16.0, 16.0)
+    // Robot is now at (15.0, 15.0)
 
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckHeadingConstant(222.0);
+    rpsCheckHeadingConstant(132.0);
     Sleep(ACTION_SEP_PAUSE);
 
     driveForDistanceProportion(30.0, MotorPercentMedium, DirectionForward);

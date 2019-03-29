@@ -33,7 +33,7 @@ void initRobot() {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
 
-    //RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
 
     SD.OpenLog();
 
