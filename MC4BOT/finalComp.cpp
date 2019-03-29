@@ -13,74 +13,89 @@
 void finalComp() {
     initRobot();
     //printInit();
-    competitionStart();
+    //competitionStart();
 
     // Robot starts at (11.0, 11.0)
 
     driveForDistanceProportion(1.414, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
-    rpsCheckHeadingConstant(307.0);
+    //rpsCheckHeadingConstant(312.0);
     Sleep(ACTION_SEP_PAUSE);
 
     turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckHeadingConstant(267.0);
+    //rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    rpsCheckXCoordDynamic(12.0);
+    //rpsCheckXCoordConstant(12.0);
     Sleep(ACTION_SEP_PAUSE);
 
     // Robot now at (12.0, 12.0)
 
-    driveForDistanceProportion(14.0, MotorPercentMedium, DirectionForward);
+    driveForDistanceProportion(13.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    rpsCheckHeadingConstant(267.0);
+    //rpsCheckHeadingConstant(267.0);
     Sleep(ACTION_SEP_PAUSE);
-    rpsCheckXCoordDynamic(25.0);
+    //rpsCheckXCoordConstant(25.0);
     Sleep(ACTION_SEP_PAUSE);
 
     // Robot before this split is at (25.0, 12.0)
 
-        // Red light
-        turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingConstant(177.0);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckYCoordDynamic(12.0);
-        Sleep(ACTION_SEP_PAUSE);
+    // Red light
+    turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckYCoordConstant(12.0);
+    Sleep(ACTION_SEP_PAUSE);
 
-        driveForDistance(4.0, MotorPercentMedium, DirectionForward);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingConstant(177.0);
-        Sleep(ACTION_SEP_PAUSE);
+    driveForDistance(4.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
 
-        rpsResetPress();
-        Sleep(ACTION_SEP_PAUSE);
+    rpsResetPress();
+    Sleep(ACTION_SEP_PAUSE);
 
-        driveForDistanceProportion(3.0, MotorPercentMedium, DirectionBackward);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingConstant(177.0);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckYCoordDynamic(13.0);
-        Sleep(ACTION_SEP_PAUSE);
+    driveForDistanceProportion(3.0, MotorPercentMedium, DirectionBackward);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckYCoordConstant(13.0);
+    Sleep(ACTION_SEP_PAUSE);
 
-        // turn 26 CCW
-        // move 16.5 backwards
-        // drop coin
+    // Robot is now at (25.0, 13.0)
 
-        turnForAngle(26.3, MotorPercentMedium, DirectionCounterClockwise);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingConstant(23.3);
-        Sleep(ACTION_SEP_PAUSE);
+    turnForAngle(90.0, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(267.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckXCoordConstant(25.0);
+    Sleep(ACTION_SEP_PAUSE);
 
-        driveForDistanceProportion(16.5, MotorPercentMedium, DirectionBackward);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingConstant(23.3);
-        Sleep(ACTION_SEP_PAUSE);
+    driveForDistanceProportion(9.0, MotorPercentMedium, DirectionBackward);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(267.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckXCoordConstant(16.0);
+    Sleep(ACTION_SEP_PAUSE);
 
-        coinRelease();
+    turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckXCoordConstant(13.0);
+    Sleep(ACTION_SEP_PAUSE);
 
+    // Robot is now at (16.0, 13.0)
+
+    driveForDistanceProportion(10.0, MotorPercentMedium, DirectionBackward);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    coinRelease();
 
     /*
     | PSEUDOCODE
