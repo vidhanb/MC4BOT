@@ -96,6 +96,23 @@ void finalComp() {
     Sleep(ACTION_SEP_PAUSE);
 
     coinRelease();
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceProportion(8.0, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(177.0);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckYCoordConstant(16.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    // Robot is now at (16.0, 16.0)
+
+    turnForAngle(45.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    //rpsCheckHeadingConstant(222.0);
+    Sleep(ACTION_SEP_PAUSE);
+
+    driveForDistanceProportion(30.0, MotorPercentMedium, DirectionForward);
 
     /*
     | PSEUDOCODE
