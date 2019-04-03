@@ -33,7 +33,7 @@ void initRobot() {
     encoderLeft.ResetCounts();
     encoderRight.ResetCounts();
 
-    //RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
 
     SD.OpenLog();
 
@@ -815,13 +815,13 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         LCD.Write("target: ");
         LCD.WriteLine(targetHeading);
         if(headingDifference > 0.0 && headingDifference < 180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         } else if(headingDifference < 0.0 && headingDifference > -180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionCounterClockwise);
         } else if(headingDifference > 180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionCounterClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionCounterClockwise);
         } else if(headingDifference < -180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentWeak, DirectionClockwise);
+            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentHeading = rpsSampleHeading();
@@ -854,13 +854,13 @@ void rpsCheckXCoordDynamic(float targetX) {
     float positionXDifference = std::abs(currentXCoord - targetX);
     while( std::abs(currentXCoord - targetX) > 1.0 ) {
         if(currentXCoord < targetX && facingPlus) {
-            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionForward);
         } else if(currentXCoord > targetX && facingPlus) {
-            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionBackward);
         } else if(currentXCoord < targetX && !facingPlus) {
-            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionBackward);
         } else if(currentXCoord > targetX && !facingPlus) {
-            driveForDistanceProportion(positionXDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentXCoord = rpsSampleXCoord();
@@ -893,13 +893,13 @@ void rpsCheckYCoordDynamic(float targetY) {
     float positionYDifference = std::abs(currentYCoord - targetY);
     while( std::abs(currentYCoord - targetY) > 1.0 ) {
         if(currentYCoord < targetY && facingPlus) {
-            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionForward);
         } else if(currentYCoord > targetY && facingPlus) {
-            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionBackward);
         } else if(currentYCoord < targetY && !facingPlus) {
-            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionBackward);
+            driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionBackward);
         } else if(currentYCoord > targetY && !facingPlus) {
-            driveForDistanceProportion(positionYDifference, MotorPercentWeak, DirectionForward);
+            driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionForward);
         }
         Sleep(ACTION_SEP_PAUSE);
         currentYCoord = rpsSampleYCoord();

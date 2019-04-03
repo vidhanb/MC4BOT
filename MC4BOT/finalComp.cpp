@@ -1,5 +1,6 @@
 // Required proteus firmware libraries
 #include <FEHUtility.h>
+#include <FEHLCD.h>
 #include <FEHSD.h>
 #include <FEHIO.h>
 #include <FEHServo.h>
@@ -13,30 +14,33 @@
 void finalComp() {
     initRobot();
     //printInit();
-    competitionStart();
+    //competitionStart();
 
     // Robot starts at (11.0, 11.0)
+
+    driveForDistanceProportion(2.828, MotorPercentMedium, DirectionForward);
+    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckHeadingDynamic(312.0);
 
     turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
     Sleep(ACTION_SEP_PAUSE);
 
-    //rpsCheckHeadingDynamic(270.0);
-    Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordDynamic(11.0);
+    rpsCheckHeadingDynamic(267.0);
+    rpsCheckXCoordDynamic(13.0);
+
+    // Robot now at (13.0, 13.0)
+
+    driveForDistanceProportion(12.0, MotorPercentMedium, DirectionForward);
     Sleep(ACTION_SEP_PAUSE);
 
-    driveForDistanceProportion(14.5, MotorPercentMedium, DirectionForward);
-    Sleep(ACTION_SEP_PAUSE);
+    rpsCheckHeadingDynamic(267.0);
+    rpsCheckXCoordDynamic(25.0);
 
-    //rpsCheckHeadingDynamic(270.0);
-    Sleep(ACTION_SEP_PAUSE);
-    //rpsCheckXCoordDynamic(25.5);
-    Sleep(ACTION_SEP_PAUSE);
-
-    // Robot before this split is at (25.5, 11.0)
+    // Robot before this split is at (25.0, 13.0)
 
     if( cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
         // Red light
+        LCD.SetBackgroundColor(RED);
         turnForAngle(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         //rpsCheckHeadingDynamic(180.0);
@@ -84,6 +88,7 @@ void finalComp() {
 
     } else {
         // Blue light
+        LCD.SetBackgroundColor(BLUE);
         driveForDistanceProportion(5.5, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         //rpsCheckHeadingDynamic(270.0);

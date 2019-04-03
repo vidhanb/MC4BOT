@@ -81,6 +81,6 @@ enum TurnDirection {
 
 /////////////////////////////////////////////////////////////////////////
 
-#define ACTION_SEP_PAUSE 0.5
+#define ACTION_SEP_PAUSE 0.25
 
 #endif // CONSTANTS_H
