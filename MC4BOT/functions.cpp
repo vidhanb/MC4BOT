@@ -422,8 +422,12 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a multiplier for smoother acceleration
         currentAccelMult = accelerationFunction(currentDistanceRatio);
-        if( currentDistanceRatio > 0.1 ) {
+        if( currentDistanceRatio > 0.1 && currentEncoderCounts > 20.0 && encoderProportion > 0.5 && encoderProportion < 2.0) {
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
+            if( std::abs(encoderProportion - 1.0) > 0.1 ) {
+                LCD.Write("enc ratio: ");
+                LCD.WriteLine(encoderProportion);
+            }
         } else {
             encoderProportion = 1.0;
         }
@@ -603,14 +607,10 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
     float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
-    float turnEncoderRatio;
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
-        turnEncoderRatio = 1.18;
-        expectedEncoderCounts *= 1.02;
     } else {
         LCD.WriteLine("Going CNTCW");
-        turnEncoderRatio = 0.98;
         motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
     }
     float leftEncoderCounts = 0.0;
@@ -624,8 +624,12 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a multiplier for smoother acceleration
         currentAccelMult = accelerationFunction(currentDistanceRatio);
-        if( currentDistanceRatio > 0.1 ) {
-            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * turnEncoderRatio;
+        if( currentDistanceRatio > 0.1 && currentEncoderCounts > 20.0 && encoderProportion > 0.5 && encoderProportion < 2.0) {
+            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
+            if( std::abs(encoderProportion - 1.0) > 0.1 ) {
+                LCD.Write("enc ratio: ");
+                LCD.WriteLine(encoderProportion);
+            }
         } else {
             encoderProportion = 1.0;
         }
