@@ -5,6 +5,9 @@
 
 // Motor definitions
 extern FEHMotor motorLeft;
+//// Note that the right motor is backwards
+////   This means that its power needs to be negative compared
+////   to the left value in order to go straight
 extern FEHMotor motorRight;
 
 // Servo definitions
