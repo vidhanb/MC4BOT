@@ -192,7 +192,7 @@ void finalComp() {
         //   Maintain check here - last spot before upper-level RPS!
         driveForDistanceProportion(36.4, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(357.0);
+        rpsCheckHeadingDynamic(0.0);
         rpsCheckYCoordDynamic(53.0 + g_adjustY);
 
         // Move forward/north, across upper level
@@ -223,8 +223,8 @@ void finalComp() {
         // Mechanism and re-align, because sliding might mess up driving
         foosballRetract();
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(18.6 + g_adjustX);
+        rpsCheckHeadingDynamic(98.0);
+        rpsCheckXCoordDynamic(18.1 + g_adjustX);
 
     }
 
@@ -232,13 +232,13 @@ void finalComp() {
     {
 
         // Move forward/west
-        driveForDistanceProportion(10.7, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(11.2, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(8.0 + g_adjustX);
+        rpsCheckHeadingDynamic(98.0);
+        rpsCheckXCoordDynamic(7.5 + g_adjustX);
 
         // Rotate CW
-        turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
+        turnForAngleProportion(55.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -247,7 +247,9 @@ void finalComp() {
         Sleep(ACTION_SEP_PAUSE);
 
         // Move backward/southeast to knock claw joystick down
-        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionBackward);
+        //   Also has the effect of knocking the ball around, which
+        //   is fine, because WE HAVE TREADS
+        driveForDistanceProportion(3.5, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -255,7 +257,7 @@ void finalComp() {
         flipLeverReset();
 
         // Move forward/northwest
-        driveForDistanceProportion(1.5, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -280,7 +282,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(177.0);
 
         // Move forward/south
-        driveForDistanceProportion(20.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(16.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(46.3 + g_adjustY);
