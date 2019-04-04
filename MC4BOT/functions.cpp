@@ -45,99 +45,65 @@ void initRobot() {
 
     // Start recording more detailed run log
     SD.OpenLog();
+    SD.Printf("LOG STARTED AT TIME: %u", TimeNowSec);
+    SD.Printf("ROBOT IN REGION: %c OF COURSE: %d", RPS.CurrentRegionLetter(), RPS.CurrentCourse());
 
+    LCD.Clear();
+    LCD.WriteLine("Init complete");
+
+    SD.Printf("PRGRM-FUNC-EXIT:{Name: initRobot}");
     return;
 }
 
 //// Output how the robot was setup to the screen
 void printInit() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: printInit}");
     // Print info for drive motors
-    LCD.Write("Left Motor Init-{");
-    LCD.Write("Port:");
-    LCD.Write(MOTOR_PORT_FL);
-    LCD.Write(",Volts:");
-    LCD.Write(MOTOR_VOLTS);
-    LCD.WriteLine("}");
-
-    LCD.Write("Right Motor Init-{");
-    LCD.Write("Port:");
-    LCD.Write(MOTOR_PORT_FR);
-    LCD.Write(",Volts:");
-    LCD.Write(MOTOR_VOLTS);
-    LCD.WriteLine("}");
-
-    Sleep(1.0);
+    SD.Printf("INIT-HW-MOTOR:{Name: left, Port: %s, Volts: %f}", MOTOR_PORT_FL, MOTOR_VOLTS);
+    SD.Printf("INIT-HW-MOTOR:{Name: right, Port: %s, Volts: %f}", MOTOR_PORT_FR, MOTOR_VOLTS);
 
     // Print info for servo motors
-    LCD.Write("Lever Servo Init-{");
-    LCD.Write("Port:");
-    LCD.Write(SERVO_PORT_LEVER);
-    LCD.Write(",Min:");
-    LCD.WriteLine(SERVO_LEVER_MIN);
-    LCD.Write(",Max:");
-    LCD.Write(SERVO_LEVER_MAX);
-    LCD.WriteLine("}");
-
-    LCD.Write("Coin Servo Init-{");
-    LCD.Write("Port:");
-    LCD.Write(SERVO_PORT_COIN);
-    LCD.Write(",Min:");
-    LCD.WriteLine(SERVO_COIN_MIN);
-    LCD.Write(",Max:");
-    LCD.Write(SERVO_COIN_MAX);
-    LCD.WriteLine("}");
-
-    LCD.Write("Claw Servo Init-{");
-    LCD.Write("Port:");
-    LCD.Write(SERVO_PORT_CLAW);
-    LCD.Write(",Min:");
-    LCD.WriteLine(SERVO_CLAW_MIN);
-    LCD.Write(",Max:");
-    LCD.Write(SERVO_CLAW_MAX);
-    LCD.WriteLine("}");
-
-    Sleep(1.0);
+    SD.Printf("INIT-HW-SERVO:{Name: lever, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_LEVER, SERVO_LEVER_MIN, SERVO_LEVER_MAX, SERVO_LEVER_POS_NEUTRAL, SERVO_LEVER_POS_ACTIVE);
+    SD.Printf("INIT-HW-SERVO:{Name: coin, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_COIN, SERVO_COIN_MIN, SERVO_COIN_MAX, SERVO_COIN_POS_NEUTRAL, SERVO_COIN_POS_ACTIVE);
+    SD.Printf("INIT-HW-SERVO:{Name: claw, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_CLAW, SERVO_CLAW_MIN, SERVO_CLAW_MAX, SERVO_CLAW_POS_NEUTRAL, SERVO_CLAW_POS_ACTIVE);
 
     // Print info for sensors
-    LCD.Write("CdS Cell Init-{");
-    LCD.Write("Port:");
-    LCD.Write(CDS_CELL_PORT);
-    LCD.Write(",D/B thresh:");
-    LCD.Write(CDS_CELL_DIV_DARK_BLUE);
-    LCD.Write(",B/R thresh:");
-    LCD.Write(CDS_CELL_DIV_BLUE_RED);
-    LCD.WriteLine("}");
+    SD.Printf("INIT-HW-SENSOR:{Name: cds, Port: %s, Dark/blue threshold: %f, Blue/red threshold: %f}", CDS_CELL_PORT, CDS_CELL_DIV_DARK_BLUE, CDS_CELL_DIV_BLUE_RED);
 
-    LCD.Write("Encoder left port: ");
-    LCD.WriteLine(ENCODER_LEFT_PORT);
-    LCD.Write("Encoder right port: ");
-    LCD.WriteLine(ENCODER_RIGHT_PORT);
-    LCD.Write("Encoder counts/inch: ");
-    LCD.WriteLine(ENCODER_CTS_PER_INCH);
+    SD.Printf("INIT-HW-SENSOR:{Name: left encoder, Port: %s, Counts per inch: %f}", ENCODER_LEFT_PORT, ENCODER_CTS_PER_INCH);
+    SD.Printf("INIT-HW-SENSOR:{Name: right encoder, Port: %s, Counts per inch: %f}", ENCODER_RIGHT_PORT, ENCODER_CTS_PER_INCH);
 
-    LCD.WriteLine("Setup and init log complete.");
+    LCD.WriteLine("Init log complete");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: printInit}");
     return;
 }
 
 //// Get the robot ready for official runs in competitions
 void competitionStart() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: competitionStart}");
     // Prepare everything except "final action" so robot can start with minimum interaction
     LCD.Clear();
     LCD.WriteLine("");
     LCD.WriteLine("AWAITING FINAL ACTION");
     LCD.WriteLine("");
     LCD.WriteLine("PRESS ANYWHERE TO BEGIN");
+    LCD.WriteLine("");
     float xTouch, yTouch;
     // Wait until screen is touched...
     while( !LCD.Touch(&xTouch, &yTouch) ) {};
     // ... then released
     while( LCD.Touch(&xTouch, &yTouch) ) {};
+    LCD.Clear();
     unsigned int finalActionTime = TimeNowSec();
+    SD.Printf("START-FINALACTION:{Time: %u}", finalActionTime);
     LCD.WriteLine("STARTED");
     LCD.WriteLine("AWAITING COURSE OR TIMEOUT");
     // Wait until the start light turns on, or somehow 30 seconds has passed and we missed it
     while ( (g_cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
+    SD.Printf("START-BEGIN:{Time: %u}", TimeNowSec());
+    LCD.WriteLine("COMPETITION HAS BEGUN");
     // Exit this function and let the games begin!
+    SD.Printf("PRGM-FUNC-EXIT:{Name: competitionStart}");
 }
 
 ////////////////////////////////////////////////////////////
@@ -145,6 +111,7 @@ void competitionStart() {
 
 //// Basic motor test
 void testDriveStraight() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testDriveStraight}");
     // Just drive forward and backward at max speed and same
     // motor percentage for 3 seconds then quit
     g_motorLeft.SetPercent(100);
@@ -155,11 +122,15 @@ void testDriveStraight() {
     Sleep(3.0);
     g_motorLeft.Stop();
     g_motorRight.Stop();
+    LCD.WriteLine("simple straight driving test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testDriveStraight}");
     return;
 }
 
 //// Basic I/O test
 void testSensors() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testSensors}");
+    LCD.WriteLine("beginning sensors test");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -181,6 +152,7 @@ void testSensors() {
 
 //// Output RPS values all around course
 void testRPS() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testRPS}");
     float touch_x, touch_y;
     // Connect to proper RPS course
     RPS.InitializeTouchMenu();
@@ -211,6 +183,7 @@ void testRPS() {
 
 //// Visually see straightness of driving
 void testDriveDistanceLong() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testDriveDistanceLong}");
     // Drive for over 4 ft to see how straight robot is over time
     driveForDistance(50.0, MotorPercentMedium, DirectionForward);
     // Then show encoder counts and quit
@@ -218,11 +191,14 @@ void testDriveDistanceLong() {
     LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("right: ");
     LCD.WriteLine(g_encoderRight.Counts());
+    LCD.WriteLine("long distance straight test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testDriveDistanceLong}");
 }
 
 
 //// Visually see straightness of driving - proportion-based
 void testDriveDistanceLongProportion() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testDriveDistanceLongProportion}");
     // Drive for over 4 ft to see how straight robot is over time
     driveForDistanceProportion(50.0, MotorPercentMedium, DirectionForward);
     // Then show encoder counts and quit
@@ -230,10 +206,13 @@ void testDriveDistanceLongProportion() {
     LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("right: ");
     LCD.WriteLine(g_encoderRight.Counts());
+    LCD.WriteLine("long distance straight proportion test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testDriveDistanceLongProportion}");
 }
 
 //// Test all directions robot can move
 void testDriveDirections() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testDriveDirections}");
     // Show that motor percentage with directional multiplier works
     LCD.WriteLine(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
     LCD.WriteLine("turn right");
@@ -248,10 +227,13 @@ void testDriveDirections() {
     LCD.WriteLine("backwards");
     driveForDistance(4.0, MotorPercentMedium, DirectionBackward);
     Sleep(4.0);
+    LCD.WriteLine("drive directions test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testDriveDirections}");
 }
 
 //// Test all possible drive functions
 void testDriveFunctions() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testDriveFunctions}");
     // Driving
     driveForTime(2.0, MotorPercentMedium, DirectionBackward);
     Sleep(1.0);
@@ -280,22 +262,30 @@ void testDriveFunctions() {
     turnToCourseAngle(90.0, 0, MotorPercentMedium);
     Sleep(1.0);
 
-    LCD.WriteLine("Done");
+    LCD.WriteLine("drive functions test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testDriveFunctions}");
 }
 
 //// Turn repeatedly to ensure treads stay on
 void testTreadTurns() {
-   while(true) {
-       turnForAngle(180.0, MotorPercentMedium, DirectionClockwise);
-       Sleep(1.0);
-       turnForAngle(180.0, MotorPercentMedium, DirectionCounterClockwise);
-       Sleep(1.0);
-   }
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testTreadTurns}");
+    LCD.WriteLine("Entering tread turn test");
+    int turns = 0;
+    while(true) {
+        LCD.Write("Turn ");
+        LCD.WriteLine(turns);
+        turnForAngle(180.0, MotorPercentMedium, DirectionClockwise);
+        Sleep(1.0);
+        turnForAngle(180.0, MotorPercentMedium, DirectionCounterClockwise);
+        Sleep(1.0);
+        turns++;
+    }
     // Infinite loop will never reach here to exit
 }
 
 //// Make sure servo is attached and calibrated properly
 void testServoRange() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testServoRange}");
     // Go to different positions in lever servo range, with pauses
     g_servoLever.SetDegree(180);
     LCD.WriteLine(180);
@@ -309,10 +299,13 @@ void testServoRange() {
     g_servoLever.SetDegree(45);
     LCD.WriteLine(45);
     Sleep(2.0);
+    LCD.WriteLine("servo range test done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testServoRange}");
 }
 
 //// Test active and neutral position of all servos
 void testServos() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: testServos}");
     LCD.WriteLine("servo time");
     // Uses lever servo
     rpsResetPress();
@@ -330,6 +323,7 @@ void testServos() {
     LCD.WriteLine("claw up");
     Sleep(1.0);
     LCD.WriteLine("servo tests done");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: testServos}");
 }
 
 ////////////////////////////////////////////////////////////
@@ -337,23 +331,36 @@ void testServos() {
 
 //// Engage lever servo
 void flipLever() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: flipLever}");
+    SD.Printf("SERVO-LEVER:{Degree: %d}", SERVO_LEVER_POS_ACTIVE);
+    LCD.WriteLine("Lever flip deploying");
     g_servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
+    SD.Printf("PRGM-FUNC-EXIT:{Name: flipLever}");
     return;
 }
 
 //// Disengage lever servo
 void flipLeverReset() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: flipLeverReset}");
+    SD.Printf("SERVO-LEVER:{Degree: %d}", SERVO_LEVER_POS_NEUTRAL);
+    LCD.WriteLine("Lever flip retracting");
     g_servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
+    SD.Printf("PRGM-FUNC-EXIT:{Name: flipLeverReset}");
     return;
 }
 
 //// Slowly engage, then hold for >5 seconds, then slowly disengage lever servo
 void rpsResetPress() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsResetPress}");
+    SD.Printf("MECH-DDR:{RPS reset servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
+    SD.Printf("MECH-DDR:{RPS reset button push time: %f}", SERVO_LEVER_RESET_PAUSE);
+    LCD.WriteLine("Pressing RPS reset button");
     int currAngle = SERVO_LEVER_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > SERVO_LEVER_POS_ACTIVE) {
         // Move a small angle
         g_servoLever.SetDegree(currAngle);
+        SD.Printf("SERVO-LEVER:{Degree: %d}", currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -361,41 +368,57 @@ void rpsResetPress() {
     Sleep(SERVO_LEVER_RESET_PAUSE);
     while(currAngle < SERVO_LEVER_POS_NEUTRAL) {
         g_servoLever.SetDegree(currAngle);
+        SD.Printf("SERVO-LEVER:{Degree: %d}", currAngle);
         currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsResetPress}");
     return;
 }
 
 //// Slowly engage foosball mechanism
 void foosballDeploy() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: foosballDeploy}");
+    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
+    LCD.WriteLine("Foosball arm deploying");
     int currAngle = SERVO_CLAW_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle < SERVO_CLAW_POS_ACTIVE) {
         // Move a small angle
         g_servoClaw.SetDegree(currAngle);
+        SD.Printf("SERVO-CLAW:{Degree: %d}", currAngle);
         currAngle+= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: foosballDeploy}");
 }
 
 //// Slowly disengage foosball mechanism
 void foosballRetract() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: foosballRetract}");
+    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
+    LCD.WriteLine("Foosball arm retracting");
     int currAngle = SERVO_CLAW_POS_ACTIVE;
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > SERVO_CLAW_POS_NEUTRAL) {
         // Move a small angle
         g_servoClaw.SetDegree(currAngle);
+        SD.Printf("SERVO-CLAW:{Degree: %d}", currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: foosballRetract}");
 }
 
 //// Lift up blocker to drop coin
 void coinRelease() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: coinRelease}");
+    LCD.WriteLine("Coin releasing");
     g_servoCoin.SetDegree(SERVO_COIN_POS_ACTIVE);
+    SD.Printf("SERVO-COIN:{Degree: %d}", SERVO_COIN_POS_ACTIVE);
+    SD.Printf("PRGM-FUNC-EXIT:{Name: coinRelease}");
 }
 
 ////////////////////////////////////////////////////////////
@@ -406,13 +429,17 @@ void coinRelease() {
 //// Map percentage of distance complete to a speed multiplier
 ////   Starts slow, max speed in middle, slows down again at end
 float accelerationFunction(float ratio) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: accelerationFunction}");
     // Equivalent to function: -10(x-0.5)^4 + 1
     float result = (-10.0 * std::pow( (ratio - 0.5), 4.0) ) + 1.0;
+    SD.Printf("ACCEL:{Input ratio: %f, Output multiplier: %f}", ratio, result);
+    SD.Printf("PRGM-FUNC-EXIT:{Name: accelerationFunction}");
     return result;
 }
 
 //// Use average of encoders to move a set distance
 void driveForDistance(float inches, int motorPercent, DriveDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: driveForDistance}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -448,11 +475,13 @@ void driveForDistance(float inches, int motorPercent, DriveDirection direction) 
     LCD.Write("Right encoder: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: driveForDistance}");
     return;
 }
 
 //// Use average of encoders to move a set distance with speeding up and slowing down
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: driveForDistanceAccelMap}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -494,11 +523,13 @@ void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection dir
     LCD.Write("Right encoder: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: driveForDistanceAccelMap}");
     return;
 }
 
 //// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
 void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: driveForDistanceProportion}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -558,11 +589,13 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
     LCD.Write("Right encoder: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
+    SD.Printf("PRGM-FUNC-ENTER:{Name: driveForDistanceProportion}");
     return;
 }
 
 //// Drive blindly for a set time
 void driveForTime(float seconds, int motorPercent, DriveDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: driveForTime}");
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         // Drive left motor forwards
@@ -584,11 +617,13 @@ void driveForTime(float seconds, int motorPercent, DriveDirection direction) {
     LCD.WriteLine(seconds);
     Sleep(seconds);
     LCD.WriteLine("--- Drive Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: driveForTime}");
     return;
 }
 
 //// Turn blindly for a set time
 void turnForTime(float seconds, int motorPercent, TurnDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForTime}");
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         // Drive left motor forwards
@@ -610,11 +645,13 @@ void turnForTime(float seconds, int motorPercent, TurnDirection direction) {
     LCD.WriteLine(seconds);
     Sleep(seconds);
     LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForTime}");
     return;
 }
 
 //// Turn blindly for a set time, driving the motors at different rates
 void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, float motorRatio) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForRatioTime}");
     if(direction == DirectionClockwise) {
         LCD.Write("Going CW, ratio ");
         LCD.WriteLine(motorRatio);
@@ -638,11 +675,13 @@ void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, 
     LCD.WriteLine(seconds);
     Sleep(seconds);
     LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForRatioTime}");
     return;
 }
 
 //// Use average of encoders to turn a set angle
 void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngle}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -678,11 +717,13 @@ void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) 
     LCD.Write("R enc: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForAngle}");
     return;
 }
 
 //// Use average of encoders to move a set distance with speeding up and slowing down
 void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngleAccelMap}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -728,11 +769,13 @@ void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection dir
     LCD.Write("R enc: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForAngleAccelMap}");
     return;
 }
 
 //// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
 void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngleProportion}");
     // Reset encoders
     g_encoderLeft.ResetCounts();
     g_encoderRight.ResetCounts();
@@ -796,11 +839,13 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
     LCD.Write("R enc: ");
     LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForAngleProportion}");
     return;
 }
 
 //// Calculates and calls turn function to get to course heading
 void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnToCourseAngle}");
     if(currentAngle > targetAngle) {
         // If we're past the angle, but by less than a half rotation, turn clockwise to reach it
         if( (currentAngle - targetAngle) < 180.0) {
@@ -827,6 +872,7 @@ void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent) 
             turnForAngle( 360.0 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
         }
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnToCourseAngle}");
     return;
 }
 
@@ -854,6 +900,7 @@ void turnToCourseAngle(float targetAngle, int motorPercent) {
 
 //// Adjusts heading with pulses until RPS heading is accurate
 void rpsCheckHeadingConstant(float targetHeading) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckHeadingConstant}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -888,11 +935,13 @@ void rpsCheckHeadingConstant(float targetHeading) {
         }
         headingDifference = currentHeading - targetHeading;
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckHeadingConstant}");
     return;
 }
 
 //// Adjusts X position with pulses until RPS X position is accurate
 void rpsCheckXCoordConstant(float targetX) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckXCoordConstant}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -934,11 +983,13 @@ void rpsCheckXCoordConstant(float targetX) {
             return;
         }
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckXCoordConstant}");
     return;
 }
 
 //// Adjusts Y position with pulses until RPS Y position is accurate
 void rpsCheckYCoordConstant(float targetY) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckYCoordConstant}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -980,11 +1031,13 @@ void rpsCheckYCoordConstant(float targetY) {
             return;
         }
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckYCoordConstant}");
     return;
 }
 
 //// Adjusts heading with calculated turns until RPS heading is accurate
 void rpsCheckHeadingDynamic(float targetHeading) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckHeadingDynamic}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -1012,11 +1065,13 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         }
         headingDifference = currentHeading - targetHeading;
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckHeadingDynamic}");
     return;
 }
 
 //// Adjusts X position with calculated drives until RPS X position is accurate
 void rpsCheckXCoordDynamic(float targetX) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckXCoordDynamic}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -1060,11 +1115,13 @@ void rpsCheckXCoordDynamic(float targetX) {
         }
         positionXDifference = std::abs(currentXCoord - targetX);
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckXCoordDynamic}");
     return;
 }
 
 //// Adjusts Y position with calculated drives until RPS Y position is accurate
 void rpsCheckYCoordDynamic(float targetY) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckYCoordDynamic}");
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
@@ -1108,11 +1165,13 @@ void rpsCheckYCoordDynamic(float targetY) {
         }
         positionYDifference = std::abs(currentYCoord - targetY);
     }
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckYCoordDynamic}");
     return;
 }
 
 //// Wrap RPS.Heading() for some automatic error detection
 float rpsSampleHeading() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleHeading}");
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1150,11 +1209,13 @@ float rpsSampleHeading() {
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleHeading}");
     return sampleFinal;
 }
 
 //// Wrap RPS.X() for some automatic error detection
 float rpsSampleXCoord() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleXCoord}");
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1192,11 +1253,13 @@ float rpsSampleXCoord() {
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}");
     return sampleFinal;
 }
 
 //// Wrap RPS.Y() for some automatic error detection
 float rpsSampleYCoord() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleYCoord}");
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1234,6 +1297,7 @@ float rpsSampleYCoord() {
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}");
     return sampleFinal;
 }
 

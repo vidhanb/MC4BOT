@@ -11,6 +11,10 @@
 #include "include/globals.h"
 #include "include/functions.h"
 
+// Try not to print anything to LCD in this file
+//   functions.cpp should be the single point-of-change
+//   for data logging
+
 void finalComp() {
 
     // Init sequence
