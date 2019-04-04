@@ -1,6 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+// Note: the "extern" keyword makes the definitions in globals.cpp available to any file which includes this header
+
 // Motor definitions
 extern FEHMotor motorLeft;
 extern FEHMotor motorRight;
