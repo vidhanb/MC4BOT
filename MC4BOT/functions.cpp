@@ -989,7 +989,7 @@ void rpsCheckHeadingConstant(float targetHeading) {
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
     // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 2.0) {
+    while( std::abs(headingDifference) > 3.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0.0 && headingDifference < 180.0) {
@@ -1040,7 +1040,7 @@ void rpsCheckXCoordConstant(float targetX) {
         return;
     }
     // Loop until we're within desired accuracy
-    while( std::abs(currentXCoord - targetX) > 1.0 ) {
+    while( std::abs(currentXCoord - targetX) > 0.5 ) {
         if(currentXCoord < targetX && facingPlus) {
             // If we're west of target and facing east, pulse forwards
             driveForDistance(0.25, MotorPercentWeak, DirectionForward);
@@ -1088,7 +1088,7 @@ void rpsCheckYCoordConstant(float targetY) {
         return;
     }
     // Loop until we're within desired accuracy
-    while( std::abs(currentYCoord - targetY) > 1.0 ) {
+    while( std::abs(currentYCoord - targetY) > 0.5 ) {
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
             driveForDistance(0.25, MotorPercentWeak, DirectionForward);
@@ -1126,7 +1126,7 @@ void rpsCheckHeadingDynamic(float targetHeading) {
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
     // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 2.0) {
+    while( std::abs(headingDifference) > 3.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         LCD.Write("current: ");
@@ -1171,7 +1171,7 @@ void rpsCheckXCoordDynamic(float targetX) {
     }
     float positionXDifference = std::abs(currentXCoord - targetX);
     // Loop until we're within desired accuracy
-    while( std::abs(currentXCoord - targetX) > 1.0 ) {
+    while( std::abs(currentXCoord - targetX) > 0.5 ) {
         if(currentXCoord < targetX && facingPlus) {
             // If we're west of target and facing east, pulse forwards
             driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionForward);
@@ -1221,7 +1221,7 @@ void rpsCheckYCoordDynamic(float targetY) {
     }
     float positionYDifference = std::abs(currentYCoord - targetY);
     // Loop until we're within desired accuracy
-    while( std::abs(currentYCoord - targetY) > 1.0 ) {
+    while( std::abs(currentYCoord - targetY) > 0.5 ) {
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
             driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionForward);

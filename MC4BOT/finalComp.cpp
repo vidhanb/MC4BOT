@@ -39,7 +39,7 @@ void finalComp() {
         // Rotate CW
         turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(267.0);
+        rpsCheckHeadingDynamic(270.0);
         rpsCheckXCoordDynamic(11.5 + g_adjustX);
 
         // Robot should now be at (11.5, 12.8)
@@ -107,12 +107,12 @@ void finalComp() {
         // Robot should now be at (27.2, 14.2)
 
         // Move forward/east
-        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(3.6, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(31.2 + g_adjustX);
+        rpsCheckXCoordDynamic(30.7 + g_adjustX);
 
-        // Robot should now be at (31.2, 14.2)
+        // Robot should now be at (30.7, 14.2)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
@@ -120,7 +120,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(16.6 + g_adjustY);
 
-        // Robot is now facing ramp at (30.0, 16.6)
+        // Robot is now facing ramp at (29.5, 16.6)
 
     } else {
 
@@ -170,13 +170,18 @@ void finalComp() {
 
         // Robot should now be at (31.2, 14.2)
 
+        driveForDistanceProportion(0.5, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(267.0);
+        rpsCheckXCoordDynamic(30.7);
+
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(16.6 + g_adjustY);
 
-        // Robot is now facing ramp at (30.0, 16.6)
+        // Robot is now facing ramp at (29.5, 16.6)
 
     }
 
@@ -184,33 +189,28 @@ void finalComp() {
     {
 
         // Move forward/north, up ramp
-        driveForDistanceProportion(40.0, MotorPercentStrong, DirectionForward);
+        //   Maintain check here - last spot before upper-level RPS!
+        driveForDistanceProportion(36.4, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(53.0 + g_adjustY);
 
         // Move forward/north, across upper level
-        driveForDistanceProportion(15.0, MotorPercentStrong, DirectionForward);
+        driveForDistanceProportion(14.1, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(68.0 + g_adjustY);
+        rpsCheckYCoordDynamic(67.1 + g_adjustY);
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(32.0 + g_adjustX);
+        rpsCheckXCoordDynamic(27.7 + g_adjustX);
 
     }
 
     // Completing foosball counter interactions
     {
-    
-        // Move forward/west
-        driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(34.0 + g_adjustX);
 
         // Mechanism
         foosballDeploy();
@@ -224,51 +224,49 @@ void finalComp() {
         foosballRetract();
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(24.0 + g_adjustX);
-
-        // Move forward/west
-        driveForDistanceProportion(6.0, MotorPercentMedium, DirectionForward);
-        Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordDynamic(18.6 + g_adjustX);
 
     }
 
     // Moving to and completing claw game joystick interactions
     {
 
-        // Rotate CCW
-        turnForAngleProportion(20.0, MotorPercentMedium, DirectionCounterClockwise);
+        // Move forward/west
+        driveForDistanceProportion(10.7, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(107.0);
-
-        // Move forward/westsouthwest
-        driveForDistanceProportion(6.0, MotorPercentMedium, DirectionForward);
-        Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordDynamic(8.0 + g_adjustX);
 
         // Rotate CW
-        turnForAngleProportion(40.0, MotorPercentMedium, DirectionClockwise);
+        turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(42.0);
 
         // Mechanism
         flipLever();
+        Sleep(ACTION_SEP_PAUSE);
 
-        // Move backward/eastsoutheast to knock claw joystick down
-        driveForDistanceProportion(2.0, MotorPercentMedium, DirectionBackward);
+        // Move backward/southeast to knock claw joystick down
+        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionBackward);
+        Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(42.0);
 
         // Mechanism
         flipLeverReset();
 
-        // Move forward/westnorthwest
-        driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
+        // Move forward/northwest
+        driveForDistanceProportion(1.5, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(42.0);
 
         // Rotate CCW
-        turnForAngleProportion(65.0, MotorPercentMedium, DirectionCounterClockwise);
+        turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(132.0);
 
     }
 
-    // Moving to and completing claw game joystick interactions
+    // Moving to and completing coin machine interactions
     {
 
         // Move forward/southwest
@@ -285,21 +283,33 @@ void finalComp() {
         driveForDistanceProportion(20.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
+        rpsCheckYCoordDynamic(46.3 + g_adjustY);
+
+        // Robot is now at (2.0, 46.3)
 
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordDynamic(1.0 + g_adjustX);
+
+        // Robot is now at (1.0, 48.3)
 
         // Move backward/east
-        driveForDistanceProportion(14.0, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(12.0, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordDynamic(13.0 + g_adjustX);
+
+        // Robot is now at (13.0, 48.3)
 
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
+        rpsCheckYCoordDynamic(49.3 + g_adjustY);
+
+        // Robot is now at (15.0, 49.3)
 
         // Move backward/south
         //   Note that proportional driving is not used so that the
@@ -314,10 +324,15 @@ void finalComp() {
         coinRelease();
         Sleep(ACTION_SEP_PAUSE);
 
+        // Robot is now at (15.0, 44.3)
+
         // Move forward/north
         driveForDistanceProportion(4.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
+        rpsCheckYCoordDynamic(48.3 + g_adjustY);
+
+        // Robot is now at (15.0, 48.3)
 
     }
 
@@ -328,19 +343,28 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordDynamic(12.6 + g_adjustX);
+
+        // Robot is now at (12.6, 47.1)
 
         // Move forward/west
-        driveForDistanceProportion(14.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(9.7, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
+        rpsCheckXCoordConstant(2.9 + g_adjustX);
+
+        // Robot is now at (2.9, 47.1)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
+        rpsCheckYCoordDynamic(44.7 + g_adjustY);
+
+        // Robot is now at (4.1, 44.7)
 
         // Move forward/south
-        driveForDistanceProportion(36.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(45.0, MotorPercentMedium, DirectionForward);
 
     }
 
