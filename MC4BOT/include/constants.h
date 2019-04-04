@@ -100,6 +100,6 @@ enum TurnDirection {
 /////////////////////////////////////////////////////////////////////////
 
 // Slowdown between actions to allow RPS to update
-#define ACTION_SEP_PAUSE 0.5
+#define ACTION_SEP_PAUSE 0.4
 
 #endif // CONSTANTS_H

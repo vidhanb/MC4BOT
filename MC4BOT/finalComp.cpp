@@ -21,52 +21,66 @@ void finalComp() {
     // If testing without RPS, remember to change in initRobot() function
     initRobot();
     printInit();
-    //competitionStart();
+    competitionStart();
 
     // Moving from start box to DDR light
     {
 
-        // Robot starts at (11.0, 11.0)
+        // Robot starts at (9.5, 12.5)
+        rpsCheckHeadingDynamic(312.0);
 
         // Move forward/northeast
-        driveForDistanceProportion(1.75, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(2.4, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(312.0);
+
+        // Robot should now be at (11.2, 14.2)
 
         // Rotate CW
         turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(270.0);
+        rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(12.25);
 
+        // Robot should now be at (11.5, 12.8)
+
         // Move forward/east
-        driveForDistanceProportion(12.25, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(12.8, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(24.5);
+        rpsCheckXCoordDynamic(24.3);
 
     }
 
     // Completing DDR machine interactions
-    // Robot before this split is at (24.5, 12.25)
+    // Robot before this split is at (24.3, 12.8)
 
     if( g_cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
         
         // Red light
         LCD.SetBackgroundColor(RED);
 
+        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
+        rpsCheckHeadingDynamic(267.0);
+        rpsCheckXCoordDynamic(26.8);
+
+        // Robot should now be at (26.8, 12.8)
+
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(12.25);
+        rpsCheckYCoordDynamic(11.8);
+
+        // Robot should now be at (24.8, 11.8)
 
         // Move forward/south
         //   Note that proportional driving is not used so that the
         //   motors will be strong enough to keep moving forward until
         //   the encoder counts are reached even if the robot runs up
         //   against the DDR machine
-        driveForDistance(3.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(3.2, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
 
@@ -74,11 +88,15 @@ void finalComp() {
         rpsResetPress();
         Sleep(ACTION_SEP_PAUSE);
 
+        // Robot should now be at (24.8, 9.1)
+
         // Move backward/north
-        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(3.9, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(13.0);
+
+        // Robot should now be at (24.8, 13.0)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
@@ -86,19 +104,23 @@ void finalComp() {
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(25.0);
 
+        // Robot should now be at (25.8, 15.0)
+
         // Move forward/east
-        driveForDistanceProportion(7.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(6.2, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(32.0);
+
+        // Robot should now be at (32.0, 15.0)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(13.0);
+        rpsCheckYCoordDynamic(16.0);
 
-        // Robot is now facing ramp at (32.0, 13.0)
+        // Robot is now facing ramp at (30.0, 16.0)
 
     } else {
 
@@ -106,19 +128,23 @@ void finalComp() {
         LCD.SetBackgroundColor(BLUE);
 
         // Move forward/east
-        driveForDistanceProportion(5.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(6.6, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(30.0);
+        rpsCheckXCoordDynamic(30.9);
+
+        // Robot should now be at (30.9, 12.8)
 
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(12.25);
+        rpsCheckYCoordDynamic(11.8);
+
+        // Robot should now be at (28.9, 11.8)
 
         // Move forward/south
-        driveForDistance(3.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(3.1, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
 
@@ -126,11 +152,15 @@ void finalComp() {
         rpsResetPress();
         Sleep(ACTION_SEP_PAUSE);
 
+        // Robot should now be at (28.9, 9.2)
+
         // Move backward/north
-        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(3.8, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(13.0);
+
+        // Robot should now be at (28.9, 13.0)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
@@ -138,19 +168,23 @@ void finalComp() {
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(30.0);
 
+        // Robot should now be at (30.0, 15.0)
+
         // Move forward/east
         driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(32.0);
 
+        // Robot should now be at (32.0, 15.0)
+
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(13.0);
+        rpsCheckYCoordDynamic(16.0);
 
-        // Robot is now facing ramp at (32.0, 13.0)
+        // Robot is now facing ramp at (30.0, 16.0)
 
     }
 
