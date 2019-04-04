@@ -24,21 +24,21 @@ void initRobot() {
 
     // Calibrate servos and set to starting angle
     //// Claw game joystick
-    servoLever.SetMin(SERVO_LEVER_MIN);
-    servoLever.SetMax(SERVO_LEVER_MAX);
+    g_servoLever.SetMin(SERVO_LEVER_MIN);
+    g_servoLever.SetMax(SERVO_LEVER_MAX);
     flipLeverReset();
     //// Coin
-    servoCoin.SetMin(SERVO_COIN_MIN);
-    servoCoin.SetMax(SERVO_COIN_MAX);
-    servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
+    g_servoCoin.SetMin(SERVO_COIN_MIN);
+    g_servoCoin.SetMax(SERVO_COIN_MAX);
+    g_servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
     //// Foosball slider
-    servoClaw.SetMin(SERVO_CLAW_MIN);
-    servoClaw.SetMax(SERVO_CLAW_MAX);
-    servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
+    g_servoClaw.SetMin(SERVO_CLAW_MIN);
+    g_servoClaw.SetMax(SERVO_CLAW_MAX);
+    g_servoClaw.SetDegree(SERVO_CLAW_POS_NEUTRAL);
 
     // Encoder setup
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
 
     // Connect to proper RPS course
     RPS.InitializeTouchMenu();
@@ -136,7 +136,7 @@ void competitionStart() {
     LCD.WriteLine("STARTED");
     LCD.WriteLine("AWAITING COURSE OR TIMEOUT");
     // Wait until the start light turns on, or somehow 30 seconds has passed and we missed it
-    while ( (cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
+    while ( (g_cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
     // Exit this function and let the games begin!
 }
 
@@ -147,22 +147,22 @@ void competitionStart() {
 void testDriveStraight() {
     // Just drive forward and backward at max speed and same
     // motor percentage for 3 seconds then quit
-    motorLeft.SetPercent(100);
-    motorRight.SetPercent(-100);
+    g_motorLeft.SetPercent(100);
+    g_motorRight.SetPercent(-100);
     Sleep(3.0);
-    motorLeft.SetPercent(-100);
-    motorRight.SetPercent(100);
+    g_motorLeft.SetPercent(-100);
+    g_motorRight.SetPercent(100);
     Sleep(3.0);
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     return;
 }
 
 //// Basic I/O test
 void testSensors() {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
 
     // Output labels
     LCD.WriteRC("CdS: ", 1, 1);
@@ -171,9 +171,9 @@ void testSensors() {
 
     while(true) {
         // Output updated values for CdS cell and encoders continually
-        LCD.WriteRC(cdsCell.Value(), 1, 5);
-        LCD.WriteRC(encoderLeft.Counts(), 2, 11);
-        LCD.WriteRC(encoderRight.Counts(), 3, 12);
+        LCD.WriteRC(g_cdsCell.Value(), 1, 5);
+        LCD.WriteRC(g_encoderLeft.Counts(), 2, 11);
+        LCD.WriteRC(g_encoderRight.Counts(), 3, 12);
         Sleep(10); // 10ms
     }
     // Infinite loop will never reach here to exit
@@ -215,9 +215,9 @@ void testDriveDistanceLong() {
     driveForDistance(50.0, MotorPercentMedium, DirectionForward);
     // Then show encoder counts and quit
     LCD.Write("left: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("right: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
 }
 
 
@@ -227,9 +227,9 @@ void testDriveDistanceLongProportion() {
     driveForDistanceProportion(50.0, MotorPercentMedium, DirectionForward);
     // Then show encoder counts and quit
     LCD.Write("left: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("right: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
 }
 
 //// Test all directions robot can move
@@ -297,16 +297,16 @@ void testTreadTurns() {
 //// Make sure servo is attached and calibrated properly
 void testServoRange() {
     // Go to different positions in lever servo range, with pauses
-    servoLever.SetDegree(180);
+    g_servoLever.SetDegree(180);
     LCD.WriteLine(180);
     Sleep(2.0);
-    servoLever.SetDegree(135);
+    g_servoLever.SetDegree(135);
     LCD.WriteLine(135);
     Sleep(2.0);
-    servoLever.SetDegree(90);
+    g_servoLever.SetDegree(90);
     LCD.WriteLine(90);
     Sleep(2.0);
-    servoLever.SetDegree(45);
+    g_servoLever.SetDegree(45);
     LCD.WriteLine(45);
     Sleep(2.0);
 }
@@ -320,7 +320,7 @@ void testServos() {
     LCD.WriteLine("coin");
     coinRelease();
     Sleep(1.0);
-    servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
+    g_servoCoin.SetDegree(SERVO_COIN_POS_NEUTRAL);
     Sleep(1.0);
     LCD.WriteLine("claw");
     foosballDeploy();
@@ -337,13 +337,13 @@ void testServos() {
 
 //// Engage lever servo
 void flipLever() {
-    servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
+    g_servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
     return;
 }
 
 //// Disengage lever servo
 void flipLeverReset() {
-    servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
+    g_servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
     return;
 }
 
@@ -353,14 +353,14 @@ void rpsResetPress() {
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > SERVO_LEVER_POS_ACTIVE) {
         // Move a small angle
-        servoLever.SetDegree(currAngle);
+        g_servoLever.SetDegree(currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
     Sleep(SERVO_LEVER_RESET_PAUSE);
     while(currAngle < SERVO_LEVER_POS_NEUTRAL) {
-        servoLever.SetDegree(currAngle);
+        g_servoLever.SetDegree(currAngle);
         currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
@@ -373,7 +373,7 @@ void foosballDeploy() {
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle < SERVO_CLAW_POS_ACTIVE) {
         // Move a small angle
-        servoClaw.SetDegree(currAngle);
+        g_servoClaw.SetDegree(currAngle);
         currAngle+= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -386,7 +386,7 @@ void foosballRetract() {
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > SERVO_CLAW_POS_NEUTRAL) {
         // Move a small angle
-        servoClaw.SetDegree(currAngle);
+        g_servoClaw.SetDegree(currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -395,7 +395,7 @@ void foosballRetract() {
 
 //// Lift up blocker to drop coin
 void coinRelease() {
-    servoCoin.SetDegree(SERVO_COIN_POS_ACTIVE);
+    g_servoCoin.SetDegree(SERVO_COIN_POS_ACTIVE);
 }
 
 ////////////////////////////////////////////////////////////
@@ -412,10 +412,10 @@ float accelerationFunction(float ratio) {
 }
 
 //// Use average of encoders to move a set distance
-void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction) {
+void driveForDistance(float inches, int motorPercent, DriveDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
@@ -423,30 +423,30 @@ void driveForDistance(float inches, MotorPower motorPercent, DriveDirection dire
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         // Drive left motor forwards
-        motorLeft.SetPercent(motorPercent);
+        g_motorLeft.SetPercent(motorPercent);
         // Drive right motor forwards, with strength adjuster and direction adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
         // Drive left motor backwards, with direction adjuster
-        motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        g_motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         // Drive right motor backwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     float currentEncoderCounts = 0.0;
     while( currentEncoderCounts < expectedEncoderCounts) {
         // Calculate how far we've gone for next loop
         //   Use an average of both encoders
-        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+        currentEncoderCounts = ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0;
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Left encoder: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("Right encoder: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
     return;
 }
@@ -454,8 +454,8 @@ void driveForDistance(float inches, MotorPower motorPercent, DriveDirection dire
 //// Use average of encoders to move a set distance with speeding up and slowing down
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
@@ -479,20 +479,20 @@ void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection dir
         currentAccelMult = accelerationFunction(currentDistanceRatio);
         // Set motor percents according to above mapped value
         //// Drive left motor
-        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        g_motorLeft.SetPercent(motorPercent * currentAccelMult);
         //// Drive right motor, with strength adjuster and direction adjuster
-        motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
         // Calculate how far we've gone for next loop
-        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+        currentEncoderCounts = ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0;
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Left encoder: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("Right encoder: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
     return;
 }
@@ -500,8 +500,8 @@ void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection dir
 //// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
 void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
@@ -540,45 +540,45 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
         }
         // Set motor percents according to above mapped value
         //// Drive left motor
-        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        g_motorLeft.SetPercent(motorPercent * currentAccelMult);
         //// Drive right motor, with strength adjuster
-        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion * MOTOR_SIDE_DIR_CORRECTOR);
         // Update counts for next loop
-        leftEncoderCounts = encoderLeft.Counts();
-        rightEncoderCounts = encoderRight.Counts();
+        leftEncoderCounts = g_encoderLeft.Counts();
+        rightEncoderCounts = g_encoderRight.Counts();
         // Calculate how far we've gone for next loop
         currentEncoderCounts = ( leftEncoderCounts + rightEncoderCounts ) / 2.0;
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Left encoder: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("Right encoder: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
     return;
 }
 
 //// Drive blindly for a set time
-void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction) {
+void driveForTime(float seconds, int motorPercent, DriveDirection direction) {
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         // Drive left motor forwards
-        motorLeft.SetPercent(motorPercent);
+        g_motorLeft.SetPercent(motorPercent);
         // Drive right motor forwards, with strength adjuster and direction adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going BW");
         // Drive left motor backwards, with direction adjuster
-        motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        g_motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         // Drive right motor backwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Drive time: ");
     LCD.WriteLine(seconds);
@@ -588,23 +588,23 @@ void driveForTime(float seconds, MotorPower motorPercent, DriveDirection directi
 }
 
 //// Turn blindly for a set time
-void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction) {
+void turnForTime(float seconds, int motorPercent, TurnDirection direction) {
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         // Drive left motor forwards
-        motorLeft.SetPercent(motorPercent);
+        g_motorLeft.SetPercent(motorPercent);
         // Drive right motor backwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
         // Drive left motor backwards, with direction adjuster
-        motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        g_motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         // Drive right motor forwards, with strength adjuster and direction adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Turn time: ");
     LCD.WriteLine(seconds);
@@ -614,25 +614,25 @@ void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction
 }
 
 //// Turn blindly for a set time, driving the motors at different rates
-void turnForRatioTime(float seconds, MotorPower motorPercent, TurnDirection direction, float motorRatio) {
+void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, float motorRatio) {
     if(direction == DirectionClockwise) {
         LCD.Write("Going CW, ratio ");
         LCD.WriteLine(motorRatio);
         // Drive left motor forwards
-        motorLeft.SetPercent(motorPercent);
+        g_motorLeft.SetPercent(motorPercent);
         // Drive right motor, at a proportional lesser value, forwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * motorRatio * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * motorRatio * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.Write("Going CNTCW, ratio ");
         LCD.WriteLine(motorRatio);
         // Drive left motor forwards, at a proportional lesser value
-        motorLeft.SetPercent(motorPercent * motorRatio);
+        g_motorLeft.SetPercent(motorPercent * motorRatio);
         // Drive right motor, forwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("Turn time: ");
     LCD.WriteLine(seconds);
@@ -642,10 +642,10 @@ void turnForRatioTime(float seconds, MotorPower motorPercent, TurnDirection dire
 }
 
 //// Use average of encoders to turn a set angle
-void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection direction) {
+void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate expected distance of treads based on robot geometry and output
     float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
     LCD.Write("Turn arc length: ");
@@ -657,26 +657,26 @@ void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection dire
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         // Drive left motor forwards
-        motorLeft.SetPercent(motorPercent);
+        g_motorLeft.SetPercent(motorPercent);
         // Drive right motor backwards, with strength adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     } else {
         LCD.WriteLine("Going CNTCW");
         // Drive left motor backwards, with direction adjuster
-        motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
+        g_motorLeft.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR);
         // Drive right motor forwards, with strength adjuster and direction adjuster
-        motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
     // Use an average of the encoders to drive until we've reached the expected counts
-    while( ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
+    while( ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("L enc: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("R enc: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
     return;
 }
@@ -684,8 +684,8 @@ void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection dire
 //// Use average of encoders to move a set distance with speeding up and slowing down
 void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate expected distance of treads based on robot geometry and output
     float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
     LCD.Write("Turn arc length: ");
@@ -713,20 +713,20 @@ void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection dir
         currentAccelMult = accelerationFunction(currentDistanceRatio);
         // Set motor percents according to above mapped value
         //// Drive left motor
-        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        g_motorLeft.SetPercent(motorPercent * currentAccelMult);
         //// Drive right motor, with strength adjuster
-        motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_STR_CORRECTOR);
+        g_motorRight.SetPercent(motorPercent * currentAccelMult * MOTOR_SIDE_STR_CORRECTOR);
         // Calculate how far we've gone for next loop
-        currentEncoderCounts = ( encoderLeft.Counts() + encoderRight.Counts() ) / 2.0;
+        currentEncoderCounts = ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0;
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("L enc: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("R enc: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
     return;
 }
@@ -734,8 +734,8 @@ void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection dir
 //// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
 void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection direction) {
     // Reset encoders
-    encoderLeft.ResetCounts();
-    encoderRight.ResetCounts();
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
     // Calculate expected distance of treads based on robot geometry and output
     float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
     LCD.Write("Turn arc length: ");
@@ -779,28 +779,28 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
         }
         // Set motor percents according to above mapped value
         //// Drive left motor
-        motorLeft.SetPercent(motorPercent * currentAccelMult);
+        g_motorLeft.SetPercent(motorPercent * currentAccelMult);
         //// Drive right motor, with strength adjuster
-        motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion);
-        leftEncoderCounts = encoderLeft.Counts();
-        rightEncoderCounts = encoderRight.Counts();
+        g_motorRight.SetPercent(motorPercent * currentAccelMult * encoderProportion);
+        leftEncoderCounts = g_encoderLeft.Counts();
+        rightEncoderCounts = g_encoderRight.Counts();
         // Calculate how far we've gone for next loop
         currentEncoderCounts = ( leftEncoderCounts + rightEncoderCounts ) / 2.0;
     }
     // Stop moving
-    motorLeft.Stop();
-    motorRight.Stop();
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     // Output final counts
     LCD.Write("L enc: ");
-    LCD.WriteLine(encoderLeft.Counts());
+    LCD.WriteLine(g_encoderLeft.Counts());
     LCD.Write("R enc: ");
-    LCD.WriteLine(encoderRight.Counts());
+    LCD.WriteLine(g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
     return;
 }
 
 //// Calculates and calls turn function to get to course heading
-void turnToCourseAngle(float currentAngle, float targetAngle, MotorPower motorPercent) {
+void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent) {
     if(currentAngle > targetAngle) {
         // If we're past the angle, but by less than a half rotation, turn clockwise to reach it
         if( (currentAngle - targetAngle) < 180.0) {
@@ -833,7 +833,7 @@ void turnToCourseAngle(float currentAngle, float targetAngle, MotorPower motorPe
 // DEPRECATED - BREAKS IN A BAD WAY WHEN RPS IS BROKEN/INACCURATE
 // Use RPS to get current heading, then calculate appropriate turn to reach target
 /*
-void turnToCourseAngle(float targetAngle, MotorPower motorPercent) {
+void turnToCourseAngle(float targetAngle, int motorPercent) {
     // Use RPS to get the current heading, then pass the two angles to the other turnToCourseAngle function
     float currentHeading = rpsSampleHeading();
     if(currentHeading < 0.0) {
@@ -846,7 +846,7 @@ void turnToCourseAngle(float targetAngle, MotorPower motorPercent) {
 }
 */
 
-//void driveUntil(int motorPower, special type for function pointer CALLBACKFUNC) {}
+//void driveUntil(int motorPercent, special type for function pointer CALLBACKFUNC) {}
 
 
 ////////////////////////////////////////////////////////////
@@ -1000,6 +1000,7 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         LCD.WriteLine(currentHeading);
         LCD.Write("target: ");
         LCD.WriteLine(targetHeading);
+        // Note that turnToCourseAngle uses turns without acceleration or proportion adjustment internally
         turnToCourseAngle(currentHeading, targetHeading, MotorPercentMedium);
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);

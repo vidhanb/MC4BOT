@@ -46,7 +46,7 @@ void finalComp() {
     // Completing DDR machine interactions
     // Robot before this split is at (24.5, 12.25)
 
-    if( cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
+    if( g_cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
         
         // Red light
         LCD.SetBackgroundColor(RED);
