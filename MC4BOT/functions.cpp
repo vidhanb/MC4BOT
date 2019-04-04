@@ -55,7 +55,7 @@ void initRobot() {
     return;
 }
 
-//// Output how the robot was setup to the screen
+//// Output how the robot was setup
 void printInit() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: printInit}");
     // Print info for drive motors
