@@ -424,7 +424,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
         currentAccelMult = accelerationFunction(currentDistanceRatio);
         if( currentDistanceRatio > 0.1 && currentEncoderCounts > 20.0 && encoderProportion > 0.5 && encoderProportion < 2.0) {
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
-            if( std::abs(encoderProportion - 1.0) > 0.1 ) {
+            if( std::abs(encoderProportion - 1.08) > 0.1 ) {
                 LCD.Write("enc ratio: ");
                 LCD.WriteLine(encoderProportion);
             }
@@ -626,7 +626,7 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
         currentAccelMult = accelerationFunction(currentDistanceRatio);
         if( currentDistanceRatio > 0.1 && currentEncoderCounts > 20.0 && encoderProportion > 0.5 && encoderProportion < 2.0) {
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
-            if( std::abs(encoderProportion - 1.0) > 0.1 ) {
+            if( std::abs(encoderProportion - 1.08) > 0.1 ) {
                 LCD.Write("enc ratio: ");
                 LCD.WriteLine(encoderProportion);
             }
@@ -817,9 +817,9 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         if(headingDifference > 0.0 && headingDifference < 180.0) {
             turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         } else if(headingDifference < 0.0 && headingDifference > -180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionCounterClockwise);
+            turnForAngleProportion(360.0 - std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         } else if(headingDifference > 180.0) {
-            turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionCounterClockwise);
+            turnForAngleProportion(360.0 - std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         } else if(headingDifference < -180.0) {
             turnForAngleProportion(std::abs(headingDifference), MotorPercentMedium, DirectionClockwise);
         }
