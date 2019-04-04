@@ -29,6 +29,7 @@ void coinRelease();
 float accelerationFunction(float ratio);
 
 // Movement
+//   Note that all angles are expressed as floats
 void driveForDistance(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction);
@@ -42,6 +43,7 @@ void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent);
 void turnToCourseAngle(float targetAngle, int motorPercent);
 
 // RPS
+//   Note that all angles are expressed as floats
 void rpsCheckHeadingConstant(float targetHeading);
 void rpsCheckXCoordConstant(float targetX);
 void rpsCheckYCoordConstant(float targetY);
