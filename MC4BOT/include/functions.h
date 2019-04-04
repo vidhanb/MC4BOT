@@ -24,17 +24,17 @@ void coinRelease();
 
 float accelerationFunction(float ratio);
 
-void driveForDistance(float inches, MotorPower motorPercent, DriveDirection direction);
+void driveForDistance(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction);
-void driveForTime(float seconds, MotorPower motorPercent, DriveDirection direction);
-void turnForTime(float seconds, MotorPower motorPercent, TurnDirection direction);
-void turnForRatioTime(float seconds, MotorPower motorPercent, TurnDirection direction, float motorRatio);
-void turnForAngle(float targetAngle, MotorPower motorPercent, TurnDirection direction);
+void driveForTime(float seconds, int motorPercent, DriveDirection direction);
+void turnForTime(float seconds, int motorPercent, TurnDirection direction);
+void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, float motorRatio);
+void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction);
 void turnForAngleAccelMap(float inches, int motorPercent, TurnDirection direction);
 void turnForAngleProportion(float inches, int motorPercent, TurnDirection direction);
-void turnToCourseAngle(float currentAngle, int targetAngle, MotorPower motorPercent);
-void turnToCourseAngle(float targetAngle, MotorPower motorPercent);
+void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent);
+void turnToCourseAngle(float targetAngle, int motorPercent);
 
 void rpsCheckHeadingConstant(float targetHeading);
 void rpsCheckXCoordConstant(float targetX);
