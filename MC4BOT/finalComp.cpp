@@ -40,7 +40,7 @@ void finalComp() {
         turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(12.25);
+        rpsCheckXCoordDynamic(11.5 + g_adjustX);
 
         // Robot should now be at (11.5, 12.8)
 
@@ -48,7 +48,7 @@ void finalComp() {
         driveForDistanceProportion(12.8, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(24.3);
+        rpsCheckXCoordDynamic(24.3 + g_adjustX);
 
     }
 
@@ -63,7 +63,7 @@ void finalComp() {
         driveForDistanceProportion(2.5, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(26.8);
+        rpsCheckXCoordDynamic(26.8 + g_adjustX);
 
         // Robot should now be at (26.8, 12.8)
 
@@ -71,7 +71,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(11.8);
+        rpsCheckYCoordDynamic(11.8 + g_adjustY);
 
         // Robot should now be at (24.8, 11.8)
 
@@ -80,7 +80,7 @@ void finalComp() {
         //   motors will be strong enough to keep moving forward until
         //   the encoder counts are reached even if the robot runs up
         //   against the DDR machine
-        driveForDistance(3.2, MotorPercentMedium, DirectionForward);
+        driveForDistance(3.7, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
 
@@ -94,7 +94,7 @@ void finalComp() {
         driveForDistanceProportion(3.9, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(13.0);
+        rpsCheckYCoordDynamic(13.0 + g_adjustY);
 
         // Robot should now be at (24.8, 13.0)
 
@@ -102,7 +102,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(25.0);
+        rpsCheckXCoordDynamic(25.0 + g_adjustX);
 
         // Robot should now be at (25.8, 15.0)
 
@@ -110,7 +110,7 @@ void finalComp() {
         driveForDistanceProportion(6.2, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(32.0);
+        rpsCheckXCoordDynamic(32.0 + g_adjustX);
 
         // Robot should now be at (32.0, 15.0)
 
@@ -118,7 +118,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(16.0);
+        rpsCheckYCoordDynamic(16.0 + g_adjustY);
 
         // Robot is now facing ramp at (30.0, 16.0)
 
@@ -131,7 +131,7 @@ void finalComp() {
         driveForDistanceProportion(6.6, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(30.9);
+        rpsCheckXCoordDynamic(30.9 + g_adjustX);
 
         // Robot should now be at (30.9, 12.8)
 
@@ -139,7 +139,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(11.8);
+        rpsCheckYCoordDynamic(11.8 + g_adjustY);
 
         // Robot should now be at (28.9, 11.8)
 
@@ -158,7 +158,7 @@ void finalComp() {
         driveForDistanceProportion(3.8, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
-        rpsCheckYCoordDynamic(13.0);
+        rpsCheckYCoordDynamic(13.0 + g_adjustY);
 
         // Robot should now be at (28.9, 13.0)
 
@@ -166,7 +166,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(30.0);
+        rpsCheckXCoordDynamic(30.0 + g_adjustX);
 
         // Robot should now be at (30.0, 15.0)
 
@@ -174,7 +174,7 @@ void finalComp() {
         driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(32.0);
+        rpsCheckXCoordDynamic(32.0 + g_adjustX);
 
         // Robot should now be at (32.0, 15.0)
 
@@ -182,7 +182,7 @@ void finalComp() {
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(16.0);
+        rpsCheckYCoordDynamic(16.0 + g_adjustY);
 
         // Robot is now facing ramp at (30.0, 16.0)
 
@@ -195,19 +195,19 @@ void finalComp() {
         driveForDistanceProportion(40.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(53.0);
+        rpsCheckYCoordDynamic(53.0 + g_adjustY);
 
         // Move forward/north, across upper level
         driveForDistanceProportion(15.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
-        rpsCheckYCoordDynamic(68.0);
+        rpsCheckYCoordDynamic(68.0 + g_adjustY);
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(32.0);
+        rpsCheckXCoordDynamic(32.0 + g_adjustX);
 
     }
 
@@ -218,7 +218,7 @@ void finalComp() {
         driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(34.0);
+        rpsCheckXCoordDynamic(34.0 + g_adjustX);
 
         // Mechanism
         foosballDeploy();
@@ -232,7 +232,7 @@ void finalComp() {
         foosballRetract();
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(24.0);
+        rpsCheckXCoordDynamic(24.0 + g_adjustX);
 
         // Move forward/west
         driveForDistanceProportion(6.0, MotorPercentMedium, DirectionForward);
