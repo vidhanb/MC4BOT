@@ -1,10 +1,12 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+// Initialization
 void initRobot();
 void printInit();
 void competitionStart();
 
+// Testing various parts of software and hardware
 void testDriveStraight();
 void testSensors();
 void testRPS();
@@ -15,6 +17,7 @@ void testTreadTurns();
 void testServoRange();
 void testServos();
 
+// Mechanisms
 void flipLever();
 void flipLeverReset();
 void rpsResetPress();
@@ -22,8 +25,10 @@ void foosballDeploy();
 void foosballRetract();
 void coinRelease();
 
+// Mathematical
 float accelerationFunction(float ratio);
 
+// Movement
 void driveForDistance(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection direction);
 void driveForDistanceProportion(float inches, int motorPercent, DriveDirection direction);
@@ -36,6 +41,7 @@ void turnForAngleProportion(float inches, int motorPercent, TurnDirection direct
 void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent);
 void turnToCourseAngle(float targetAngle, int motorPercent);
 
+// RPS
 void rpsCheckHeadingConstant(float targetHeading);
 void rpsCheckXCoordConstant(float targetX);
 void rpsCheckYCoordConstant(float targetY);
@@ -46,6 +52,7 @@ float rpsSampleHeading();
 float rpsSampleXCoord();
 float rpsSampleYCoord();
 
+// Specific events
 void finalComp();
 
 #endif // FUNCTIONS_H
