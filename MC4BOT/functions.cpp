@@ -59,19 +59,19 @@ void initRobot() {
 void printInit() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: printInit}\n");
     // Print info for drive motors
-    SD.Printf("INIT-HW-MOTOR:{Name: left, Port: %s, Volts: %f}", MOTOR_PORT_FL, MOTOR_VOLTS);
-    SD.Printf("INIT-HW-MOTOR:{Name: right, Port: %s, Volts: %f}", MOTOR_PORT_FR, MOTOR_VOLTS);
+    SD.Printf("INIT-HW-MOTOR:{Name: left, Port: %s, Volts: %f}\n", MOTOR_PORT_FL, MOTOR_VOLTS);
+    SD.Printf("INIT-HW-MOTOR:{Name: right, Port: %s, Volts: %f}\n", MOTOR_PORT_FR, MOTOR_VOLTS);
 
     // Print info for servo motors
-    SD.Printf("INIT-HW-SERVO:{Name: lever, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_LEVER, SERVO_LEVER_MIN, SERVO_LEVER_MAX, SERVO_LEVER_POS_NEUTRAL, SERVO_LEVER_POS_ACTIVE);
-    SD.Printf("INIT-HW-SERVO:{Name: coin, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_COIN, SERVO_COIN_MIN, SERVO_COIN_MAX, SERVO_COIN_POS_NEUTRAL, SERVO_COIN_POS_ACTIVE);
-    SD.Printf("INIT-HW-SERVO:{Name: claw, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}", SERVO_PORT_CLAW, SERVO_CLAW_MIN, SERVO_CLAW_MAX, SERVO_CLAW_POS_NEUTRAL, SERVO_CLAW_POS_ACTIVE);
+    SD.Printf("INIT-HW-SERVO:{Name: lever, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}\n", SERVO_PORT_LEVER, SERVO_LEVER_MIN, SERVO_LEVER_MAX, SERVO_LEVER_POS_NEUTRAL, SERVO_LEVER_POS_ACTIVE);
+    SD.Printf("INIT-HW-SERVO:{Name: coin, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}\n", SERVO_PORT_COIN, SERVO_COIN_MIN, SERVO_COIN_MAX, SERVO_COIN_POS_NEUTRAL, SERVO_COIN_POS_ACTIVE);
+    SD.Printf("INIT-HW-SERVO:{Name: claw, Port: %s, Min: %d, Max: %d, Neutral pos: %d, Active pos: %d}\n", SERVO_PORT_CLAW, SERVO_CLAW_MIN, SERVO_CLAW_MAX, SERVO_CLAW_POS_NEUTRAL, SERVO_CLAW_POS_ACTIVE);
 
     // Print info for sensors
-    SD.Printf("INIT-HW-SENSOR:{Name: cds, Port: %s, Dark/blue threshold: %f, Blue/red threshold: %f}", CDS_CELL_PORT, CDS_CELL_DIV_DARK_BLUE, CDS_CELL_DIV_BLUE_RED);
+    SD.Printf("INIT-HW-SENSOR:{Name: cds, Port: %s, Dark/blue threshold: %f, Blue/red threshold: %f}\n", CDS_CELL_PORT, CDS_CELL_DIV_DARK_BLUE, CDS_CELL_DIV_BLUE_RED);
 
-    SD.Printf("INIT-HW-SENSOR:{Name: left encoder, Port: %s, Counts per inch: %f}", ENCODER_LEFT_PORT, ENCODER_CTS_PER_INCH);
-    SD.Printf("INIT-HW-SENSOR:{Name: right encoder, Port: %s, Counts per inch: %f}", ENCODER_RIGHT_PORT, ENCODER_CTS_PER_INCH);
+    SD.Printf("INIT-HW-SENSOR:{Name: left encoder, Port: %s, Counts per inch: %f}\n", ENCODER_LEFT_PORT, ENCODER_CTS_PER_INCH);
+    SD.Printf("INIT-HW-SENSOR:{Name: right encoder, Port: %s, Counts per inch: %f}\n", ENCODER_RIGHT_PORT, ENCODER_CTS_PER_INCH);
 
     LCD.WriteLine("Init log complete");
     SD.Printf("PRGM-FUNC-EXIT:{Name: printInit}\n");
@@ -98,12 +98,12 @@ void competitionStart() {
     while( LCD.Touch(&xTouch, &yTouch) ) {};
     LCD.Clear();
     unsigned int finalActionTime = TimeNowSec();
-    SD.Printf("START-FINALACTION:{Time: %u}", finalActionTime);
+    SD.Printf("START-FINALACTION:{Time: %u}\n", finalActionTime);
     LCD.WriteLine("STARTED");
     LCD.WriteLine("AWAITING COURSE OR TIMEOUT");
     // Wait until the start light turns on, or somehow 30 seconds has passed and we missed it
     while ( (g_cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
-    SD.Printf("START-BEGIN:{Time: %u}", TimeNowSec());
+    SD.Printf("START-BEGIN:{Time: %u}\n", TimeNowSec());
     LCD.WriteLine("COMPETITION HAS BEGUN");
     // Exit this function and let the games begin!
     SD.Printf("PRGM-FUNC-EXIT:{Name: competitionStart}\n");
@@ -391,7 +391,7 @@ void testServos() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: testServos}\n");
     LCD.WriteLine("servo time");
     // Uses lever servo
-    rpsResetPress();
+    rpsResetPress(SERVO_LEVER_POS_ACTIVE);
     Sleep(1.0);
     LCD.WriteLine("coin");
     coinRelease();
@@ -415,7 +415,7 @@ void testServos() {
 //// Engage lever servo
 void flipLever() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: flipLever}\n");
-    SD.Printf("SERVO-LEVER:{Degree: %d}", SERVO_LEVER_POS_ACTIVE);
+    SD.Printf("SERVO-LEVER:{Degree: %d}\n", SERVO_LEVER_POS_ACTIVE);
     LCD.WriteLine("Lever flip deploying");
     g_servoLever.SetDegree(SERVO_LEVER_POS_ACTIVE);
     SD.Printf("PRGM-FUNC-EXIT:{Name: flipLever}\n");
@@ -425,7 +425,7 @@ void flipLever() {
 //// Disengage lever servo
 void flipLeverReset() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: flipLeverReset}\n");
-    SD.Printf("SERVO-LEVER:{Degree: %d}", SERVO_LEVER_POS_NEUTRAL);
+    SD.Printf("SERVO-LEVER:{Degree: %d}\n", SERVO_LEVER_POS_NEUTRAL);
     LCD.WriteLine("Lever flip retracting");
     g_servoLever.SetDegree(SERVO_LEVER_POS_NEUTRAL);
     SD.Printf("PRGM-FUNC-EXIT:{Name: flipLeverReset}\n");
@@ -433,17 +433,17 @@ void flipLeverReset() {
 }
 
 //// Slowly engage, then hold for >5 seconds, then slowly disengage lever servo
-void rpsResetPress() {
+void rpsResetPress(int buttonDegree) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsResetPress}\n");
-    SD.Printf("MECH-DDR:{RPS reset servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
-    SD.Printf("MECH-DDR:{RPS reset button push time: %f}", SERVO_LEVER_RESET_PAUSE);
+    SD.Printf("MECH-DDR:{RPS reset servo iter time: %f }\n", SERVO_LEVER_ITER_PAUSE);
+    SD.Printf("MECH-DDR:{RPS reset button push time: %f}\n", SERVO_LEVER_RESET_PAUSE);
     LCD.WriteLine("Pressing RPS reset button");
     int currAngle = SERVO_LEVER_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
-    while(currAngle > SERVO_LEVER_POS_ACTIVE) {
+    while(currAngle > buttonDegree) {
         // Move a small angle
         g_servoLever.SetDegree(currAngle);
-        SD.Printf("SERVO-LEVER:{Degree: %d}", currAngle);
+        SD.Printf("SERVO-LEVER:{Degree: %d}\n", currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -451,7 +451,7 @@ void rpsResetPress() {
     Sleep(SERVO_LEVER_RESET_PAUSE);
     while(currAngle < SERVO_LEVER_POS_NEUTRAL) {
         g_servoLever.SetDegree(currAngle);
-        SD.Printf("SERVO-LEVER:{Degree: %d}", currAngle);
+        SD.Printf("SERVO-LEVER:{Degree: %d}\n", currAngle);
         currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
@@ -462,14 +462,14 @@ void rpsResetPress() {
 //// Slowly engage foosball mechanism
 void foosballDeploy() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: foosballDeploy}\n");
-    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
+    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }\n", SERVO_LEVER_ITER_PAUSE);
     LCD.WriteLine("Foosball arm deploying");
     int currAngle = SERVO_CLAW_POS_NEUTRAL;
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle < SERVO_CLAW_POS_ACTIVE) {
         // Move a small angle
         g_servoClaw.SetDegree(currAngle);
-        SD.Printf("SERVO-CLAW:{Degree: %d}", currAngle);
+        SD.Printf("SERVO-CLAW:{Degree: %d}\n", currAngle);
         currAngle+= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -480,14 +480,14 @@ void foosballDeploy() {
 //// Slowly disengage foosball mechanism
 void foosballRetract() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: foosballRetract}\n");
-    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }", SERVO_LEVER_ITER_PAUSE);
+    SD.Printf("MECH-FOOSBALL:{Foosball servo iter time: %f }\n", SERVO_LEVER_ITER_PAUSE);
     LCD.WriteLine("Foosball arm retracting");
     int currAngle = SERVO_CLAW_POS_ACTIVE;
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > SERVO_CLAW_POS_NEUTRAL) {
         // Move a small angle
         g_servoClaw.SetDegree(currAngle);
-        SD.Printf("SERVO-CLAW:{Degree: %d}", currAngle);
+        SD.Printf("SERVO-CLAW:{Degree: %d}\n", currAngle);
         currAngle-= 2;
         // Then wait a little bit
         Sleep(SERVO_LEVER_ITER_PAUSE);
@@ -500,7 +500,7 @@ void coinRelease() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: coinRelease}\n");
     LCD.WriteLine("Coin releasing");
     g_servoCoin.SetDegree(SERVO_COIN_POS_ACTIVE);
-    SD.Printf("SERVO-COIN:{Degree: %d}", SERVO_COIN_POS_ACTIVE);
+    SD.Printf("SERVO-COIN:{Degree: %d}\n", SERVO_COIN_POS_ACTIVE);
     SD.Printf("PRGM-FUNC-EXIT:{Name: coinRelease}\n");
 }
 
@@ -989,7 +989,7 @@ void rpsCheckHeadingConstant(float targetHeading) {
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
     // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 3.0) {
+    while( std::abs(headingDifference) > 2.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0.0 && headingDifference < 180.0) {
@@ -1126,7 +1126,7 @@ void rpsCheckHeadingDynamic(float targetHeading) {
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
     // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 3.0) {
+    while( std::abs(headingDifference) > 2.0) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         LCD.Write("current: ");
@@ -1289,7 +1289,7 @@ float rpsSampleHeading() {
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
-    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleHeading}\n");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
     return sampleFinal;
 }
 
@@ -1395,10 +1395,12 @@ void rpsSampleCourse() {
     // Output heading information while waiting for screen to be pressed
     while(!LCD.Touch(&touch_x, &touch_y)) {
         LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        Sleep(0.1);
     }
     // Wait for release to debounce push
     while(LCD.Touch(&touch_x, &touch_y)) {
         LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        Sleep(0.1);
     }
     // Sample coordinates
     sampleXDDR = rpsSampleXCoord();
@@ -1415,10 +1417,12 @@ void rpsSampleCourse() {
     // Output heading information while waiting for screen to be pressed
     while(!LCD.Touch(&touch_x, &touch_y)) {
         LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        Sleep(0.1);
     }
     // Wait for release to debounce push
     while(LCD.Touch(&touch_x, &touch_y)) {
         LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        Sleep(0.1);
     }
     // Sample coordinates
     sampleXCoin = rpsSampleXCoord();

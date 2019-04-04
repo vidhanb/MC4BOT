@@ -40,7 +40,7 @@ void flipLever();
 //// Disengage lever servo
 void flipLeverReset();
 //// Slowly engage, then hold for >5 seconds, then slowly disengage lever servo
-void rpsResetPress();
+void rpsResetPress(int buttonDegree);
 //// Slowly engage foosball mechanism
 void foosballDeploy();
 //// Slowly disengage foosball mechanism

@@ -24,7 +24,7 @@
 #define WHEEL_DIAM 1.625 // inches (including treads)
 #define WHEEL_CIRC (WHEEL_DIAM * PI)
 
-#define ROBOT_TURN_DIAM 10.1 //inches
+#define ROBOT_TURN_DIAM 10.3 //inches
 #define ROBOT_TURN_CIRC (ROBOT_TURN_DIAM * PI)
 
 //// Just some recommended levels
@@ -63,6 +63,8 @@ enum TurnDirection {
 #define SERVO_LEVER_MAX 2480
 #define SERVO_LEVER_POS_NEUTRAL 170
 #define SERVO_LEVER_POS_ACTIVE 70
+#define SERVO_LEVER_RED_ACTIVE 75
+#define SERVO_LEVER_BLUE_ACTIVE 65
 #define SERVO_LEVER_ITER_PAUSE 0.01
 #define SERVO_LEVER_RESET_PAUSE 5.5
 
