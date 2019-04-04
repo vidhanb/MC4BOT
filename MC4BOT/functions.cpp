@@ -82,6 +82,9 @@ void printInit() {
 void competitionStart() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: competitionStart}");
     // Prepare everything except "final action" so robot can start with minimum interaction
+
+    rpsSampleCourse();
+
     LCD.Clear();
     LCD.WriteLine("");
     LCD.WriteLine("AWAITING FINAL ACTION");
@@ -1299,6 +1302,58 @@ float rpsSampleYCoord() {
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}");
     return sampleFinal;
+}
+
+// Adjust RPS checks for this specific course's RPS errors
+void rpsSampleCourse() {
+    // Initialize sampling values
+    float sampleXDDR, sampleYDDR, sampleXCoin, sampleYCoin;
+    float touch_x, touch_y;
+    // Output instructions
+    LCD.Clear();
+    LCD.WriteLine("Move robot to red DDR button");
+    LCD.WriteLine("Make sure front is pushing red button, lever will push down rps reset button, and current rps heading is 177.0");
+    LCD.WriteLine("Current RPS: ");
+    LCD.WriteRC("Press screen to set point", 13, 2);
+    // Output heading information while waiting for screen to be pressed
+    while(!LCD.Touch(&touch_x, &touch_y)) {
+        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+    }
+    // Wait for release to debounce push
+    while(LCD.Touch(&touch_x, &touch_y)) {
+        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+    }
+    // Sample coordinates
+    sampleXDDR = rpsSampleXCoord();
+    sampleYDDR = rpsSampleYCoord();
+
+    // Output instructions for next point
+    LCD.Clear();
+    LCD.WriteLine("Move robot to upper-level coin deposit spot");
+    LCD.WriteLine("Make sure coin is centered on slot, robot is backed up completely to machine, and current rps heading is 357.0");
+    LCD.WriteLine("Current RPS: ");
+    LCD.WriteRC("Press screen to set point", 13, 2);
+    // Output heading information while waiting for screen to be pressed
+    while(!LCD.Touch(&touch_x, &touch_y)) {
+        LCD.WriteRC(rpsSampleHeading, 10, 14);
+    }
+    // Wait for release to debounce push
+    while(LCD.Touch(&touch_x, &touch_y)) {
+        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+    }
+    // Sample coordinates
+    sampleXCoin = rpsSampleXCoord();
+    sampleYCoin = rpsSampleYCoord();
+
+    // Normalize samples to expected values
+    sampleXDDR -= 24.8;
+    sampleYDDR -= 9.1;
+    sampleXCoin -= 15.0;
+    sampleYCoin -= 44.3;
+
+    // Calculate coordinate translations for this course
+    g_adjustX = ( (sampleXDDR + sampleXCoin) / 2.0 );
+    g_adjustY = ( (sampleYDDR + sampleYCoin) / 2.0 );
 }
 
 ////////////////////////////////////////////////////////////

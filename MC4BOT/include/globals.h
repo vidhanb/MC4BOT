@@ -20,6 +20,10 @@ extern AnalogInputPin g_cdsCell;
 extern DigitalEncoder g_encoderLeft;
 extern DigitalEncoder g_encoderRight;
 
+// RPS adjustment values
+extern float g_adjustX;
+extern float g_adjustY;
+
 // Error detection and reaction values
 extern int g_encoderErrors;
 extern bool g_encodersEnabled;

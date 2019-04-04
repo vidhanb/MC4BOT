@@ -21,6 +21,10 @@ AnalogInputPin g_cdsCell(CDS_CELL_PORT);
 DigitalEncoder g_encoderLeft(ENCODER_LEFT_PORT);
 DigitalEncoder g_encoderRight(ENCODER_RIGHT_PORT);
 
+// RPS adjustment values
+float g_adjustX;
+float g_adjustY;
+
 // Error detection and reaction values
 int g_encoderErrors = 0;
 bool g_encodersEnabled = true;

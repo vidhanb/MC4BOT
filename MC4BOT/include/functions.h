@@ -95,6 +95,8 @@ float rpsSampleHeading();
 float rpsSampleXCoord();
 //// Wrap RPS.Y() for some automatic error detection
 float rpsSampleYCoord();
+//// Adjust RPS checks for this specific course's RPS errors
+void rpsSampleCourse();
 
 // Specific events
 void finalComp();
