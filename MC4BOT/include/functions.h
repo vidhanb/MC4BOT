@@ -16,6 +16,9 @@ void testDriveStraight();
 void testSensors();
 //// Output RPS values all around course
 void testRPS();
+//// Experiment with the change in RPS X and Y values as
+////   the heading changes
+void testRPSTurnChange();
 //// Visually see straightness of driving
 void testDriveDistanceLong();
 //// Visually see straightness of driving - proportion-based

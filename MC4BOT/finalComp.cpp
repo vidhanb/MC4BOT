@@ -21,7 +21,7 @@ void finalComp() {
     // If testing without RPS, remember to change in initRobot() function
     initRobot();
     printInit();
-    competitionStart();
+    //competitionStart();
 
     // Moving from start box to DDR light
     {
@@ -144,7 +144,7 @@ void finalComp() {
         // Robot should now be at (28.9, 11.8)
 
         // Move forward/south
-        driveForDistance(3.1, MotorPercentMedium, DirectionForward);
+        driveForDistance(3.6, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
 
