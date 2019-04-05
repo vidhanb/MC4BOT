@@ -218,13 +218,13 @@ void finalComp() {
 
         // Move counter slider
         //   Note that the right side is 20% stronger to account for friction from the arm
-        turnForRatioTime(3.5, MotorPercentMedium, DirectionCounterClockwise, 0.8);
+        turnForRatioTime(3.3, MotorPercentMedium, DirectionCounterClockwise, 0.8);
         
         // Mechanism and re-align, because sliding might mess up driving
         foosballRetract();
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(98.0);
-        rpsCheckXCoordDynamic(18.1 + g_adjustX);
+        rpsCheckXCoordDynamic(17.6 + g_adjustX);
 
     }
 
@@ -235,12 +235,16 @@ void finalComp() {
         driveForDistanceProportion(11.2, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(98.0);
-        rpsCheckXCoordDynamic(7.5 + g_adjustX);
+        rpsCheckXCoordDynamic(6.5 + g_adjustX);
 
         // Rotate CW
         turnForAngleProportion(55.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
+
+        // Move forward to lever
+        driveForDistance(1.0, MotorPercentMedium, DirectionForward);
+        Sleep(ACTION_SEP_PAUSE);
 
         // Mechanism
         flipLever();
@@ -272,7 +276,7 @@ void finalComp() {
     {
 
         // Move forward/southwest
-        driveForDistanceProportion(8.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(7.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(132.0);
 
@@ -282,7 +286,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(177.0);
 
         // Move forward/south
-        driveForDistanceProportion(16.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(46.3 + g_adjustY);
