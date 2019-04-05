@@ -993,8 +993,10 @@ void rpsCheckHeadingConstant(float targetHeading) {
     }
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
-    // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 3.0) {
+    int fixAttempts = 0;
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
+    while( std::abs(headingDifference) > 3.0 && fixAttempts < 10) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         if(headingDifference > 0.0 && headingDifference < 180.0) {
@@ -1019,6 +1021,7 @@ void rpsCheckHeadingConstant(float targetHeading) {
             return;
         }
         headingDifference = currentHeading - targetHeading;
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckHeadingConstant}\n");
     return;
@@ -1044,8 +1047,10 @@ void rpsCheckXCoordConstant(float targetX) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
     }
-    // Loop until we're within desired accuracy
-    while( std::abs(currentXCoord - targetX) > 0.5 ) {
+    int fixAttempts = 0;
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
+    while( std::abs(currentXCoord - targetX) > 0.5 && fixAttempts < 10) {
         if(currentXCoord < targetX && facingPlus) {
             // If we're west of target and facing east, pulse forwards
             driveForDistance(0.25, MotorPercentWeak, DirectionForward);
@@ -1067,6 +1072,7 @@ void rpsCheckXCoordConstant(float targetX) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
         }
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckXCoordConstant}\n");
     return;
@@ -1092,8 +1098,10 @@ void rpsCheckYCoordConstant(float targetY) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
     }
-    // Loop until we're within desired accuracy
-    while( std::abs(currentYCoord - targetY) > 0.5 ) {
+    int fixAttempts = 0;
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
+    while( std::abs(currentYCoord - targetY) > 0.5 && fixAttempts < 10) {
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
             driveForDistance(0.25, MotorPercentWeak, DirectionForward);
@@ -1115,6 +1123,7 @@ void rpsCheckYCoordConstant(float targetY) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
         }
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckYCoordConstant}\n");
     return;
@@ -1130,8 +1139,10 @@ void rpsCheckHeadingDynamic(float targetHeading) {
     }
     // Calculate difference between where we are and where we need to be
     float headingDifference = currentHeading - targetHeading;
-    // Loop until we're within desired accuracy
-    while( std::abs(headingDifference) > 3.0) {
+    int fixAttempts = 0;
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
+    while( std::abs(headingDifference) > 3.0 && fixAttempts < 5) {
         LCD.Write("Target angle diff: ");
         LCD.WriteLine( headingDifference );
         LCD.Write("current: ");
@@ -1149,6 +1160,7 @@ void rpsCheckHeadingDynamic(float targetHeading) {
             return;
         }
         headingDifference = currentHeading - targetHeading;
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckHeadingDynamic}\n");
     return;
@@ -1175,8 +1187,10 @@ void rpsCheckXCoordDynamic(float targetX) {
         return;
     }
     float positionXDifference = std::abs(currentXCoord - targetX);
-    // Loop until we're within desired accuracy
-    while( std::abs(currentXCoord - targetX) > 0.5 ) {
+    int fixAttempts = 0;
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
+    while( std::abs(currentXCoord - targetX) > 0.5 && fixAttempts < 5) {
         if(currentXCoord < targetX && facingPlus) {
             // If we're west of target and facing east, pulse forwards
             driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionForward);
@@ -1199,6 +1213,7 @@ void rpsCheckXCoordDynamic(float targetX) {
             return;
         }
         positionXDifference = std::abs(currentXCoord - targetX);
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckXCoordDynamic}\n");
     return;
@@ -1225,8 +1240,9 @@ void rpsCheckYCoordDynamic(float targetY) {
         return;
     }
     float positionYDifference = std::abs(currentYCoord - targetY);
+    int fixAttempts = 0;
     // Loop until we're within desired accuracy
-    while( std::abs(currentYCoord - targetY) > 0.5 ) {
+    while( std::abs(currentYCoord - targetY) > 0.5 && fixAttempts < 5) {
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
             driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionForward);
@@ -1249,6 +1265,7 @@ void rpsCheckYCoordDynamic(float targetY) {
             return;
         }
         positionYDifference = std::abs(currentYCoord - targetY);
+        fixAttempts++;
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsCheckYCoordDynamic}\n");
     return;
