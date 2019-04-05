@@ -69,10 +69,12 @@ void turnForTime(float seconds, int motorPercent, TurnDirection direction);
 void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, float motorRatio);
 //// Use average of encoders to turn a set angle
 void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction);
-//// Use average of encoders to move a set distance with speeding up and slowing down
+//// Use average of encoders to turn a set angle with speeding up and slowing down
 void turnForAngleAccelMap(float inches, int motorPercent, TurnDirection direction);
-//// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
+//// Use average of encoders to turn a set angle, using advanced encoder logic to stay straight
 void turnForAngleProportion(float inches, int motorPercent, TurnDirection direction);
+//// Use average of encoders to turn a set angle, using acceleration and advanced encoder logic to stay straight
+void turnForAngleProportionAccel(float targetAngle, int motorPercent, TurnDirection direction);
 //// Calculates and calls turn function to get to course heading
 void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent);
 

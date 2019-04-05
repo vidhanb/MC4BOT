@@ -21,7 +21,19 @@ void finalComp() {
     // If testing without RPS, remember to change in initRobot() function
     initRobot();
     printInit();
-    competitionStart();
+    //competitionStart();
+
+    turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+
+    turnForAngleProportionAccel(90.0, MotorPercentMedium, DirectionCounterClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+    turnForAngleProportionAccel(90.0, MotorPercentMedium, DirectionClockwise);
+    Sleep(ACTION_SEP_PAUSE);
+
+    return;
 
     // Moving from start box to DDR light
     {

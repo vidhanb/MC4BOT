@@ -41,7 +41,7 @@ void initRobot() {
     g_encoderRight.ResetCounts();
 
     // Connect to proper RPS course
-    RPS.InitializeTouchMenu();
+    //RPS.InitializeTouchMenu();
 
     // Start recording more detailed run log
     SD.OpenLog();
@@ -811,7 +811,7 @@ void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) 
     return;
 }
 
-//// Use average of encoders to move a set distance with speeding up and slowing down
+//// Use average of encoders to turn a set angle with speeding up and slowing down
 void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection direction) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngleAccelMap}\n");
     // Reset encoders
@@ -864,8 +864,73 @@ void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection dir
     return;
 }
 
-//// Use average of encoders to move a set distance, using advanced encoder logic to stay straight
+//// Use average of encoders to turn a set angle, using advanced encoder logic to stay straight
 void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection direction) {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngleProportion}\n");
+    // Reset encoders
+    g_encoderLeft.ResetCounts();
+    g_encoderRight.ResetCounts();
+    // Calculate expected distance of treads based on robot geometry and output
+    float arcLength = (targetAngle / 360.0) * ROBOT_TURN_CIRC;
+    LCD.Write("Turn arc length: ");
+    LCD.WriteLine(arcLength);
+    // Calculate number of encoder counts for desired distance, then output
+    float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
+    LCD.Write("Exp enc counts: ");
+    LCD.WriteLine(expectedEncoderCounts);
+    if(direction == DirectionClockwise) {
+        LCD.WriteLine("Going CW");
+    } else {
+        LCD.WriteLine("Going CNTCW");
+        // Make motor power negative to reverse both motors
+        motorPercent *= MOTOR_SIDE_DIR_CORRECTOR;
+    }
+
+    // Initialize encoder values
+    float leftEncoderCounts = 0.0;
+    float rightEncoderCounts = 0.0;
+    float encoderProportion = 0.0;
+    float currentEncoderCounts = 0.0;
+    unsigned int startTime = TimeNowSec();
+    // Keep going until we've reached the expected counts for our distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
+        // Only apply proportion adjustment after encoders have had time to settle in, and only
+        //   if the ratio isn't too different (which would indicate an error with the encoders)
+        if( currentEncoderCounts > 20.0 && encoderProportion > 0.5 && encoderProportion < 2.0) {
+            encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
+            // If encoder proportion is more than a little bit off, output this info
+            if( std::abs(encoderProportion - 1.08) > 0.1 ) {
+                LCD.Write("enc ratio: ");
+                LCD.WriteLine(encoderProportion);
+            }
+        } else {
+            encoderProportion = 1.0;
+        }
+        // Set motor percents according to above mapped value
+        //// Drive left motor
+        g_motorLeft.SetPercent(motorPercent);
+        //// Drive right motor, with strength adjuster
+        g_motorRight.SetPercent(motorPercent * encoderProportion);
+        leftEncoderCounts = g_encoderLeft.Counts();
+        rightEncoderCounts = g_encoderRight.Counts();
+        // Calculate how far we've gone for next loop
+        currentEncoderCounts = ( leftEncoderCounts + rightEncoderCounts ) / 2.0;
+    }
+    // Stop moving
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
+    // Output final counts
+    LCD.Write("L enc: ");
+    LCD.WriteLine(g_encoderLeft.Counts());
+    LCD.Write("R enc: ");
+    LCD.WriteLine(g_encoderRight.Counts());
+    LCD.WriteLine("--- Turn Done ---");
+    SD.Printf("PRGM-FUNC-EXIT:{Name: turnForAngleProportion}\n");
+    return;
+}
+
+//// Use average of encoders to turn a set angle, using acceleration and advanced encoder logic to stay straight
+void turnForAngleProportionAccel(float targetAngle, int motorPercent, TurnDirection direction) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: turnForAngleProportion}\n");
     // Reset encoders
     g_encoderLeft.ResetCounts();
