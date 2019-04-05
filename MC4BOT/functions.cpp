@@ -439,6 +439,9 @@ void rpsResetPress(int buttonDegree) {
     SD.Printf("MECH-DDR:{RPS reset button push time: %f}\n", SERVO_LEVER_RESET_PAUSE);
     LCD.WriteLine("Pressing RPS reset button");
     int currAngle = SERVO_LEVER_POS_NEUTRAL;
+    // Keep motors moving forward to keep pressing front DDR button
+    g_motorLeft.SetPercent(MotorPercentMedium);
+    g_motorRight.SetPercent(MotorPercentMedium * MOTOR_SIDE_DIR_CORRECTOR);
     // Slow down the servo motor's movement so that it has more torque
     while(currAngle > buttonDegree) {
         // Move a small angle
@@ -455,6 +458,8 @@ void rpsResetPress(int buttonDegree) {
         currAngle+= 2;
         Sleep(SERVO_LEVER_ITER_PAUSE);
     }
+    g_motorLeft.Stop();
+    g_motorRight.Stop();
     SD.Printf("PRGM-FUNC-EXIT:{Name: rpsResetPress}\n");
     return;
 }
