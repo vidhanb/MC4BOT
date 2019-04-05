@@ -532,6 +532,7 @@ void driveForDistance(float inches, int motorPercent, DriveDirection direction) 
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
+    unsigned int startTime = TimeNowSec();
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
         // Drive left motor forwards
@@ -546,7 +547,8 @@ void driveForDistance(float inches, int motorPercent, DriveDirection direction) 
         g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_STR_CORRECTOR);
     }
     float currentEncoderCounts = 0.0;
-    while( currentEncoderCounts < expectedEncoderCounts) {
+    // Drive until we reach expected distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
         // Calculate how far we've gone for next loop
         //   Use an average of both encoders
         currentEncoderCounts = ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0;
@@ -585,8 +587,9 @@ void driveForDistanceAccelMap(float inches, int motorPercent, DriveDirection dir
     float currentEncoderCounts = 0.0;
     float currentDistanceRatio = 0.0;
     float currentAccelMult = 0.0;
-    // Keep going until we've reached the expected counts for our distance
-    while( currentEncoderCounts < expectedEncoderCounts) {
+    unsigned int startTime = TimeNowSec();
+    // Keep going until we've reached the expected counts for our distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
         // See what percentage of our journey we've completed so far
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a motor strength multiplier for smoother acceleration
@@ -636,8 +639,9 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
     float currentEncoderCounts = 0.0;
     float currentDistanceRatio = 0.0;
     float currentAccelMult = 0.0;
-    // Keep going until we've reached the expected counts for our distance
-    while( currentEncoderCounts < expectedEncoderCounts) {
+    unsigned int startTime = TimeNowSec();
+    // Keep going until we've reached the expected counts for our distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
         // See what percentage of our journey we've completed so far
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a motor strength multiplier for smoother acceleration
@@ -778,6 +782,7 @@ void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) 
     float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
+    unsigned int startTime = TimeNowSec();
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
         // Drive left motor forwards
@@ -791,8 +796,8 @@ void turnForAngle(float targetAngle, int motorPercent, TurnDirection direction) 
         // Drive right motor forwards, with strength adjuster and direction adjuster
         g_motorRight.SetPercent(motorPercent * MOTOR_SIDE_DIR_CORRECTOR * MOTOR_SIDE_STR_CORRECTOR);
     }
-    // Use an average of the encoders to drive until we've reached the expected counts
-    while( ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0 < expectedEncoderCounts);
+    // Use an average of the encoders to drive until we've reached the expected counts, or timeout
+    while( ( g_encoderLeft.Counts() + g_encoderRight.Counts() ) / 2.0 < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 );
     // Stop moving
     g_motorLeft.Stop();
     g_motorRight.Stop();
@@ -831,8 +836,9 @@ void turnForAngleAccelMap(float targetAngle, int motorPercent, TurnDirection dir
     float currentEncoderCounts = 0.0;
     float currentDistanceRatio = 0.0;
     float currentAccelMult = 0.0;
-    // Keep going until we've reached the expected counts for our distance
-    while( currentEncoderCounts < expectedEncoderCounts) {
+    unsigned int startTime = TimeNowSec();
+    // Keep going until we've reached the expected counts for our distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
         // See what percentage of our journey we've completed so far
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a motor strength multiplier for smoother acceleration
@@ -887,8 +893,9 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
     float currentEncoderCounts = 0.0;
     float currentDistanceRatio = 0.0;
     float currentAccelMult = 0.0;
-    // Keep going until we've reached the expected counts for our distance
-    while( currentEncoderCounts < expectedEncoderCounts) {
+    unsigned int startTime = TimeNowSec();
+    // Keep going until we've reached the expected counts for our distance, or timeout
+    while( currentEncoderCounts < expectedEncoderCounts && (TimeNowSec() - startTime) < 15 ) {
         // See what percentage of our journey we've completed so far
         currentDistanceRatio = ( currentEncoderCounts / expectedEncoderCounts );
         // Map above proportion value to a motor strength multiplier for smoother acceleration
@@ -1241,7 +1248,8 @@ void rpsCheckYCoordDynamic(float targetY) {
     }
     float positionYDifference = std::abs(currentYCoord - targetY);
     int fixAttempts = 0;
-    // Loop until we're within desired accuracy
+    // Loop until we're within desired accuracy, or we've tried many
+    //   times without success
     while( std::abs(currentYCoord - targetY) > 0.5 && fixAttempts < 5) {
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
