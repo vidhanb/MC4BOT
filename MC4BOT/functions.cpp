@@ -41,7 +41,7 @@ void initRobot() {
     g_encoderRight.ResetCounts();
 
     // Connect to proper RPS course
-    //RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
 
     // Start recording more detailed run log
     SD.OpenLog();

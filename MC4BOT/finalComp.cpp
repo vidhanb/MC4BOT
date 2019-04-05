@@ -21,19 +21,7 @@ void finalComp() {
     // If testing without RPS, remember to change in initRobot() function
     initRobot();
     printInit();
-    //competitionStart();
-
-    turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
-    Sleep(ACTION_SEP_PAUSE);
-    turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
-    Sleep(ACTION_SEP_PAUSE);
-
-    turnForAngleProportionAccel(90.0, MotorPercentMedium, DirectionCounterClockwise);
-    Sleep(ACTION_SEP_PAUSE);
-    turnForAngleProportionAccel(90.0, MotorPercentMedium, DirectionClockwise);
-    Sleep(ACTION_SEP_PAUSE);
-
-    return;
+    competitionStart();
 
     // Moving from start box to DDR light
     {
@@ -255,7 +243,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(42.0);
 
         // Move forward to lever
-        driveForDistance(1.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(2.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         // Mechanism
@@ -263,17 +251,16 @@ void finalComp() {
         Sleep(ACTION_SEP_PAUSE);
 
         // Move backward/southeast to knock claw joystick down
-        //   Also has the effect of knocking the ball around, which
-        //   is fine, because WE HAVE TREADS
-        driveForDistanceProportion(3.5, MotorPercentMedium, DirectionBackward);
+        driveForDistance(1.0, MotorPercentMedium, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
         // Mechanism
         flipLeverReset();
 
-        // Move forward/northwest
-        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionForward);
+        // Move backward/southeast
+        //   Fine if we knock the icosahedron down, because WE HAVE TREADS
+        driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -288,7 +275,7 @@ void finalComp() {
     {
 
         // Move forward/southwest
-        driveForDistanceProportion(7.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(6.0, MotorPercentMedium, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(132.0);
 
@@ -296,6 +283,7 @@ void finalComp() {
         turnForAngleProportion(45.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
+        // Can throw an rpsCheckYCoordDynamic() check in here once we know proper distance value
 
         // Move forward/south
         driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
@@ -376,13 +364,16 @@ void finalComp() {
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
-        rpsCheckHeadingDynamic(177.0);
+        // Note this angle is slightly different, to angle towards button
+        rpsCheckHeadingDynamic(180.0);
         rpsCheckYCoordDynamic(44.7 + g_adjustY);
 
         // Robot is now at (4.1, 44.7)
 
         // Move forward/south
         driveForDistanceProportion(45.0, MotorPercentMedium, DirectionForward);
+        // Turn towards final button if not there already
+        turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
 
     }
 
