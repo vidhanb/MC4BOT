@@ -28,6 +28,7 @@ void finalComp() {
 
         // Robot starts at (9.5, 12.5)
         rpsCheckHeadingDynamic(312.0);
+        rpsCheckYCoordDynamic(12.5);
 
         // Move forward/northeast
         driveForDistanceProportion(2.4, MotorPercentStrong, DirectionForward);
@@ -149,7 +150,6 @@ void finalComp() {
 
         // Mechanism
         rpsResetPress(SERVO_LEVER_BLUE_ACTIVE);
-        Sleep(ACTION_SEP_PAUSE);
 
         // Robot should now be at (28.9, 9.2)
 
