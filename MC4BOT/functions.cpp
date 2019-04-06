@@ -1014,24 +1014,24 @@ void turnToCourseAngle(float currentAngle, float targetAngle, int motorPercent) 
             LCD.Write("Turn deg: ");
             // Output # degrees to turn, then do it
             LCD.WriteLine( (currentAngle - targetAngle) );
-            turnForAngle( (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
+            turnForAngleProportion( (currentAngle - targetAngle) , motorPercent, DirectionClockwise );
         } else {
             // If we're past the angle, but by more than a half rotation, it's shorter to turn counterclockwise to reach it
             LCD.Write("Turn deg: ");
             LCD.WriteLine( 360.0 - (currentAngle - targetAngle) );
-            turnForAngle( 360.0 - (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
+            turnForAngleProportion( 360.0 - (currentAngle - targetAngle) , motorPercent, DirectionCounterClockwise );
         }
     } else {
         // If we're short of the angle, and by less than a half rotatoin, turn counterclockwise to reach it
         if( (targetAngle - currentAngle) < 180.0) {
             LCD.Write("Turn deg: ");
             LCD.WriteLine( (targetAngle - currentAngle) );
-            turnForAngle( (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
+            turnForAngleProportion( (targetAngle - currentAngle) , motorPercent, DirectionCounterClockwise );
         } else {
             // If we're short of the angle, and by more than a half rotation, it's shorter to turn clockwise to reach it
             LCD.Write("Turn deg: ");
             LCD.WriteLine( 360.0 - (targetAngle - currentAngle) );
-            turnForAngle( 360.0 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
+            turnForAngleProportion( 360.0 - (targetAngle - currentAngle) , motorPercent, DirectionClockwise );
         }
     }
     SD.Printf("PRGM-FUNC-EXIT:{Name: turnToCourseAngle}\n");
