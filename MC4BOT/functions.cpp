@@ -1225,13 +1225,8 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         LCD.WriteLine(targetHeading);
         // Note that turnToCourseAngle uses turns without acceleration or proportion adjustment internally
         //   Adjust turn length, only for this function, so that correction doesn't overshoot
-        if(fixAttempts < 2) {
-            SD.Printf("RPS-CHECK-HEADING-ATTEMPT:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentHeading, targetHeading, headingDifference);
-            turnToCourseAngle( currentHeading , targetHeading, MotorPercentMedium );
-        } else {
-            SD.Printf("RPS-CHECK-HEADING-ATTEMPT-HALF:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentHeading, targetHeading, headingDifference);
-            turnToCourseAngle( ((currentHeading + targetHeading) / 2.0), targetHeading, MotorPercentMedium);
-        }
+        SD.Printf("RPS-CHECK-HEADING-ATTEMPT:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentHeading, targetHeading, headingDifference);
+        turnToCourseAngle( currentHeading , targetHeading, MotorPercentMedium );
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
