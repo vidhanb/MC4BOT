@@ -375,7 +375,9 @@ void finalComp() {
         // Robot is now at (4.1, 44.7)
 
         // Move forward/south
-        driveForDistanceProportion(45.0, MotorPercentStrong, DirectionForward);
+        driveForDistanceProportion(20.0, MotorPercentStrong, DirectionForward);
+        rpsCheckHeadingDynamic(180.0);
+        driveForDistanceProportion(25.0, MotorPercentStrong, DirectionForward);
         // Turn towards final button if not there already
         turnForAngleProportion(45.0, MotorPercentStrong, DirectionClockwise);
 
