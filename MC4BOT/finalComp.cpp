@@ -221,8 +221,8 @@ void finalComp() {
         Sleep(ACTION_SEP_PAUSE);
 
         // Move counter slider
-        //   Note that the right side is 20% stronger to account for friction from the arm
-        turnForRatioTime(3.3, MotorPercentMedium, DirectionCounterClockwise, 0.8);
+        //   Note that the right side is 22% stronger to account for friction from the arm
+        turnForRatioTime(3.3, MotorPercentMedium, DirectionCounterClockwise, 0.78);
         
         // Mechanism and re-align, because sliding might mess up driving
         foosballRetract();
