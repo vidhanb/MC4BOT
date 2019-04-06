@@ -106,6 +106,7 @@ void competitionStart() {
     LCD.WriteLine("AWAITING COURSE OR TIMEOUT");
     // Wait until the start light turns on, or somehow 30 seconds has passed and we missed it
     while ( (g_cdsCell.Value() > CDS_CELL_DIV_DARK_BLUE) && (TimeNowSec() < (finalActionTime + 30)) );
+    SD.Printf("START-LIGHT:{CdS Value: %f}\n", g_cdsCell.Value());
     SD.Printf("START-BEGIN:{Time: %u}\n", TimeNowSec());
     LCD.WriteLine("COMPETITION HAS BEGUN");
     // Exit this function and let the games begin!
@@ -628,6 +629,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
     g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
+    SD.Printf("DRIVE-PROPORTION:{}\n");
     LCD.Write("Exp enc counts: ");
     LCD.WriteLine(expectedEncoderCounts);
     if(direction == DirectionForward) {
@@ -657,8 +659,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
             // If encoder proportion is more than a little bit off, output this info
             if( std::abs(encoderProportion - IDEAL_RTOL_ENCODER_RATIO) > 0.1 ) {
-                LCD.Write("enc ratio: ");
-                LCD.WriteLine(encoderProportion);
+                SD.Printf("DRIVE-PROPORTION:{}\n");
             }
         } else {
             encoderProportion = 1.0;

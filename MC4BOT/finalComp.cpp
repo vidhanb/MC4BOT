@@ -34,6 +34,7 @@ void finalComp() {
         driveForDistanceProportion(2.4, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(312.0);
+        rpsCheckYCoordDynamic(14.2);
 
         // Robot should now be at (11.2, 14.2)
 
@@ -57,6 +58,8 @@ void finalComp() {
     // Robot before this split is at (24.3, 12.8)
 
     if( g_cdsCell.Value() < CDS_CELL_DIV_BLUE_RED ) {
+
+        SD.Printf("MECH-DDR-LIGHT:{CdS Value: %f}\n", g_cdsCell.Value());
         
         // Red light
         LCD.SetBackgroundColor(RED);
@@ -123,6 +126,8 @@ void finalComp() {
         // Robot is now facing ramp at (29.5, 16.6)
 
     } else {
+
+        SD.Printf("MECH-DDR-LIGHT:{CdS Value: %f}\n", g_cdsCell.Value());
 
         // Blue light
         LCD.SetBackgroundColor(BLUE);
