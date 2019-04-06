@@ -30,7 +30,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(312.0);
 
         // Move forward/northeast
-        driveForDistanceProportion(2.4, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(2.4, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(312.0);
 
@@ -45,7 +45,7 @@ void finalComp() {
         // Robot should now be at (11.5, 12.8)
 
         // Move forward/east
-        driveForDistanceProportion(12.8, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(12.8, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(24.3 + g_adjustX);
@@ -60,7 +60,7 @@ void finalComp() {
         // Red light
         LCD.SetBackgroundColor(RED);
 
-        driveForDistanceProportion(2.5, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(2.5, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(26.8 + g_adjustX);
@@ -91,7 +91,7 @@ void finalComp() {
         // Robot should now be at (24.8, 9.1)
 
         // Move backward/north
-        driveForDistanceProportion(3.9, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(3.9, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(13.0 + g_adjustY);
@@ -107,7 +107,7 @@ void finalComp() {
         // Robot should now be at (27.2, 14.2)
 
         // Move forward/east
-        driveForDistanceProportion(3.6, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(3.6, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(30.7 + g_adjustX);
@@ -128,7 +128,7 @@ void finalComp() {
         LCD.SetBackgroundColor(BLUE);
 
         // Move forward/east
-        driveForDistanceProportion(6.6, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(6.6, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(30.9 + g_adjustX);
@@ -155,7 +155,7 @@ void finalComp() {
         // Robot should now be at (28.9, 9.2)
 
         // Move backward/north
-        driveForDistanceProportion(3.8, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(3.8, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(13.0 + g_adjustY);
@@ -170,7 +170,7 @@ void finalComp() {
 
         // Robot should now be at (31.2, 14.2)
 
-        driveForDistanceProportion(0.5, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(0.5, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
         rpsCheckXCoordDynamic(30.7);
@@ -232,7 +232,7 @@ void finalComp() {
     {
 
         // Move forward/west
-        driveForDistanceProportion(11.2, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(11.2, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(98.0);
         rpsCheckXCoordDynamic(6.5 + g_adjustX);
@@ -243,7 +243,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(42.0);
 
         // Move forward to lever
-        driveForDistance(2.0, MotorPercentMedium, DirectionForward);
+        driveForDistance(2.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
 
         // Mechanism
@@ -251,7 +251,7 @@ void finalComp() {
         Sleep(ACTION_SEP_PAUSE);
 
         // Move backward/southeast to knock claw joystick down
-        driveForDistance(1.0, MotorPercentMedium, DirectionBackward);
+        driveForDistance(1.0, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -260,7 +260,7 @@ void finalComp() {
 
         // Move backward/southeast
         //   Fine if we knock the icosahedron down, because WE HAVE TREADS
-        driveForDistanceProportion(2.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(1.0, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(42.0);
 
@@ -275,7 +275,7 @@ void finalComp() {
     {
 
         // Move forward/southwest
-        driveForDistanceProportion(6.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(6.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(132.0);
 
@@ -286,23 +286,23 @@ void finalComp() {
         // Can throw an rpsCheckYCoordDynamic() check in here once we know proper distance value
 
         // Move forward/south
-        driveForDistanceProportion(10.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(10.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(46.3 + g_adjustY);
 
-        // Robot is now at (2.0, 46.3)
+        // Robot is now at (5.0, 46.3)
 
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
-        rpsCheckXCoordDynamic(1.0 + g_adjustX);
+        rpsCheckXCoordDynamic(4.0 + g_adjustX);
 
-        // Robot is now at (1.0, 48.3)
+        // Robot is now at (4.0, 48.3)
 
         // Move backward/east
-        driveForDistanceProportion(12.0, MotorPercentMedium, DirectionBackward);
+        driveForDistanceProportion(9.0, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
         rpsCheckXCoordDynamic(13.0 + g_adjustX);
@@ -333,7 +333,7 @@ void finalComp() {
         // Robot is now at (15.0, 44.3)
 
         // Move forward/north
-        driveForDistanceProportion(4.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(4.0, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(48.3 + g_adjustY);
@@ -354,7 +354,7 @@ void finalComp() {
         // Robot is now at (12.6, 47.1)
 
         // Move forward/west
-        driveForDistanceProportion(9.7, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(9.7, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(87.0);
         rpsCheckXCoordConstant(2.9 + g_adjustX);
@@ -371,9 +371,9 @@ void finalComp() {
         // Robot is now at (4.1, 44.7)
 
         // Move forward/south
-        driveForDistanceProportion(45.0, MotorPercentMedium, DirectionForward);
+        driveForDistanceProportion(45.0, MotorPercentStrong, DirectionForward);
         // Turn towards final button if not there already
-        turnForAngleProportion(45.0, MotorPercentMedium, DirectionClockwise);
+        turnForAngleProportion(45.0, MotorPercentStrong, DirectionClockwise);
 
     }
 

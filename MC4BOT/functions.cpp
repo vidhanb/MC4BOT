@@ -517,8 +517,8 @@ void coinRelease() {
 //// Map percentage of distance complete to a speed multiplier
 ////   Starts slow, max speed in middle, slows down again at end
 float accelerationFunction(float ratio) {
-    // Equivalent to function: -10(x-0.5)^4 + 1
-    float result = (-10.0 * std::pow( (ratio - 0.5), 4.0) ) + 1.0;
+    // Equivalent to function: -5(x-0.45)^4 + 1
+    float result = (-5.0 * std::pow( (ratio - 0.45), 4.0) ) + 1.0;
     return result;
 }
 
@@ -1222,7 +1222,12 @@ void rpsCheckHeadingDynamic(float targetHeading) {
         LCD.Write("target: ");
         LCD.WriteLine(targetHeading);
         // Note that turnToCourseAngle uses turns without acceleration or proportion adjustment internally
-        turnToCourseAngle(currentHeading, targetHeading, MotorPercentMedium);
+        //   Adjust turn length, only for this function, so that correction doesn't overshoot
+        if(fixAttempts < 2) {
+            turnToCourseAngle( currentHeading , targetHeading, MotorPercentMedium );
+        } else {
+            turnToCourseAngle( ((currentHeading + targetHeading) / 2.0), targetHeading, MotorPercentMedium);
+        }
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
