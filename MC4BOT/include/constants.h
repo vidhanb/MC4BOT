@@ -90,8 +90,8 @@ enum TurnDirection {
 #define ENCODER_RIGHT_PORT FEHIO::P0_0
 
 //// CdS Volts
-#define CDS_CELL_DIV_DARK_BLUE 2.0
-#define CDS_CELL_DIV_BLUE_RED 1.0
+#define CDS_CELL_DIV_DARK_BLUE 1.7
+#define CDS_CELL_DIV_BLUE_RED 0.7
 
 //// Encoders
 #define ENCODER_CTS_PER_ROT 48 // for mechanical rotary encoder

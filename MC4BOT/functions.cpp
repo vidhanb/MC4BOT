@@ -46,7 +46,7 @@ void initRobot() {
     // Start recording more detailed run log
     SD.OpenLog();
     SD.Printf("LOG STARTED AT TIME: %u", TimeNowSec);
-    SD.Printf("ROBOT IN REGION: %c OF COURSE: %d", RPS.CurrentRegionLetter(), RPS.CurrentCourse());
+    SD.Printf("ROBOT IN REGION: %c OF COURSE: %d\n", RPS.CurrentRegionLetter(), RPS.CurrentCourse());
 
     LCD.Clear();
     LCD.WriteLine("Init complete");
@@ -136,6 +136,7 @@ void testDriveStraight() {
 //// Basic I/O test, for short time
 void testSensors() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: testSensors}\n");
+    LCD.Clear();
     LCD.WriteLine("beginning sensors test");
     // Reset encoders
     g_encoderLeft.ResetCounts();
@@ -150,6 +151,7 @@ void testSensors() {
     while( (TimeNowSec() - timeStart) < 10 ) {
         // Output updated values for CdS cell and encoders continually
         LCD.WriteRC(g_cdsCell.Value(), 1, 5);
+        SD.Printf("SNSR-CDS:{Value: %f}\n", g_cdsCell.Value());
         LCD.WriteRC(g_encoderLeft.Counts(), 2, 11);
         LCD.WriteRC(g_encoderRight.Counts(), 3, 12);
         Sleep(10); // 10ms
