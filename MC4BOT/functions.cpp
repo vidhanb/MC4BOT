@@ -536,8 +536,7 @@ void driveForDistance(float inches, int motorPercent, DriveDirection direction) 
     g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
-    LCD.Write("Exp enc counts: ");
-    LCD.WriteLine(expectedEncoderCounts);
+    SD.Printf("DRIVE-DISTANCE-START:{Distance: %f, Motor power: %d, Expected counts: %f}\n", inches, motorPercent, expectedEncoderCounts);
     unsigned int startTime = TimeNowSec();
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
@@ -563,10 +562,7 @@ void driveForDistance(float inches, int motorPercent, DriveDirection direction) 
     g_motorLeft.Stop();
     g_motorRight.Stop();
     // Output final counts
-    LCD.Write("Left encoder: ");
-    LCD.WriteLine(g_encoderLeft.Counts());
-    LCD.Write("Right encoder: ");
-    LCD.WriteLine(g_encoderRight.Counts());
+    SD.Printf("DRIVE-DISTANCE-FINISHED:{Left encoder: %d, Right encoder: %d}\n", g_encoderLeft.Counts(), g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
     SD.Printf("PRGM-FUNC-EXIT:{Name: driveForDistance}\n");
     return;
@@ -629,9 +625,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
     g_encoderRight.ResetCounts();
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = inches * ENCODER_CTS_PER_INCH;
-    SD.Printf("DRIVE-PROPORTION:{}\n");
-    LCD.Write("Exp enc counts: ");
-    LCD.WriteLine(expectedEncoderCounts);
+    SD.Printf("DRIVE-PROPORTION-START:{Distance: %f, Motor power: %d, Expected counts: %f}\n", inches, motorPercent, expectedEncoderCounts);
     if(direction == DirectionForward) {
         LCD.WriteLine("Going FW");
     } else {
@@ -659,7 +653,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
             // If encoder proportion is more than a little bit off, output this info
             if( std::abs(encoderProportion - IDEAL_RTOL_ENCODER_RATIO) > 0.1 ) {
-                SD.Printf("DRIVE-PROPORTION:{}\n");
+                SD.Printf("DRIVE-PROPORTION-ENC-OUTLIER:{Value: %f}\n", encoderProportion);
             }
         } else {
             encoderProportion = 1.0;
@@ -679,10 +673,7 @@ void driveForDistanceProportion(float inches, int motorPercent, DriveDirection d
     g_motorLeft.Stop();
     g_motorRight.Stop();
     // Output final counts
-    LCD.Write("Left encoder: ");
-    LCD.WriteLine(g_encoderLeft.Counts());
-    LCD.Write("Right encoder: ");
-    LCD.WriteLine(g_encoderRight.Counts());
+    SD.Printf("DRIVE-PROPORTION-FINISHED:{Left encoder: %d, Right encoder: %d}\n", g_encoderLeft.Counts(), g_encoderRight.Counts());
     LCD.WriteLine("--- Drive Done ---");
     SD.Printf("PRGM-FUNC-ENTER:{Name: driveForDistanceProportion}\n");
     return;
@@ -767,8 +758,7 @@ void turnForRatioTime(float seconds, int motorPercent, TurnDirection direction, 
     g_motorLeft.Stop();
     g_motorRight.Stop();
     // Output final counts
-    LCD.Write("Turn time: ");
-    LCD.WriteLine(seconds);
+    SD.Printf("TURN-TIME-RATIO:{Time: %f, Motor power: %d, Ratio: %f}\n", seconds, motorPercent, motorRatio);
     LCD.WriteLine("--- Turn Done ---");
     SD.Printf("PRGM-FUNC-EXIT:{Name: turnForRatioTime}\n");
     return;
@@ -882,8 +872,7 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
     LCD.WriteLine(arcLength);
     // Calculate number of encoder counts for desired distance, then output
     float expectedEncoderCounts = arcLength * ENCODER_CTS_PER_INCH;
-    LCD.Write("Exp enc counts: ");
-    LCD.WriteLine(expectedEncoderCounts);
+    SD.Printf("TURN-PROPORTION-START:{Angle: %f, Motor power: %d, Expected counts: %f}\n", targetAngle, motorPercent, expectedEncoderCounts);
     if(direction == DirectionClockwise) {
         LCD.WriteLine("Going CW");
     } else {
@@ -906,8 +895,7 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
             encoderProportion = (leftEncoderCounts / rightEncoderCounts) * IDEAL_RTOL_ENCODER_RATIO;
             // If encoder proportion is more than a little bit off, output this info
             if( std::abs(encoderProportion - 1.08) > 0.1 ) {
-                LCD.Write("enc ratio: ");
-                LCD.WriteLine(encoderProportion);
+                SD.Printf("TURN-PROPORTION-ENC-OUTLIER:{Value: %f}\n", encoderProportion);
             }
         } else {
             encoderProportion = 1.0;
@@ -926,10 +914,7 @@ void turnForAngleProportion(float targetAngle, int motorPercent, TurnDirection d
     g_motorLeft.Stop();
     g_motorRight.Stop();
     // Output final counts
-    LCD.Write("L enc: ");
-    LCD.WriteLine(g_encoderLeft.Counts());
-    LCD.Write("R enc: ");
-    LCD.WriteLine(g_encoderRight.Counts());
+    SD.Printf("TURN-PROPORTION-FINISHED:{Left encoder: %d, Right encoder: %d}\n", g_encoderLeft.Counts(), g_encoderRight.Counts());
     LCD.WriteLine("--- Turn Done ---");
     SD.Printf("PRGM-FUNC-EXIT:{Name: turnForAngleProportion}\n");
     return;
