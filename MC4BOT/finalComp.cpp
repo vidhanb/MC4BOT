@@ -226,6 +226,8 @@ void finalComp() {
         
         // Mechanism and re-align, because sliding might mess up driving
         foosballRetract();
+
+        turnForAngleProportion(15.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(98.0);
         rpsCheckXCoordDynamic(17.6 + g_adjustX);
