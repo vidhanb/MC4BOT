@@ -64,12 +64,12 @@ void finalComp() {
         // Red light
         LCD.SetBackgroundColor(RED);
 
-        driveForDistanceProportion(2.5, MotorPercentStrong, DirectionForward);
+        driveForDistanceProportion(2.7, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(26.8 + g_adjustX);
+        rpsCheckXCoordDynamic(27.0 + g_adjustX);
 
-        // Robot should now be at (26.8, 12.8)
+        // Robot should now be at (27.0, 12.8)
 
         // Rotate CW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionClockwise);
@@ -77,7 +77,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(11.8 + g_adjustY);
 
-        // Robot should now be at (24.8, 11.8)
+        // Robot should now be at (25.0, 11.8)
 
         // Move forward/south
         //   Note that proportional driving is not used so that the
@@ -91,7 +91,7 @@ void finalComp() {
         // Mechanism
         rpsResetPress(SERVO_LEVER_RED_ACTIVE);
 
-        // Robot should now be at (24.8, 9.1)
+        // Robot should now be at (25.0, 9.1)
 
         // Move backward/north
         driveForDistanceProportion(3.9, MotorPercentStrong, DirectionBackward);
@@ -99,23 +99,23 @@ void finalComp() {
         rpsCheckHeadingDynamic(177.0);
         rpsCheckYCoordDynamic(13.0 + g_adjustY);
 
-        // Robot should now be at (24.8, 13.0)
+        // Robot should now be at (25.0, 13.0)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(27.2 + g_adjustX);
+        rpsCheckXCoordDynamic(27.4 + g_adjustX);
 
-        // Robot should now be at (27.2, 14.2)
+        // Robot should now be at (27.4, 14.2)
 
         // Move forward/east
         driveForDistanceProportion(3.6, MotorPercentStrong, DirectionForward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(30.7 + g_adjustX);
+        rpsCheckXCoordDynamic(30.9 + g_adjustX);
 
-        // Robot should now be at (30.7, 14.2)
+        // Robot should now be at (30.9, 14.2)
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
@@ -123,7 +123,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(16.6 + g_adjustY);
 
-        // Robot is now facing ramp at (29.5, 16.6)
+        // Robot is now facing ramp at (29.7, 16.6)
 
     } else {
 
@@ -174,10 +174,10 @@ void finalComp() {
 
         // Robot should now be at (31.2, 14.2)
 
-        driveForDistanceProportion(0.5, MotorPercentStrong, DirectionBackward);
+        driveForDistanceProportion(0.3, MotorPercentStrong, DirectionBackward);
         Sleep(ACTION_SEP_PAUSE);
         rpsCheckHeadingDynamic(267.0);
-        rpsCheckXCoordDynamic(30.7);
+        rpsCheckXCoordDynamic(30.9);
 
         // Rotate CCW
         turnForAngleProportion(90.0, MotorPercentMedium, DirectionCounterClockwise);
@@ -185,7 +185,7 @@ void finalComp() {
         rpsCheckHeadingDynamic(357.0);
         rpsCheckYCoordDynamic(16.6 + g_adjustY);
 
-        // Robot is now facing ramp at (29.5, 16.6)
+        // Robot is now facing ramp at (29.7, 16.6)
 
     }
 
