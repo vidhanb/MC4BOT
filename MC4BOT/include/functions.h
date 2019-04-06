@@ -12,7 +12,7 @@ void competitionStart();
 // Testing various parts of software and hardware
 //// Basic motor test
 void testDriveStraight();
-//// Basic I/O test
+//// Basic I/O test, for short time
 void testSensors();
 //// Output RPS values all around course
 void testRPS();
@@ -95,11 +95,11 @@ void rpsCheckXCoordDynamic(float targetX);
 //// Adjusts Y position with calculated drives until RPS Y position is accurate
 void rpsCheckYCoordDynamic(float targetY);
 //// Wrap RPS.Heading() for some automatic error detection
-float rpsSampleHeading();
+float rpsSampleHeading(bool loggingEnabled);
 //// Wrap RPS.X() for some automatic error detection
-float rpsSampleXCoord();
+float rpsSampleXCoord(bool loggingEnabled);
 //// Wrap RPS.Y() for some automatic error detection
-float rpsSampleYCoord();
+float rpsSampleYCoord(bool loggingEnabled);
 //// Adjust RPS checks for this specific course's RPS errors
 void rpsSampleCourse();
 

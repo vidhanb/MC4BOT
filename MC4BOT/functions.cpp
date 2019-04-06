@@ -85,6 +85,9 @@ void competitionStart() {
 
     rpsSampleCourse();
 
+    // Timeout so presses from previous functions don't skip code
+    Sleep(1.5);
+
     LCD.Clear();
     LCD.WriteLine("");
     LCD.WriteLine("AWAITING FINAL ACTION");
@@ -130,7 +133,7 @@ void testDriveStraight() {
     return;
 }
 
-//// Basic I/O test
+//// Basic I/O test, for short time
 void testSensors() {
     SD.Printf("PRGM-FUNC-ENTER:{Name: testSensors}\n");
     LCD.WriteLine("beginning sensors test");
@@ -143,14 +146,14 @@ void testSensors() {
     LCD.WriteRC("Left enc: ", 2, 1);
     LCD.WriteRC("Right enc: ", 3, 1);
 
-    while(true) {
+    unsigned int timeStart = TimeNowSec();
+    while( (TimeNowSec() - timeStart) < 10 ) {
         // Output updated values for CdS cell and encoders continually
         LCD.WriteRC(g_cdsCell.Value(), 1, 5);
         LCD.WriteRC(g_encoderLeft.Counts(), 2, 11);
         LCD.WriteRC(g_encoderRight.Counts(), 3, 12);
         Sleep(10); // 10ms
     }
-    // Infinite loop will never reach here to exit
 }
 
 //// Output RPS values all around course
@@ -195,9 +198,9 @@ void testRPSTurnChange() {
     LCD.WriteRC("X: ", 1, 1);
     LCD.WriteRC("Y: ", 2, 1);
     LCD.WriteRC("H: ", 3, 1);
-    LCD.WriteRC(rpsSampleXCoord(), 1, 4);
-    LCD.WriteRC(rpsSampleYCoord(), 2, 4);
-    LCD.WriteRC(rpsSampleHeading(), 3, 4);
+    LCD.WriteRC(rpsSampleXCoord(true), 1, 4);
+    LCD.WriteRC(rpsSampleYCoord(true), 2, 4);
+    LCD.WriteRC(rpsSampleHeading(true), 3, 4);
 
     Sleep(5.0);
 
@@ -210,9 +213,9 @@ void testRPSTurnChange() {
     LCD.WriteRC("X: ", 1, 1);
     LCD.WriteRC("Y: ", 2, 1);
     LCD.WriteRC("H: ", 3, 1);
-    LCD.WriteRC(rpsSampleXCoord(), 1, 4);
-    LCD.WriteRC(rpsSampleYCoord(), 2, 4);
-    LCD.WriteRC(rpsSampleHeading(), 3, 4);
+    LCD.WriteRC(rpsSampleXCoord(true), 1, 4);
+    LCD.WriteRC(rpsSampleYCoord(true), 2, 4);
+    LCD.WriteRC(rpsSampleHeading(true), 3, 4);
 
     Sleep(5.0);
 
@@ -225,9 +228,9 @@ void testRPSTurnChange() {
     LCD.WriteRC("X: ", 1, 1);
     LCD.WriteRC("Y: ", 2, 1);
     LCD.WriteRC("H: ", 3, 1);
-    LCD.WriteRC(rpsSampleXCoord(), 1, 4);
-    LCD.WriteRC(rpsSampleYCoord(), 2, 4);
-    LCD.WriteRC(rpsSampleHeading(), 3, 4);
+    LCD.WriteRC(rpsSampleXCoord(true), 1, 4);
+    LCD.WriteRC(rpsSampleYCoord(true), 2, 4);
+    LCD.WriteRC(rpsSampleHeading(true), 3, 4);
 
     Sleep(5.0);
 
@@ -240,9 +243,9 @@ void testRPSTurnChange() {
     LCD.WriteRC("X: ", 1, 1);
     LCD.WriteRC("Y: ", 2, 1);
     LCD.WriteRC("H: ", 3, 1);
-    LCD.WriteRC(rpsSampleXCoord(), 1, 4);
-    LCD.WriteRC(rpsSampleYCoord(), 2, 4);
-    LCD.WriteRC(rpsSampleHeading(), 3, 4);
+    LCD.WriteRC(rpsSampleXCoord(true), 1, 4);
+    LCD.WriteRC(rpsSampleYCoord(true), 2, 4);
+    LCD.WriteRC(rpsSampleHeading(true), 3, 4);
 
     Sleep(5.0);
 
@@ -255,9 +258,9 @@ void testRPSTurnChange() {
     LCD.WriteRC("X: ", 1, 1);
     LCD.WriteRC("Y: ", 2, 1);
     LCD.WriteRC("H: ", 3, 1);
-    LCD.WriteRC(rpsSampleXCoord(), 1, 4);
-    LCD.WriteRC(rpsSampleYCoord(), 2, 4);
-    LCD.WriteRC(rpsSampleHeading(), 3, 4);
+    LCD.WriteRC(rpsSampleXCoord(true), 1, 4);
+    LCD.WriteRC(rpsSampleYCoord(true), 2, 4);
+    LCD.WriteRC(rpsSampleHeading(true), 3, 4);
     
     Sleep(5.0);
 
@@ -1058,7 +1061,7 @@ void turnToCourseAngle(float targetAngle, int motorPercent) {
 //// Adjusts heading with pulses until RPS heading is accurate
 void rpsCheckHeadingConstant(float targetHeading) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckHeadingConstant}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
@@ -1087,7 +1090,7 @@ void rpsCheckHeadingConstant(float targetHeading) {
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentHeading = rpsSampleHeading();
+        currentHeading = rpsSampleHeading(true);
         if(currentHeading < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
@@ -1102,7 +1105,7 @@ void rpsCheckHeadingConstant(float targetHeading) {
 //// Adjusts X position with pulses until RPS X position is accurate
 void rpsCheckXCoordConstant(float targetX) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckXCoordConstant}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
@@ -1114,7 +1117,7 @@ void rpsCheckXCoordConstant(float targetX) {
     } else {
         facingPlus = true;
     }
-    float currentXCoord = rpsSampleXCoord();
+    float currentXCoord = rpsSampleXCoord(true);
     if(currentXCoord < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
@@ -1139,7 +1142,7 @@ void rpsCheckXCoordConstant(float targetX) {
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentXCoord = rpsSampleXCoord();
+        currentXCoord = rpsSampleXCoord(true);
         if(currentXCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
@@ -1153,7 +1156,7 @@ void rpsCheckXCoordConstant(float targetX) {
 //// Adjusts Y position with pulses until RPS Y position is accurate
 void rpsCheckYCoordConstant(float targetY) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckYCoordConstant}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
@@ -1165,7 +1168,7 @@ void rpsCheckYCoordConstant(float targetY) {
     } else {
         facingPlus = true;
     }
-    float currentYCoord = rpsSampleYCoord();
+    float currentYCoord = rpsSampleYCoord(true);
     if(currentYCoord < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
         return;
@@ -1190,7 +1193,7 @@ void rpsCheckYCoordConstant(float targetY) {
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentYCoord = rpsSampleYCoord();
+        currentYCoord = rpsSampleYCoord(true);
         if(currentYCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
             return;
@@ -1204,9 +1207,10 @@ void rpsCheckYCoordConstant(float targetY) {
 //// Adjusts heading with calculated turns until RPS heading is accurate
 void rpsCheckHeadingDynamic(float targetHeading) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckHeadingDynamic}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
+        SD.Printf("RPS-CHECK-HEADING-DYNAMIC-FAIL:{Reason: Couldn't get current heading}\n");
         return;
     }
     // Calculate difference between where we are and where we need to be
@@ -1215,25 +1219,24 @@ void rpsCheckHeadingDynamic(float targetHeading) {
     // Loop until we're within desired accuracy, or we've tried many
     //   times without success
     while( std::abs(headingDifference) > 3.0 && fixAttempts < 5) {
-        LCD.Write("Target angle diff: ");
-        LCD.WriteLine( headingDifference );
-        LCD.Write("current: ");
-        LCD.WriteLine(currentHeading);
-        LCD.Write("target: ");
+        LCD.Write("CheckheadingDyn - Target: ");
         LCD.WriteLine(targetHeading);
         // Note that turnToCourseAngle uses turns without acceleration or proportion adjustment internally
         //   Adjust turn length, only for this function, so that correction doesn't overshoot
         if(fixAttempts < 2) {
+            SD.Printf("RPS-CHECK-HEADING-ATTEMPT:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentHeading, targetHeading, headingDifference);
             turnToCourseAngle( currentHeading , targetHeading, MotorPercentMedium );
         } else {
+            SD.Printf("RPS-CHECK-HEADING-ATTEMPT-HALF:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentHeading, targetHeading, headingDifference);
             turnToCourseAngle( ((currentHeading + targetHeading) / 2.0), targetHeading, MotorPercentMedium);
         }
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentHeading = rpsSampleHeading();
+        currentHeading = rpsSampleHeading(true);
         if(currentHeading < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
+            SD.Printf("RPS-CHECK-HEADING-DYNAMIC-FAIL:{Reason: Couldn't get current heading}\n");
             return;
         }
         headingDifference = currentHeading - targetHeading;
@@ -1246,9 +1249,10 @@ void rpsCheckHeadingDynamic(float targetHeading) {
 //// Adjusts X position with calculated drives until RPS X position is accurate
 void rpsCheckXCoordDynamic(float targetX) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckXCoordDynamic}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
+        SD.Printf("RPS-CHECK-XCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current heading}\n");
         return;
     }
     // First, use heading to figure out whether we're facing east (towards plus X) or west
@@ -1258,9 +1262,11 @@ void rpsCheckXCoordDynamic(float targetX) {
     } else {
         facingPlus = true;
     }
-    float currentXCoord = rpsSampleXCoord();
+    SD.Printf("RPS-CHECK-XCOORD-DYNAMIC:{Facing positive X: %b}\n", facingPlus);
+    float currentXCoord = rpsSampleXCoord(true);
     if(currentXCoord < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
+        SD.Printf("RPS-CHECK-XCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current X coordinate}\n");
         return;
     }
     float positionXDifference = std::abs(currentXCoord - targetX);
@@ -1268,6 +1274,7 @@ void rpsCheckXCoordDynamic(float targetX) {
     // Loop until we're within desired accuracy, or we've tried many
     //   times without success
     while( std::abs(currentXCoord - targetX) > 0.5 && fixAttempts < 5) {
+        SD.Printf("RPS-CHECK-XCOORD-ATTEMPT:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentXCoord, targetX, positionXDifference);
         if(currentXCoord < targetX && facingPlus) {
             // If we're west of target and facing east, pulse forwards
             driveForDistanceProportion(positionXDifference, MotorPercentMedium, DirectionForward);
@@ -1284,9 +1291,10 @@ void rpsCheckXCoordDynamic(float targetX) {
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentXCoord = rpsSampleXCoord();
+        currentXCoord = rpsSampleXCoord(true);
         if(currentXCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
+            SD.Printf("RPS-CHECK-XCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current X coordinate}\n");
             return;
         }
         positionXDifference = std::abs(currentXCoord - targetX);
@@ -1299,9 +1307,10 @@ void rpsCheckXCoordDynamic(float targetX) {
 //// Adjusts Y position with calculated drives until RPS Y position is accurate
 void rpsCheckYCoordDynamic(float targetY) {
     SD.Printf("PRGM-FUNC-ENTER:{Name: rpsCheckYCoordDynamic}\n");
-    float currentHeading = rpsSampleHeading();
+    float currentHeading = rpsSampleHeading(true);
     if(currentHeading < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
+        SD.Printf("RPS-CHECK-YCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current heading}\n");
         return;
     }
     // First, use heading to figure out whether we're facing north (towards plus Y) or south
@@ -1311,9 +1320,11 @@ void rpsCheckYCoordDynamic(float targetY) {
     } else {
         facingPlus = true;
     }
-    float currentYCoord = rpsSampleYCoord();
+    SD.Printf("RPS-CHECK-YCOORD-DYNAMIC:{Facing positive Y: %b}\n", facingPlus);
+    float currentYCoord = rpsSampleYCoord(true);
     if(currentYCoord < 0.0) {
         // RPS is having issues right now, we can't perform this function accurately, so just quit
+        SD.Printf("RPS-CHECK-YCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current Y coordinate}\n");
         return;
     }
     float positionYDifference = std::abs(currentYCoord - targetY);
@@ -1321,6 +1332,7 @@ void rpsCheckYCoordDynamic(float targetY) {
     // Loop until we're within desired accuracy, or we've tried many
     //   times without success
     while( std::abs(currentYCoord - targetY) > 0.5 && fixAttempts < 5) {
+        SD.Printf("RPS-CHECK-YCOORD-ATTEMPT:{Number: %d, Current: %f, Target: %f, Difference: %f}\n", fixAttempts, currentYCoord, targetY, positionYDifference);
         if(currentYCoord < targetY && facingPlus) {
             // If we're south of target and facing north, pulse fowards
             driveForDistanceProportion(positionYDifference, MotorPercentMedium, DirectionForward);
@@ -1337,9 +1349,10 @@ void rpsCheckYCoordDynamic(float targetY) {
         // Wait for robot to stop moving and RPS position to catch up
         Sleep(ACTION_SEP_PAUSE);
         // Update values for next loop
-        currentYCoord = rpsSampleYCoord();
+        currentYCoord = rpsSampleYCoord(true);
         if(currentYCoord < 0.0) {
             // RPS is having issues right now, we can't perform this function accurately, so just quit
+            SD.Printf("RPS-CHECK-YCOORD-DYNAMIC-FAIL:{Reason: Couldn't get current Y coordinate}\n");
             return;
         }
         positionYDifference = std::abs(currentYCoord - targetY);
@@ -1350,8 +1363,10 @@ void rpsCheckYCoordDynamic(float targetY) {
 }
 
 //// Wrap RPS.Heading() for some automatic error detection
-float rpsSampleHeading() {
-    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleHeading}\n");
+float rpsSampleHeading(bool loggingEnabled) {
+    if(loggingEnabled) {
+        SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleHeading}\n");
+    }
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1365,6 +1380,10 @@ float rpsSampleHeading() {
     // At this point, either the sample is good or we've exceeded the max number
     //   of incorrect values. If the sample is bad, quit trying and return an error value
     if(sampleOne < 0.0 || sampleOne > 360.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-HEADING-FAIL-OOB-1:{First sample failed with value: %f, quitting}\n", sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+        }
         return -3.0;
     }
     sampleTwo = RPS.Heading();
@@ -1373,6 +1392,10 @@ float rpsSampleHeading() {
         sampleTwo = RPS.Heading();
     }
     if(sampleTwo < 0.0 || sampleTwo > 360.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-HEADING-FAIL-OOB-2:{Second sample failed with value: %f and first sample value: %f, quitting}\n", sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+        }
         return -3.0;
     }
     sampleThree = RPS.Heading();
@@ -1381,21 +1404,34 @@ float rpsSampleHeading() {
         sampleThree = RPS.Heading();
     }
     if(sampleThree < 0.0 || sampleThree > 360.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-HEADING-FAIL-OOB-3:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+        }
         return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
     if(std::abs(sampleOne - sampleTwo) > 5.0 || std::abs(sampleOne - sampleThree) > 5.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-HEADING-FAIL-VARIANCE:{First sample: %f, Second sample: %f, Third sample: %f}\n", sampleOne, sampleTwo, sampleThree);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+        }
         return -3.0;
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
-    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+    if(loggingEnabled) {
+        SD.Printf("RPS-SAMPLE-HEADING-SUCCESS:{Value: %f}\n", sampleFinal);
+        SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleHeading}\n");
+    }
     return sampleFinal;
 }
 
 //// Wrap RPS.X() for some automatic error detection
-float rpsSampleXCoord() {
-    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleXCoord}\n");
+float rpsSampleXCoord(bool loggingEnabled) {
+    if(loggingEnabled) {
+        SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleXCoord}\n");
+    }
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1409,6 +1445,10 @@ float rpsSampleXCoord() {
     // At this point, either the sample is good or we've exceeded the max number
     //   of incorrect values. If the sample is bad, quit trying and return an error value
     if(sampleOne < 0.0 || sampleOne > 36.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-XCOORD-FAIL-OOB-1:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+        }
         return -3.0;
     }
     sampleTwo = RPS.X();
@@ -1417,6 +1457,10 @@ float rpsSampleXCoord() {
         sampleTwo = RPS.X();
     }
     if(sampleTwo < 0.0 || sampleTwo > 36.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-XCOORD-FAIL-OOB-2:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+        }
         return -3.0;
     }
     sampleThree = RPS.X();
@@ -1425,21 +1469,34 @@ float rpsSampleXCoord() {
         sampleThree = RPS.X();
     }
     if(sampleThree < 0.0 || sampleThree > 36.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-XCOORD-FAIL-OOB-3:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+        }
         return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
     if(std::abs(sampleOne - sampleTwo) > 1.0 || std::abs(sampleOne - sampleThree) > 1.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-XCOORD-FAIL-VARIANCE:{First sample: %f, Second sample: %f, Third sample: %f}\n", sampleOne, sampleTwo, sampleThree);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+        }
         return -3.0;
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
-    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+    if(loggingEnabled) {
+        SD.Printf("RPS-SAMPLE-XCOORD-SUCCESS:{Value: %f}\n", sampleFinal);
+        SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleXCoord}\n");
+    }
     return sampleFinal;
 }
 
 //// Wrap RPS.Y() for some automatic error detection
-float rpsSampleYCoord() {
-    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleYCoord}\n");
+float rpsSampleYCoord(bool loggingEnabled) {
+    if(loggingEnabled) {
+        SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleYCoord}\n");
+    }
     // Keep track of how many times we resample to avoid an incorrect value
     int extraAttempts = 0;
     float sampleOne, sampleTwo, sampleThree, sampleFinal;
@@ -1453,6 +1510,10 @@ float rpsSampleYCoord() {
     // At this point, either the sample is good or we've exceeded the max number
     //   of incorrect values. If the sample is bad, quit trying and return an error value
     if(sampleOne < 0.0 || sampleOne > 72.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-YCOORD-FAIL-OOB-1:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+        }
         return -3.0;
     }
     sampleTwo = RPS.Y();
@@ -1461,6 +1522,10 @@ float rpsSampleYCoord() {
         sampleTwo = RPS.Y();
     }
     if(sampleTwo < 0.0 || sampleTwo > 72.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-YCOORD-FAIL-OOB-2:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+        }
         return -3.0;
     }
     sampleThree = RPS.Y();
@@ -1469,20 +1534,32 @@ float rpsSampleYCoord() {
         sampleThree = RPS.Y();
     }
     if(sampleThree < 0.0 || sampleThree > 72.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-YCOORD-FAIL-OOB-3:{Third sample failed with value: %f, second sample value: %f, and first sample value: %f, quitting}\n", sampleThree, sampleTwo, sampleOne);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+        }
         return -3.0;
     }
     // If RPS is returning values that are within range but vary wildly, return an error value
     if(std::abs(sampleOne - sampleTwo) > 1.0 || std::abs(sampleOne - sampleThree) > 1.0) {
+        if(loggingEnabled) {
+            SD.Printf("RPS-SAMPLE-YCOORD-FAIL-VARIANCE:{First sample: %f, Second sample: %f, Third sample: %f}\n", sampleOne, sampleTwo, sampleThree);
+            SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+        }
         return -3.0;
     }
     // Otherwise, use valid samples to calculate an averaged value and return it
     sampleFinal = (sampleOne + sampleTwo + sampleThree) / 3.0;
-    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+    if(loggingEnabled) {
+        SD.Printf("RPS-SAMPLE-YCOORD-SUCCESS:{Value: %f}\n", sampleFinal);
+        SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleYCoord}\n");
+    }
     return sampleFinal;
 }
 
 // Adjust RPS checks for this specific course's RPS errors
 void rpsSampleCourse() {
+    SD.Printf("PRGM-FUNC-ENTER:{Name: rpsSampleCourse}\n");
     // Initialize sampling values
     float sampleXDDR, sampleYDDR, sampleXCoin, sampleYCoin;
     float touch_x, touch_y;
@@ -1492,21 +1569,23 @@ void rpsSampleCourse() {
     LCD.WriteLine("Make sure front is pushing red button, lever will push down rps reset button, and current rps heading is 177.0");
     LCD.WriteLine("Current RPS: ");
     LCD.WriteRC("Press screen to set point", 13, 2);
+    // Sleep for a bit to make sure finger press from previous function doesn't carry over
+    Sleep(1.5);
     // Output heading information while waiting for screen to be pressed
     while(!LCD.Touch(&touch_x, &touch_y)) {
-        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        LCD.WriteRC(rpsSampleHeading(false), 10, 14);
         Sleep(0.1);
     }
     // Wait for release to debounce push
     while(LCD.Touch(&touch_x, &touch_y)) {
-        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        LCD.WriteRC(rpsSampleHeading(false), 10, 14);
         Sleep(0.1);
     }
     // Sample coordinates
-    sampleXDDR = rpsSampleXCoord();
-    sampleYDDR = rpsSampleYCoord();
+    sampleXDDR = rpsSampleXCoord(true);
+    sampleYDDR = rpsSampleYCoord(true);
     LCD.WriteRC("Samples taken", 14, 2);
-    Sleep(1.0);
+    Sleep(1.5);
 
     // Output instructions for next point
     LCD.Clear();
@@ -1516,29 +1595,35 @@ void rpsSampleCourse() {
     LCD.WriteRC("Press screen to set point", 13, 2);
     // Output heading information while waiting for screen to be pressed
     while(!LCD.Touch(&touch_x, &touch_y)) {
-        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        LCD.WriteRC(rpsSampleHeading(false), 10, 14);
         Sleep(0.1);
     }
     // Wait for release to debounce push
     while(LCD.Touch(&touch_x, &touch_y)) {
-        LCD.WriteRC(rpsSampleHeading(), 10, 14);
+        LCD.WriteRC(rpsSampleHeading(false), 10, 14);
         Sleep(0.1);
     }
     // Sample coordinates
-    sampleXCoin = rpsSampleXCoord();
-    sampleYCoin = rpsSampleYCoord();
+    sampleXCoin = rpsSampleXCoord(true);
+    sampleYCoin = rpsSampleYCoord(true);
     LCD.WriteRC("Samples taken", 14, 2);
-    Sleep(1.0);
+    Sleep(1.5);
 
     // Normalize samples to expected values
     sampleXDDR -= 24.8;
     sampleYDDR -= 9.1;
     sampleXCoin -= 15.0;
     sampleYCoin -= 44.3;
+    if(sampleXDDR < 6.0 && sampleYDDR < 6.0 && sampleXCoin < 6.0 && sampleYCoin < 6.0) {
+        // Calculate coordinate translations for this course
+        g_adjustX = ( (sampleXDDR + sampleXCoin) / 2.0 );
+        g_adjustY = ( (sampleYDDR + sampleYCoin) / 2.0 );
+        SD.Printf("RPS-SAMPLE-COURSE-SUCCESS:{adjustX: %f, adjustY: %f}\n", g_adjustX, g_adjustY);
+    } else {
+        SD.Printf("RPS-SAMPLE-COURSE-FAIL-VARIANCE:{XDDR: %f, YDDR: %f, XCoin: %f, YCoin: %f}\n", sampleXDDR, sampleYDDR, sampleXCoin, sampleYCoin);
+    }
 
-    // Calculate coordinate translations for this course
-    g_adjustX = ( (sampleXDDR + sampleXCoin) / 2.0 );
-    g_adjustY = ( (sampleYDDR + sampleYCoin) / 2.0 );
+    SD.Printf("PRGM-FUNC-EXIT:{Name: rpsSampleCourse}\n");
 }
 
 ////////////////////////////////////////////////////////////

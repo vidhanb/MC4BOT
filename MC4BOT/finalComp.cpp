@@ -86,7 +86,6 @@ void finalComp() {
 
         // Mechanism
         rpsResetPress(SERVO_LEVER_RED_ACTIVE);
-        Sleep(ACTION_SEP_PAUSE);
 
         // Robot should now be at (24.8, 9.1)
 
