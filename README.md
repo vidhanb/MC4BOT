@@ -1,5 +1,5 @@
 # MC4BOT
-C++ code for the OSU FEH robot project
+C++ code for the Ohio State Fundamentals of Engineering Honors robot project
 
 
 ## Table of Contents
@@ -14,7 +14,7 @@ C++ code for the OSU FEH robot project
 
 ## Introduction
 ### Background
-Each year, Ohio State's Fundamentals of Engineering Honors classes participate in a semester-long project to build a robot. The goal of the robot is to complete that year's challenge course, constructed by the Engineering Education Department (EED) staff and teaching assistants, in under 2 minutes. I wrote most of the code for my group's robot, pictured below.
+Each year, Ohio State's Fundamentals of Engineering Honors (FEH) classes participate in a semester-long project to build a robot. The goal of the robot is to complete that year's challenge course, constructed by the Engineering Education Department (EED) staff and teaching assistants, in under 2 minutes. I wrote most of the code for my group's robot, pictured below.
 
 <img src="images/M4-Robot.jpg" height="400" alt="Team M4 Robot Picture" >
 
@@ -51,11 +51,11 @@ This project implements many features for the robot, including:
 A number of possible features could improve operation of the robot, including:
 * Increased motor speed values, ideally after testing to confirm effects on consistency
 * Improved calculations for position checks around the lever. Currently the robot functions fine there, but loses some time
-* Simulation of RPS lag, rather than costly (in terms of time) sleep statements. This ideas was used by team M3 during the competition
-* Full PID, after testing to confirm feasibility with treads
+* Simulation of RPS lag, rather than costly (in terms of time) sleep statements. This idea was used by team M3 during the competition
+* Full PID feedback for straight driving, after testing to confirm feasibility with treads
 * Decreasing adjustment movements after overcorrections
 * Better error tolerance for the case in which one encoder completely breaks during a run
 
 
 ## License
-This code is free to use and available under the GPLv3 license. Full license text for this project is located in the LICENSE file.
+This code is free to use and available under the GPLv3 license. Full license text for this project is located in the [LICENSE](./LICENSE) file.
