@@ -7,7 +7,7 @@ C++ code for the OSU FEH robot project
     - [Background](#background)
     - [Results](#results)
 2. [Setup](#setup)
-3. [Abilities](#capabilities)
+3. [Capabilities](#capabilities)
 4. [Future Improvements](#future-improvements)
 5. [License](#license)
 
@@ -18,7 +18,7 @@ Each year, Ohio State's Fundamentals of Engineering Honors classes participate i
 
 <img src="images/M4-Robot.jpg" height="400" alt="Team M4 Robot Picture" >
 
-A picture of the course layout (courtesy of the EED) for our class (Spring 2019) is also included below. Tasks included reading light colors, pushing and holding buttons, flipping levers, moving score sliders, and depositing a token into a slot. A full description of the challenge scenario can be found in [this document from the EED.](https://osu.app.box.com/s/zog158rufpkat23gt6ziwpx3r4wr000b)
+A picture of the course layout (courtesy of the EED) for our class (Spring 2019) is also included at the end of this paragraph. Tasks included reading light colors, pushing and holding buttons, flipping levers, moving score sliders, and depositing a token into a slot. A full description of the challenge scenario can be found in [this document from the EED.](https://osu.app.box.com/s/zog158rufpkat23gt6ziwpx3r4wr000b)
 
 <img src="images/Arcade-Course-CAD-2019.jpg" height="600" style="transform:rotate(270deg);" alt="Course Layout Design" >
 
@@ -39,7 +39,7 @@ This project implements many features for the robot, including:
 * Proportion-based adjustment for straight driving
 * Both single-movement and pulsed correction for X-position, Y-position, and course Heading based on FEH's "Robot Positioning System" (RPS)
 * Error tolerance and sampling for RPS X-position, Y-position, and Heading values
-* Acceleration-mapped driving to speed up and slow down the robot based on percentage of movement complete
+* Acceleration-mapped driving to speed up and slow down the robot based on percentage of movement complete, with safe fallbacks
 * Timeouts for start light and encoder-based drive functions
 * Micro SD card logging for post-run debugging
 * Screen status updates
@@ -54,6 +54,7 @@ A number of possible features could improve operation of the robot, including:
 * Simulation of RPS lag, rather than costly (in terms of time) sleep statements. This ideas was used by team M3 during the competition
 * Full PID, after testing to confirm feasibility with treads
 * Decreasing adjustment movements after overcorrections
+* Better error tolerance for the case in which one encoder completely breaks during a run
 
 
 ## License
