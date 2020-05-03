@@ -9,7 +9,8 @@ C++ code for the Ohio State Fundamentals of Engineering Honors robot project
 2. [Setup](#setup)
 3. [Capabilities](#capabilities)
 4. [Future Improvements](#future-improvements)
-5. [License](#license)
+5. [Permalinks](#permalinks)
+6. [License](#license)
 
 
 ## Introduction
@@ -28,9 +29,9 @@ Our robot had noticeable mechanical issues from its tread-based drivetrain, but 
 
 
 ## Setup
-This code is intended to be compiled to an S19 file for the Proteus controllers used in the FEH classrooms. The Proteus is built on a Freescale Kinetis K60 (ARM Cortex M-4) and other components as described on [this page.](http://u.osu.edu/fehproteus/introduction/hardware/)
+This code is intended to be compiled to an S19 file for the Proteus controllers used in the FEH classrooms. The Proteus is built on a Freescale Kinetis K60 (ARM Cortex M-4) and other components as described on [this page.](https://u.osu.edu/fehproteus/introduction/hardware/)
 
-[OSU's Proteus wiki page](http://u.osu.edu/fehproteus/qt-environment/install-guide/) describes how to set up the standard development environment. Other IDEs (I used VS Code) and platforms will also work through modification of the project Makefile and installation of the [GNU Arm Embedded Toolchain,](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) [OSU's FEH Proteus firmware,](https://code.osu.edu/fehelectronics/fehproteusfirmware) and [Freescale Semiconductor's Embedded Warrior Library (EWL).](https://community.nxp.com/docs/DOC-93277)
+[OSU's Proteus wiki page](https://u.osu.edu/fehproteus/qt-environment/install-guide/) describes how to set up the standard development environment. Other IDEs (I used VS Code) and platforms will also work through modification of the project Makefile and installation of the [GNU Arm Embedded Toolchain,](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) [OSU's FEH Proteus firmware,](https://code.osu.edu/fehelectronics/proteus_software/fehproteusfirmware) and [Freescale Semiconductor's Embedded Warrior Library (EWL).](https://community.nxp.com/docs/DOC-93277)
 
 
 ## Capabilities
@@ -55,6 +56,20 @@ A number of possible features could improve operation of the robot, including:
 * Full PID feedback for straight driving, after testing to confirm feasibility with treads
 * Decreasing adjustment movements after overcorrections
 * Better error tolerance for the case in which one encoder completely breaks during a run
+
+
+## Permalinks
+Links in the above text were live at the time I originally published this repository. In the event that link rot should occur, I have verified that the following links point to the intended content. The links make use of the Internet Archive's Wayback Machine.
+
+[Proteus Hardware](https://web.archive.org/web/20200503214826/https://u.osu.edu/fehproteus/introduction/hardware/)
+
+[Proteus Development Environment Setup](https://web.archive.org/web/20191025211221/https://u.osu.edu/fehproteus/qt-environment/install-guide/)
+
+[GNU Arm Embedded Toolchain](https://web.archive.org/web/20200314195521/https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
+
+[Proteus Firmware](https://web.archive.org/web/20190129222412/https://code.osu.edu/fehelectronics/fehproteusfirmware)
+
+[Embedded Warrior Library (EWL)](https://web.archive.org/web/20190821042720/https://community.nxp.com/docs/DOC-93277)
 
 
 ## License
