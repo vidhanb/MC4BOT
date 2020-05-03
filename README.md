@@ -18,7 +18,7 @@ Each year, Ohio State's Fundamentals of Engineering Honors (FEH) classes partici
 
 <img src="images/M4-Robot.jpg" height="400" alt="Team M4 Robot Picture" >
 
-A picture of the course layout (courtesy of the EED) for our class (Spring 2019) is also included at the end of this paragraph. Tasks included reading light colors, pushing and holding buttons, flipping levers, moving score sliders, and depositing a token into a slot. A full description of the challenge scenario can be found in [this document from the EED.](https://osu.app.box.com/s/zog158rufpkat23gt6ziwpx3r4wr000b)
+A picture of the course layout (courtesy of the EED) for our class (Spring 2019) is also included at the end of this paragraph. Tasks included reading light colors, pushing and holding buttons, flipping levers, moving score sliders, and depositing a token into a slot. A full description of the challenge scenario can be found in [this document from the EED.](doc/Robot_Scenario.pdf)
 
 <img src="images/Arcade-Course-CAD-2019.jpg" height="600" style="transform:rotate(270deg);" alt="Course Layout Design" >
 
