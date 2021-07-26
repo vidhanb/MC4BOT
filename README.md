@@ -1,6 +1,8 @@
-# MC4BOT
+# Robot Project
 C++ code for the Ohio State Fundamentals of Engineering Honors robot project
 
+Developers: Vidhan Bhardwaj and Kyle Westhaus
+- Note: Majority of the coding was done in person together through VS live share, finished code was then pushed
 
 ## Table of Contents
 1. [Introduction](#introduction)
