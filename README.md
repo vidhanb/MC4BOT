@@ -2,7 +2,7 @@
 C++ code for the Ohio State Fundamentals of Engineering Honors robot project
 
 Developers: Vidhan Bhardwaj and Kyle Westhaus
-- Note: Majority of the coding was done in person together through VS live share, finished code was then pushed
+- Note: Majority of the coding was done via pair programming
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -17,7 +17,7 @@ Developers: Vidhan Bhardwaj and Kyle Westhaus
 
 ## Introduction
 ### Background
-Each year, Ohio State's Fundamentals of Engineering Honors (FEH) classes participate in a semester-long project to build a robot. The goal of the robot is to complete that year's challenge course, constructed by the Engineering Education Department (EED) staff and teaching assistants, in under 2 minutes. I wrote most of the code for my group's robot, pictured below.
+Each year, Ohio State's Fundamentals of Engineering Honors (FEH) classes participate in a semester-long project to build a robot. The goal of the robot is to complete that year's challenge course, constructed by the Engineering Education Department (EED) staff and teaching assistants, in under 2 minutes.
 
 <img src="images/M4-Robot.jpg" height="400" alt="Team M4 Robot Picture" >
 
